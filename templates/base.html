@@ -18,39 +18,39 @@
     {% endblock %}
 </head>
 <body>
-<nav>
-    <div class="container">
-        <div class="logo_wrapper">
-            <a class="logo" href="/">Healty 21</a></div>
-        {% if user.is_authenticated %}
-            <div>
-            </div>
-        {% endif %}
-        <div class="input_wrapper">
-            <i class="material-icons">search</i>
-            <form method="GET" action="/search/">
-                {% csrf_token %}
-                <input name="search"></form>
-        </div>
-        <div class="icons">
-            {% if not user.is_authenticated %}
-                <a href="/sign_in"> <i class="material-icons">login</i></a>
-            {% else %}
-                <div class="dropdown">
-                    <button class="dropbtn"><i class="material-icons">account_circle</i></button>
-                    <div class="dropdown-content">
-                        <a id="user_nickname">{{ user.nickname }} 님</a>
-                        <a href="/seller/{{ user.id }}">My Page</a>
-                        <a>포인트: {{ user.point }}</a>
-                    </div>
-                </div>
-
-                <button class="dropbtn" onclick="window.location= '/logout'"><i class="material-icons">logout</i>
-                </button>
-            {% endif %}
-        </div>
-    </div>
-</nav>
+{#<nav>#}
+{#    <div class="container">#}
+{#        <div class="logo_wrapper">#}
+{#            <a class="logo" href="/">Healty 21</a></div>#}
+{#        {% if user.is_authenticated %}#}
+{#            <div>#}
+{#            </div>#}
+{#        {% endif %}#}
+{#        <div class="input_wrapper">#}
+{#            <i class="material-icons">search</i>#}
+{#            <form method="GET" action="/search/">#}
+{#                {% csrf_token %}#}
+{#                <input name="search"></form>#}
+{#        </div>#}
+{#        <div class="icons">#}
+{#            {% if not user.is_authenticated %}#}
+{#                <a href="/sign_in"> <i class="material-icons">login</i></a>#}
+{#            {% else %}#}
+{#                <div class="dropdown">#}
+{#                    <button class="dropbtn"><i class="material-icons">account_circle</i></button>#}
+{#                    <div class="dropdown-content">#}
+{#                        <a id="user_nickname">{{ user.nickname }} 님</a>#}
+{#                        <a href="/seller/{{ user.id }}">My Page</a>#}
+{#                        <a>포인트: {{ user.point }}</a>#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{#                <button class="dropbtn" onclick="window.location= '/logout'"><i class="material-icons">logout</i>#}
+{#                </button>#}
+{#            {% endif %}#}
+{#        </div>#}
+{#    </div>#}
+{#</nav>#}
 <div class="base_content">
     {% block content %}
     {% endblock %}
