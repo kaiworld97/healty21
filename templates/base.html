@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} | Healty 21</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+{#    <link href="/static/img/파비콘.PNG" rel="shortcut icon" type="image/x-icon">#}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shizuru&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="{% static '/css/base.css' %}">
+
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+<nav>
+    <div class="container">
+        <div class="logo_wrapper">
+            <a class="logo" href="/">Healty 21</a></div>
+        {% if user.is_authenticated %}
+            <div>
+            </div>
+        {% endif %}
+        <div class="input_wrapper">
+            <i class="material-icons">search</i>
+            <form method="GET" action="/search/">
+                {% csrf_token %}
+                <input name="search"></form>
+        </div>
+        <div class="icons">
+            {% if not user.is_authenticated %}
+                <a href="/sign_in"> <i class="material-icons">login</i></a>
+            {% else %}
+                <div class="dropdown">
+                    <button class="dropbtn"><i class="material-icons">account_circle</i></button>
+                    <div class="dropdown-content">
+                        <a id="user_nickname">{{ user.nickname }} 님</a>
+                        <a href="/seller/{{ user.id }}">My Page</a>
+                        <a>포인트: {{ user.point }}</a>
+                    </div>
+                </div>
+
+                <button class="dropbtn" onclick="window.location= '/logout'"><i class="material-icons">logout</i>
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+<div class="base_content">
+    {% block content %}
+    {% endblock %}
+</div>
+{% block js %}
+{% endblock %}
+</body>
+</html>
