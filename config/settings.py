@@ -75,6 +75,7 @@ ACCOUNT_EMAIL_VERIFICATION = "none"  # 이메일 유효성 검사. 임시로 non
 ACCOUNT_SESSION_REMEMBER = True     # 로그인(세션) 유지
 SESSION_COOKIE_AGE = 1800           # 쿠키 30분간 저장 -> 세션 정보 제거 python manage.py clearsessions 자동화 req
 
+ACCOUNT_SIGNUP_FORM_CLASS = 'user.forms.SignupForm'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -138,7 +139,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko'
 
 TIME_ZONE = 'UTC'
 

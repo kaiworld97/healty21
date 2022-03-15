@@ -8,7 +8,7 @@ class User(AbstractUser):
     class Meta:
         db_table = "my_user"
 
-    nick_name = models.CharField(max_length=15, unique=True, null=True)
+    nickname = models.CharField(max_length=15, unique=True)
 
     # def __str__(self):
     #     return self.email

@@ -21,6 +21,7 @@ user home
 {% block content %}
 <nav>
     {% if user.is_authenticated %}
+{#        https://django-allauth.readthedocs.io/en/latest/views.html?highlight=login#login-account-login#}
         <a href="{% url 'account_logout' %}">로그아웃</a>
     {% else %}
         <a href="{% url 'account_login' %}">로그인</a>
