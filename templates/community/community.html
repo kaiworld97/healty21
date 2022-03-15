@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Community
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static '/css/community.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="community_container">
+        <div class="community_header">
+            {% comment %} 검색창이 들어가는 공간입니다. {% endcomment %}
+            {% comment %} <form class="community_search">
+                {% csrf_token %}
+                <input type="text" name="community_searchbox" placeholder="검색">
+                <button id="community_button">검색</button>
+            </form> {% endcomment %}
+
+            {% comment %} 커뮤니티 게시판 상위 공간입니다.  {% endcomment %}
+            <div class="header_function">
+                <span>Healty 21</span>
+                <i class="fa fa-search" style="font-size:36px"></i>
+            </div>
+            <div class="header_post">
+                <img src="{% static 'img/test.png' %}" alt="프로필"/>
+                <a href="#" alt="포스팅 페이지 이동"><span>게시물을 포스팅하시겠어요?</span></a>
+            </div>
+        </div>
+        <hr>
+        <div class="community_body">
+            {% comment %} 카테고리 별 추천 게시물이 나오는 공간입니다. {% endcomment %}
+        </div>
+        <div class="community_footer">
+            {% comment %}  {% endcomment %}
+            2
+        </div>
+    </div>
+{% endblock %}
+
+{% comment %} 1. 프론트엔드 커뮤니티 파트 완성 {% endcomment %}
+{% comment %} 2. DB 모델링 질문하기  {% endcomment %}
