@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'user',
     'info',
     'product',
@@ -73,9 +74,38 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "none"  # 이메일 유효성 검사. 임시로 none -> “mandatory” req
 
 ACCOUNT_SESSION_REMEMBER = True     # 로그인(세션) 유지
-SESSION_COOKIE_AGE = 1800           # 쿠키 30분간 저장 -> 세션 정보 제거 python manage.py clearsessions 자동화 req
+SESSION_COOKIE_AGE = 86400           # 쿠키 하루동안 저장 -> 세션 정보 제거 python manage.py clearsessions 자동화 req
 
 ACCOUNT_SIGNUP_FORM_CLASS = 'user.forms.SignupForm'
+ACCOUNT_USERNAME_VALIDATORS = 'user.validators.custom_username_validators'
+ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+
+
+# SOCIALACCOUNT_PROVIDERS = {
+#     "github": {
+#         "VERIFIED_EMAIL": True
+#     },
+#     "google": {
+#         # For each OAuth based provider, either add a ``SocialApp``
+#         # (``socialaccount`` app) containing the required client
+#         # credentials, or list them here:
+#         "APP": {
+#             "client_id": "123",
+#             "secret": "456",
+#             "key": ""
+#         },
+#         # These are provider-specific settings that can only be
+#         # listed here:
+#         "SCOPE": [
+#             "profile",
+#             "email",
+#         ],
+#         "AUTH_PARAMS": {
+#             "access_type": "online",
+#         }
+#     }
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -101,6 +131,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -122,17 +153,20 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    # },
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "user.validators.CustomPasswordValidator",
     },
 ]
 
