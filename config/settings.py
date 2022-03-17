@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import json
 from pathlib import Path
 import os
 
@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     # enabled providers
     'allauth.socialaccount.providers.kakao',
     'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.github',
 ]
 
 # allauth 설정
@@ -67,13 +66,16 @@ SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-ACCOUNT_SIGNUP_REDIRECT_URL = 'home'
-LOGIN_REDIRECT_URL = 'home'
+ACCOUNT_SIGNUP_REDIRECT_URL = 'home'    # 회원가입 후 리디렉션
+LOGIN_REDIRECT_URL = 'home'             # 로그인 후 리디렉션
+ACCOUNT_LOGOUT_REDIRECT_URL = 'home'    # 로그아웃시 리디렉션 reverse_lazy('user:home')
+ACCOUNT_LOGOUT_ON_GET = True            # 로그아웃 버튼 클릭 시 바로 로그아웃
 
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "none"  # 이메일 유효성 검사. 임시로 none -> “mandatory” req
+ACCOUNT_EMAIL_VERIFICATION = "none"     # 이메일 검사. 임시로 none -> “mandatory” req
+ACCOUNT_AUTHENTICATION_METHOD = 'email' # 이메일로 로그인
 
-ACCOUNT_SESSION_REMEMBER = True     # 로그인(세션) 유지
+ACCOUNT_SESSION_REMEMBER = True      # 로그인(세션) 유지
 SESSION_COOKIE_AGE = 86400           # 쿠키 하루동안 저장 -> 세션 정보 제거 python manage.py clearsessions 자동화 req
 
 ACCOUNT_SIGNUP_FORM_CLASS = 'user.forms.SignupForm'
@@ -81,31 +83,30 @@ ACCOUNT_USERNAME_VALIDATORS = 'user.validators.custom_username_validators'
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
+with open(os.path.join(BASE_DIR, 'config/social.json')) as f:
+    social = json.loads(f.read())
 
-# SOCIALACCOUNT_PROVIDERS = {
-#     "github": {
-#         "VERIFIED_EMAIL": True
-#     },
-#     "google": {
-#         # For each OAuth based provider, either add a ``SocialApp``
-#         # (``socialaccount`` app) containing the required client
-#         # credentials, or list them here:
-#         "APP": {
-#             "client_id": "123",
-#             "secret": "456",
-#             "key": ""
-#         },
-#         # These are provider-specific settings that can only be
-#         # listed here:
-#         "SCOPE": [
-#             "profile",
-#             "email",
-#         ],
-#         "AUTH_PARAMS": {
-#             "access_type": "online",
-#         }
-#     }
-# }
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        "APP": {
+            "client_id": "123",
+            "secret": "456",
+            "key": ""
+        },
+        # These are provider-specific settings that can only be
+        # listed here:
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        }
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -173,7 +174,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'ko'
+LANGUAGE_CODE = 'en-US'
 
 TIME_ZONE = 'UTC'
 

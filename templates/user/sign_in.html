@@ -1,54 +1,54 @@
-{% extends 'base.html' %}
-
-{% load static %}
-
+{#{% extends 'base.html' %}#}
+{##}
+{#{% load static %}#}
+{##}
 {#타이틀 넣는 곳#}
-{% block title %}
-    Sign In
-{% endblock %}
-
+{#{% block title %}#}
+{#    Sign In#}
+{#{% endblock %}#}
+{##}
 {# css 파일 넣는 곳#}
-{% block css %}
-    <link rel="stylesheet" href="{% static '/css/sign_in.css' %}">
-{% endblock %}
-
+{#{% block css %}#}
+{#    <link rel="stylesheet" href="{% static '/css/sign_in.css' %}">#}
+{#{% endblock %}#}
+{##}
 {#자바스크립트 파일 넣는 곳#}
-{% block js %}
-
-{% endblock %}
-
+{#{% block js %}#}
+{##}
+{#{% endblock %}#}
+{##}
 {#메인 컨텐츠 들어가는 곳#}
-{% block content %}
-    <div class="wrapper-signin">
-        <div class="title">
-            Sign In
-        </div>
-        <div class="input-box">
-            <form method="POST" action="/sign_in/">
-                {% csrf_token %}
-                <div class="label_wrapper">
-                    <label for="username">Email</label>
-                </div>
-
-                <input id="username" name="username">
-                <div class="label_wrapper">
-                    <label for="password">Password</label>
-                </div>
-
-                <input id="password" type="password" name="password">
-
-                <button type="submit">Sign In</button>
-                <div>
-                    Not a member?
-                    <a id="sign-up-btn" href="/sign_up/">Sign Up</a>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div id="error-msg">
-        {% if error %}
-            <h3>{{ error }}</h3>
-        {% endif %}
-    </div>
-
-{% endblock %}
+{#{% block content %}#}
+{#    <div class="wrapper-signin">#}
+{#        <div class="title">#}
+{#            Sign In#}
+{#        </div>#}
+{#        <div class="input-box">#}
+{#            <form method="POST" action="/sign_in/">#}
+{#                {% csrf_token %}#}
+{#                <div class="label_wrapper">#}
+{#                    <label for="username">Email</label>#}
+{#                </div>#}
+{##}
+{#                <input id="username" name="username">#}
+{#                <div class="label_wrapper">#}
+{#                    <label for="password">Password</label>#}
+{#                </div>#}
+{##}
+{#                <input id="password" type="password" name="password">#}
+{##}
+{#                <button type="submit">Sign In</button>#}
+{#                <div>#}
+{#                    Not a member?#}
+{#                    <a id="sign-up-btn" href="/sign_up/">Sign Up</a>#}
+{#                </div>#}
+{#            </form>#}
+{#        </div>#}
+{#    </div>#}
+{#    <div id="error-msg">#}
+{#        {% if error %}#}
+{#            <h3>{{ error }}</h3>#}
+{#        {% endif %}#}
+{#    </div>#}
+{##}
+{#{% endblock %}#}

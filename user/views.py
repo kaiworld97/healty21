@@ -1,4 +1,6 @@
-from django.shortcuts import render
+import os
+
+from django.shortcuts import render, redirect
 
 
 # Create your views here.
@@ -11,3 +13,4 @@ def sign_in(request):
 def home(request):
     print(request.user)
     return render(request, 'user/home.html')
+

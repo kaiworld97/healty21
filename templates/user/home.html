@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
+{% load account %}
+{% get_social_accounts user as accounts %}
+
+
 
 {% load static %}
 
 {#타이틀 넣는 곳#}
 {% block title %}
-user home
+    user home
 {% endblock %}
 
 {# css 파일 넣는 곳#}
@@ -19,20 +24,26 @@ user home
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-<nav>
+    <nav>
+        {% if user.is_authenticated %}
+            {#        https://django-allauth.readthedocs.io/en/latest/views.html?highlight=login#login-account-login#}
+            <a href="{% url 'account_logout' %}">로그아웃</a>
+        {% else %}
+            <a href="{% url 'account_login' %}">로그인</a>
+            <a href="{% provider_login_url 'kakao' method='oauth2' %}">카카오 로그인/회원가입</a>
+            <a href="{% url 'account_signup' %}">회원가입</a>
+        {% endif %}
+    </nav>
+    <h1>User main</h1>
     {% if user.is_authenticated %}
-{#        https://django-allauth.readthedocs.io/en/latest/views.html?highlight=login#login-account-login#}
-        <a href="{% url 'account_logout' %}">로그아웃</a>
+        <p>안녕하세요, {{ user }}님 {% if user.nickname %}{{ user.nickname }}{% endif %}</p>
+        <p>User name: {% user_display user %}</p>
+        <p>User nickname: {{ user.nickname }}</p>
+        <p>User email: {{ user.email }}</p>
+        <p>User picture: {{ user.picture }}</p>
+        <p>User extra_data: {{ accounts.extra_data }}</p>
     {% else %}
-        <a href="{% url 'account_login' %}">로그인</a>
-        <a href="{% url 'account_signup' %}">회원가입</a>
+        <p>로그인 해주세요.</p>
     {% endif %}
-</nav>
-<h1>User main</h1>
-{% if user.is_authenticated %}
-    <p>안녕하세요, {{ user }}님</p>
-{% else %}
-    <p>로그아웃 되었습니다.</p>
-{% endif %}
 
 {% endblock %}

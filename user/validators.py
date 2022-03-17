@@ -23,10 +23,6 @@ class CustomPasswordValidator:
                 # not re.findall('[A-Z]', password) or  # not contains_uppercase
                 # not re.findall('[a-z]', password) or  # not contains_lowercase
                 # not re.findall('[0-9]', password) or  # not contains_number
-                # not contains_uppercase_letter(password) or
-                # not contains_lowercase_letter(password) or
-                # not contains_number(password) or
-                # not contains_special_character(password)
         ):
             raise ValidationError("8자 이상의 영문 대/소문자, 숫자, 특수문자로 조합해주세요.")
 
