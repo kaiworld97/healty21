@@ -66,17 +66,17 @@ SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-ACCOUNT_SIGNUP_REDIRECT_URL = 'home'    # 회원가입 후 리디렉션
-LOGIN_REDIRECT_URL = 'home'             # 로그인 후 리디렉션
-ACCOUNT_LOGOUT_REDIRECT_URL = 'home'    # 로그아웃시 리디렉션 reverse_lazy('user:home')
-ACCOUNT_LOGOUT_ON_GET = True            # 로그아웃 버튼 클릭 시 바로 로그아웃
+ACCOUNT_SIGNUP_REDIRECT_URL = 'home'  # 회원가입 후 리디렉션
+LOGIN_REDIRECT_URL = 'home'  # 로그인 후 리디렉션
+ACCOUNT_LOGOUT_REDIRECT_URL = 'home'  # 로그아웃시 리디렉션 reverse_lazy('user:home')
+ACCOUNT_LOGOUT_ON_GET = True  # 로그아웃 버튼 클릭 시 바로 로그아웃
 
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "none"     # 이메일 검사. 임시로 none -> “mandatory” req
-ACCOUNT_AUTHENTICATION_METHOD = 'email' # 이메일로 로그인
+ACCOUNT_EMAIL_VERIFICATION = "none"  # 이메일 검사. 임시로 none -> “mandatory” req
+ACCOUNT_AUTHENTICATION_METHOD = 'email'  # 이메일로 로그인
 
-ACCOUNT_SESSION_REMEMBER = True      # 로그인(세션) 유지
-SESSION_COOKIE_AGE = 86400           # 쿠키 하루동안 저장 -> 세션 정보 제거 python manage.py clearsessions 자동화 req
+ACCOUNT_SESSION_REMEMBER = True  # 로그인(세션) 유지
+SESSION_COOKIE_AGE = 86400  # 쿠키 하루동안 저장 -> 세션 정보 제거 python manage.py clearsessions 자동화 req
 
 ACCOUNT_SIGNUP_FORM_CLASS = 'user.forms.SignupForm'
 ACCOUNT_USERNAME_VALIDATORS = 'user.validators.custom_username_validators'
@@ -87,17 +87,19 @@ with open(os.path.join(BASE_DIR, 'config/social.json')) as f:
     social = json.loads(f.read())
 
 SOCIALACCOUNT_PROVIDERS = {
+    'kakao': {
+        'APP': {
+            'client_id': social['KAKAO']['CLIENT_ID'],
+            'redirect_uri': '/redirect/',
+            'response_type': '',
+        }
+    },
     "google": {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
         "APP": {
-            "client_id": "123",
-            "secret": "456",
+            "client_id": social['GOOGLE']['CLIENT_ID'],
+            "secret": social['GOOGLE']['SECRET'],
             "key": ""
         },
-        # These are provider-specific settings that can only be
-        # listed here:
         "SCOPE": [
             "profile",
             "email",
