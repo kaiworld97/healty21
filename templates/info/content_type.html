@@ -4,7 +4,7 @@
 
 {#타이틀 넣는 곳#}
 {% block title %}
-    workout
+    {{ type }}
 {% endblock %}
 
 {# css 파일 넣는 곳#}
@@ -19,6 +19,12 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-
+    {{ type }}
+    <div>
+        추천
+    </div>
+    <div>
+        전체
+    </div>
 {% endblock %}
 

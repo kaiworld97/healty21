@@ -11,7 +11,14 @@ def info(request):
 
 def content_type(request, type):
     if request.method == 'GET':
-        return render(request, 'info/content_type.html')
+        if type == 'diet_plan':
+            return render(request, 'info/content_type.html', {'type': type})
+        elif type == 'food':
+            return render(request, 'info/content_type.html', {'type': type})
+        elif type == 'workout':
+            return render(request, 'info/content_type.html', {'type': type})
+        elif type == 'workout_routine':
+            return render(request, 'info/content_type.html', {'type': type})
 
 
 def content_detail(request, pk):
