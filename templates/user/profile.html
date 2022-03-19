@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% load account %}
+{% get_social_accounts user as accounts %}
+
+
+
+{% load static %}
+
+{#타이틀 넣는 곳#}
+{% block title %}
+    user home
+{% endblock %}
+
+{# css 파일 넣는 곳#}
+{% block css %}
+    {#        <link rel="stylesheet" href="{% static '/css/user.css' %}">#}
+{% endblock %}
+
+{#자바스크립트 파일 넣는 곳#}
+{% block js %}
+    {#<script type="text/javascript" src="{% static '/js/user.js' %}"></script>#}
+{% endblock %}
+
+{#메인 컨텐츠 들어가는 곳#}
+{% block content %}
+    <nav>
+        {% if user.is_authenticated %}
+            {#        https://django-allauth.readthedocs.io/en/latest/views.html?highlight=login#login-account-login#}
+            <a href="{% url 'account_logout' %}">로그아웃</a>
+        {% else %}
+            <a href="{% url 'account_login' %}">로그인</a>
+            <a href="{% provider_login_url 'kakao' method='oauth2' %}">카카오 로그인/회원가입</a>
+            <a href="{% url 'account_signup' %}">회원가입</a>
+        {% endif %}
+    </nav>
+    <h1>User main</h1>
+    {% if user.is_authenticated %}
+        <p>{{ user }}님, 게임에 참여하시려면 추가정보를 입력해주세요. {% if user.nickname %}{{ user.nickname }}{% endif %}</p>
+{#        <form class="signup" id="user_profile_form" method="post" action="{% url 'user-profile' %}">#}
+        <form action="" method="POST">
+            {% csrf_token %}
+            <table>
+                {{form.as_table}}
+            </table>
+            <input type="submit" value="제출">
+        </form>
+    {% else %}
+        <p>로그인 해주세요.</p>
+    {% endif %}
+{% endblock %}

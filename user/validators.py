@@ -2,10 +2,10 @@
 import re
 import string
 from allauth.account.adapter import DefaultAccountAdapter
-from django.contrib.auth.validators import ASCIIUsernameValidator
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.forms import ValidationError
 
-custom_username_validators = [ASCIIUsernameValidator()]
+custom_username_validators = [UnicodeUsernameValidator()]  # ASCIIUsernameValidator에서 변경 for kakao
 
 
 def contains_special_character(value):
@@ -18,6 +18,7 @@ def contains_special_character(value):
 class CustomPasswordValidator:
     def validate(self, password, user=None):
         if (
+                # 정규식으로 8자 이상 알파벳 소문자, 대문자, 특수문자 포함하는지 체크
                 not re.match(r"^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$!~%^&*])[\w\d@#$!~%^&*]{8,}$", password)
                 # len(password) < 8 or
                 # not re.findall('[A-Z]', password) or  # not contains_uppercase
@@ -32,8 +33,8 @@ class CustomPasswordValidator:
 
 class UsernameMaxAdapter(DefaultAccountAdapter):
     def clean_username(self, username):
-        if len(username) > 15:
-            raise ValidationError('현재 닉네임이 너무 깁니다.')
+        if len(username) > 12:
+            raise ValidationError('닉네임이 너무 깁니다. 다시 설정해주세요.')
 
         # For other default validations.
         return DefaultAccountAdapter.clean_username(self, username)
