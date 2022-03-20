@@ -22,9 +22,19 @@
     {{ type }}
     <div>
         추천
+        {% for i in recommend %}
+            <div>
+                <a href="/info/{{ i.id }}">{{ i.item }}</a>
+            </div>
+        {% endfor %}
     </div>
     <div>
         전체
+        {% for i in content %}
+            <div>
+                <a href="/info/{{ i.id }}">{{ i.item }}</a>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
 

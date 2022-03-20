@@ -19,6 +19,47 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-
+    {% if type == 'diet_plan' %}
+        {{ data.content.item }}
+        {{ data.content.author }}
+        {{ data.content.description }}
+        {{ data.food_list }}
+        {{ data.meal_type }}
+        {{ data.total_calories }}
+    {% endif %}
+    {% if type == 'food' %}
+        {{ data.content.item }}
+        {{ data.content.author }}
+        {{ data.content.description }}
+        {{ data.category }}
+        {{ data.calories }}
+        {{ data.protein }}
+        {{ data.carbs }}
+        {{ data.fat }}
+        {{ data.sodium }}
+        {% if data.maker %}
+            {{ data.maker }}
+        {% endif %}
+    {% endif %}
+    {% if type == 'workout_routine' %}
+        {{ data.content.item }}
+        {{ data.content.author }}
+        {{ data.content.description }}
+        {{ data.workout_list }}
+        {{ data.total_consume_cal }}
+    {% endif %}
+    {% if type == 'workout' %}
+        <img src="{{ data.gif_url }}">
+        {{ data.content.item }}
+        {{ data.content.author }}
+        {{ data.content.description }}
+        {{ data.body_part }}
+        {{ data.kor_body_part }}
+        {{ data.equipment }}
+        {{ data.kor_equipment }}
+        {{ data.eng_name }}
+        {{ data.target }}
+        {{ data.kor_target }}
+    {% endif %}
 {% endblock %}
 

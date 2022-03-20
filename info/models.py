@@ -43,10 +43,12 @@ class Food(models.Model):
 
     content = models.ForeignKey(Content, on_delete=models.CASCADE)
     category = models.CharField(max_length=30, null=True)
-    calories = models.IntegerField(null=True)
-    protein = models.IntegerField(null=True)
-    carbs = models.IntegerField(null=True)
-    fat = models.IntegerField(null=True)
+    calories = models.FloatField(null=True)
+    protein = models.FloatField(null=True)
+    carbs = models.FloatField(null=True)
+    fat = models.FloatField(null=True)
+    sodium = models.FloatField(null=True)
+    maker = models.CharField(max_length=30, null=True)
 
 
 class DietPlan(models.Model):
@@ -56,7 +58,7 @@ class DietPlan(models.Model):
     content = models.ForeignKey(Content, on_delete=models.CASCADE)
     food_list = models.ManyToManyField(Food, related_name='food_list', db_table='plan_food_list')
     meal_type = models.CharField(max_length=30)
-    total_calories = models.IntegerField(null=True)
+    total_calories = models.FloatField(null=True)
 
 
 class Workout(models.Model):
@@ -64,8 +66,14 @@ class Workout(models.Model):
         db_table = 'workout'
 
     content = models.ForeignKey(Content, on_delete=models.CASCADE)
-    category = models.CharField(max_length=30)
-    consume_cal = models.IntegerField(null=True)
+    body_part = models.CharField(max_length=30)
+    kor_body_part = models.CharField(max_length=30)
+    equipment = models.CharField(max_length=30)
+    kor_equipment = models.CharField(max_length=30)
+    gif_url = models.URLField()
+    eng_name = models.CharField(max_length=30)
+    target = models.CharField(max_length=30)
+    kor_target = models.CharField(max_length=30)
 
 
 class WorkoutRoutine(models.Model):
@@ -74,7 +82,7 @@ class WorkoutRoutine(models.Model):
 
     content = models.ForeignKey(Content, on_delete=models.CASCADE)
     workout_list = models.ManyToManyField(Workout, related_name='workout_list', db_table='routine_workout_list')
-    total_consume_cal = models.IntegerField(null=True)
+    total_consume_cal = models.FloatField(null=True)
 
 
 class WorkoutCaloriesCalculate(models.Model):
@@ -82,4 +90,4 @@ class WorkoutCaloriesCalculate(models.Model):
         db_table = 'workout_calories_calculate'
 
     workout = models.CharField(max_length=30)
-    met = models.IntegerField()
+    met = models.FloatField()
