@@ -17,6 +17,8 @@ class User(AbstractUser):
     class Meta:
         db_table = "user"
 
+    group = models.ForeignKey(UserGroup, on_delete=models.CASCADE, null=True)
+
 
 class UserProfile(models.Model):
     class Meta:
@@ -43,6 +45,7 @@ class UserProfile(models.Model):
     age = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+
     # user_group = models.ForeignKey(UserGroup, on_delete=models.CASCADE, limit_choices_to={'surveyed': True})
 
     def __str__(self):
