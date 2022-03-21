@@ -1,17 +1,22 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load account socialaccount %}
+{% load crispy_forms_tags %}
 {% get_social_accounts user as accounts %}
-
-
 {% load static %}
+{% load i18n %}
+
 {#타이틀 넣는 곳#}
 {% block title %}
-    유저 프로필
+    {% trans "My Page" %}
 {% endblock %}
 
 {# css 파일 넣는 곳#}
 {% block css %}
-    {#        <link rel="stylesheet" href="{% static '/css/user.css' %}">#}
+    <style>
+        h3 {
+            margin-top: 25px
+        }
+    </style>
 {% endblock %}
 
 {#자바스크립트 파일 넣는 곳#}
@@ -22,7 +27,7 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-    <h1 style="margin-top: 20px">마이 페이지</h1>
+    <h1 style=>마이 페이지</h1>
     <div class="container" style="margin-top: 20px">
         {% if user.is_authenticated %}
             <p>안녕하세요, {{ user }}님</p>
@@ -35,7 +40,7 @@
             {% if user.userprofile %}
                 <a href="{% url 'profile_update' user.id %}">프로필 수정하기</a>
                 <h3>유저 프로필</h3>
-{#                <p>{{ user.user_group }}</p>#}
+                {#                <p>{{ user.user_group }}</p>#}
                 <p>생일 : {{ user.userprofile.birth_day|date:"Y년 m월 d일" }}</p>
                 <p>나이 : {{ user.userprofile.age }}세</p>
                 <p>bmi 지수 : {{ user.userprofile.bmi }}</p>

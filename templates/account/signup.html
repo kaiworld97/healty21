@@ -1,10 +1,23 @@
-{% extends "account/base.html" %}
+{% extends "base.html" %}
 {% load crispy_forms_tags %}
-
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% load static %}
+{#타이틀 넣는 곳#}
+{% block title %}
+    {% trans "Signup" %}
+{% endblock %}
+
+{# css 파일 넣는 곳#}
+{% block css %}
+    {#        <link rel="stylesheet" href="{% static '/css/user.css' %}">#}
+{% endblock %}
+
+{#자바스크립트 파일 넣는 곳#}
+{% block js %}
+    {#<script type="text/javascript" src="{% static '/js/user.js' %}"></script>#}
+{% endblock %}
 
 {% block content %}
     <h1>{% trans "Sign Up" %}</h1>
@@ -27,8 +40,7 @@
     <div class="form-floating mb-3">
         {{ form.password1 }}
         <label for="floatingPassword">비밀번호</label>
-    {{ form.password1.errors }}
-
+        {{ form.password1.errors }}
     </div>
     <div class="form-floating mb-3">
         {{ form.password2 }}
