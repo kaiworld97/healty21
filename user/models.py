@@ -41,7 +41,6 @@ class UserProfile(models.Model):
     bio = models.CharField(max_length=256, blank=True, help_text="간단한 소개 한마디")
     bmi = models.FloatField()
     bmi_category = models.CharField(max_length=256, null=True)
-    req_cal = models.IntegerField()
     bmr = models.FloatField(null=True)
     age = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
