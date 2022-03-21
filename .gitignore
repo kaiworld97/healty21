@@ -8,6 +8,7 @@ venv/
 
 .venv
 
-migrations/ !__init__.py
+migrations/
+!__init__.py
 
 config/social.json
