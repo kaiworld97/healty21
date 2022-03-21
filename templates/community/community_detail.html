@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{#타이틀 넣는 곳#}
+{% block title %}
+Detail
+{% endblock %}
+
+{# css 파일 넣는 곳#}
+{% block css %}
+
+{% endblock %}
+
+{#자바스크립트 파일 넣는 곳#}
+{% block js %}
+
+{% endblock %}
+
+{#메인 컨텐츠 들어가는 곳#}
+{% block content %}
+
+    {% comment %} 임시 로그아웃 {% endcomment %}
+    {% if not user.is_authenticated %}
+    <span>Healthy 21</span>
+    <i class="fa fa-search" style="font-size:36px"></i>
+    {% else %}
+    <a href="/logout">로그아웃</a>
+    <br>
+    {% endif %}
+
+    {% comment %} 등록된 게시물 {% endcomment %}
+    <span>{{ post.author.username }}</span>
+    <span>{{ post.content }}</span>
+
+    <form action="/community/comment/{{ post.id }}" method="POST">
+        {% csrf_token %}
+        <input type="text" id="comment" name="comment" placeholder="댓글">
+        <button type="submit">댓글쓰기</button>
+    </form>
+
+    {% for cm in comments %}
+        <span>{{ cm.author }}</span>
+        <span>{{ cm.comment }}</span>
+        <span>{{ cm.created_at | timesince }} 전</span>
+        {% if cm.author == user %}
+            <a href="/community/comment/delete/{{ cm.id }}"><span>삭제</span></a>
+        {% endif %}
+    {% endfor %}
+
+{% endblock %}
+

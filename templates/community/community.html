@@ -2,43 +2,102 @@
 {% load static %}
 
 {% block title %}
-    Community
+Community
 {% endblock %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static '/css/community.css' %}">
 {% endblock %}
 
-{% block content %}
-    <div id="community_container">
-        <div class="community_header">
-            {% comment %} 검색창이 들어가는 공간입니다. {% endcomment %}
-            {% comment %} <form class="community_search">
-                {% csrf_token %}
-                <input type="text" name="community_searchbox" placeholder="검색">
-                <button id="community_button">검색</button>
-            </form> {% endcomment %}
+{% block js %}
+<script type="text/javascript" src="{% static 'js/post_like.js' %}"></script>
+<script type="text/javascript">
+    {% comment %} function handleLikeClick(id) {
+        $.ajax ({
+            url: "{% url 'likes' %}",
+            data: {
+                'post_id': id,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            dataType: "json",
+            success: function (response) {
+                $('#like_count').html(response.like_count);
+                $('#message').html(response.message);
+            },
+            error: function (request, status, error) {
+                alert(error);
+            },
+        });
+        console.log(buttonId);
 
-            {% comment %} 커뮤니티 게시판 상위 공간입니다.  {% endcomment %}
-            <div class="header_function">
-                <span>Healty 21</span>
-                <i class="fa fa-search" style="font-size:36px"></i>
-            </div>
-            <div class="header_post">
-                <img src="{% static 'img/test.png' %}" alt="프로필"/>
-                <a href="#" alt="포스팅 페이지 이동"><span>게시물을 포스팅하시겠어요?</span></a>
-            </div>
-        </div>
-        <hr>
-        <div class="community_body">
-            {% comment %} 카테고리 별 추천 게시물이 나오는 공간입니다. {% endcomment %}
-        </div>
-        <div class="community_footer">
-            {% comment %}  {% endcomment %}
-            2
-        </div>
-    </div>
+        const likeButton = document.getElementById(buttonId);
+        console.log(likeButton);
+        const likeIcon = likeButton.querySelector("i");
+        console.log(likeIcon);
+        likeIcon.classList.replace("fa-heart-o", "fa-heart")
+    
+    } {% endcomment %}
+
+</script>
 {% endblock %}
 
-{% comment %} 1. 프론트엔드 커뮤니티 파트 완성 {% endcomment %}
-{% comment %} 2. DB 모델링 질문하기  {% endcomment %}
+{% block content %}
+<div id="community_container">
+
+    {% comment %} 임시 로그아웃 {% endcomment %}
+    {% if not user.is_authenticated %}
+    <span>Healthy 21</span>
+    <i class="fa fa-search" style="font-size:36px"></i>
+    {% else %}
+    <a href="/logout">로그아웃</a>
+    <br>
+    {% endif %}
+
+    {% comment %} 포스팅 {% endcomment %}
+    <img src="{% static 'img/test.png' %}" alt="프로필" />
+    <a href="/post" alt="포스팅 페이지 이동"><span>게시물을 포스팅하시겠어요?</span></a>
+    <hr>
+
+    {% comment %} 등록된 게시물 {% endcomment %}
+    {% for post in posts %}
+        <img src="{% static 'img/test.png' %}" />
+        <span>{{ post.author.username }}</span>
+        <span>2022.03.16</span>
+        <button>팔로우</button>
+        <span>{{ post.created_at | timesince }} 전</span>
+        <span>{{ post.content }}</span>
+    
+
+    {% comment %} 게시물 기능 아이콘 {% endcomment %}
+   
+    {% comment %} <a id="{{ post.id }}" onclick="handleLikeClick(this.id)">
+        {% if request.user in post.like.all %}
+        <i class="fa fa-heart-o" style="font-size:36px;" id="heart"></i>
+        {% else %}
+        <i class="fa fa-heart" style="font-size:36px;" id="heart"></i>
+        {% endif %}
+        <span id="like_count">{{ post.like.count }}</span>
+    </a>  {% endcomment %}
+    
+    <a href="{% url 'likes' post.id %}">
+        {% if user in post.like.all %}
+        <i class="fa fa-heart" style="font-size:36px;" id="heart"></i>
+        {% else %}
+        <i class="fa fa-heart-o" style="font-size:36px;" id="heart"></i>
+        {% endif %}
+        <span>{{ post.like.count }}</span>
+    </a>
+
+    <a href="/community/{{ post.id }}"><i class="fa fa-comment-o" style="font-size:36px"></i></a>
+    <i class="fa fa-bookmark-o" style="font-size:36px"></i>
+    {% if post.author == user %}
+        <a href="/community/delete/{{ post.id }}"><i class="fa fa-trash" style="font-size:36px"></i></a>
+    {% endif %}
+    <hr>
+
+    {% endfor %}
+
+    
+
+</div>
+    {% endblock %}
