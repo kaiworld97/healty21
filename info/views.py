@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import *
+from django.core.paginator import Paginator
+from django.http import JsonResponse
 import random
-# Create your views here.
 
 
 def info(request):
@@ -22,19 +23,29 @@ def info(request):
 
 def content_type(request, type):
     if request.method == 'GET':
-        if type == 'food':
-            recommend = random.sample(list(Content.objects.filter(type='food')), 10)
-            content = Content.objects.filter(type='food')[:10]
-        elif type == 'diet_plan':
-            recommend = random.sample(list(Content.objects.filter(type='diet_plan')), 10)
-            content = Content.objects.filter(type='diet_plan')[:10]
-        elif type == 'workout':
-            recommend = random.sample(list(Content.objects.filter(type='workout')), 10)
-            content = Content.objects.filter(type='workout')[:10]
-        elif type == 'workout_routine':
-            recommend = random.sample(list(Content.objects.filter(type='workout_routine')), 10)
-            content = Content.objects.filter(type='workout_routine')[:10]
-        return render(request, 'info/content_type.html', {'type': type, 'content': content, 'recommend': recommend})
+        page_number = request.GET.get('page')
+        if not page_number:
+            if type == 'food':
+                recommend = random.sample(list(Content.objects.filter(type='food')), 10)
+                content = Content.objects.filter(type='food')[:20]
+            elif type == 'diet_plan':
+                recommend = random.sample(list(Content.objects.filter(type='diet_plan')), 10)
+                content = Content.objects.filter(type='diet_plan')[:10]
+            elif type == 'workout':
+                recommend = random.sample(list(Content.objects.filter(type='workout')), 10)
+                content = Content.objects.filter(type='workout')[:20]
+            elif type == 'workout_routine':
+                recommend = random.sample(list(Content.objects.filter(type='workout_routine')), 10)
+                content = Content.objects.filter(type='workout_routine')[:10]
+            return render(request, 'info/content_type.html', {'type': type, 'content': content, 'recommend': recommend})
+        else:
+            content_list = Content.objects.filter(type=type)
+            paginator = Paginator(content_list, 10)
+
+            if int(page_number) <= paginator.num_pages:
+                obj_list = paginator.get_page(page_number)
+                data_list = [{'id': obj.id, 'item': obj.item} for obj in obj_list]
+                return JsonResponse(data_list, status=200, safe=False)
 
 
 def content_detail(request, pk):
