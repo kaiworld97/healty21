@@ -20,10 +20,6 @@ class CustomPasswordValidator:
         if (
                 # 정규식으로 8자 이상 알파벳 소문자, 대문자, 특수문자 포함하는지 체크
                 not re.match(r"^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[@#$!~%^&*])[\w\d@#$!~%^&*]{8,}$", password)
-                # len(password) < 8 or
-                # not re.findall('[A-Z]', password) or  # not contains_uppercase
-                # not re.findall('[a-z]', password) or  # not contains_lowercase
-                # not re.findall('[0-9]', password) or  # not contains_number
         ):
             raise ValidationError("8자 이상의 영문 대/소문자, 숫자, 특수문자로 조합해주세요.")
 

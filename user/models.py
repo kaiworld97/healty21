@@ -10,19 +10,12 @@ class UserGroup(models.Model):
     level = models.IntegerField()
 
     def __str__(self):
-        return f"Group Type:{self.type} & Level: {str(self.level)}"
+        return f"그룹 타입: {self.goal} & 레벨: {str(self.level)}"
 
 
 class User(AbstractUser):
     class Meta:
         db_table = "user"
-
-    # nickname = models.CharField(max_length=15, unique=True, blank=True, null=True)    # 대신 username으로
-    # user_group = models.ForeignKey(UserGroup, on_delete=models.CASCADE, limit_choices_to={'surveyed': True})
-
-    def clean(self):
-        if self.nickname == "":
-            self.nickname = None
 
 
 class UserProfile(models.Model):
@@ -30,32 +23,33 @@ class UserProfile(models.Model):
         db_table = "user_profile"
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birth_day = models.DateTimeField(auto_now=False, auto_now_add=False)
+    birth_day = models.DateField()
     height = models.FloatField()
     weight = models.FloatField()
     GENDER = [
+        (None, '성별을 선택해주세요.'),
         ('M', '남성'),
-        ('F', '여성'),
-        (None, '성별을 선택해주세요.')
+        ('F', '여성')
     ]
     gender = models.CharField(
         max_length=1,
         choices=GENDER,
     )
-    bio = models.TextField(null=True)
-    bmi = models.IntegerField()
+    bio = models.CharField(max_length=256, blank=True, help_text="간단한 소개 한마디")
+    bmi = models.FloatField()
     req_cal = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
+    # user_group = models.ForeignKey(UserGroup, on_delete=models.CASCADE, limit_choices_to={'surveyed': True})
 
     def __str__(self):
         return f"{self.user.username}'s Profile"
 
 
-class UserFollow(models.Model):
+class UserFollowing(models.Model):
     class Meta:
         db_table = "user_follow"
 
-    follower = models.ForeignKey(User, related_name="follower", on_delete=models.CASCADE)
-    following = models.ForeignKey(User, related_name="following", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name="following", on_delete=models.CASCADE)
+    following_user = models.ForeignKey(User, related_name="follower", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -3,5 +3,8 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('profile-create/', views.profile_create, name='profile-create')
+    path('profile/create/', views.profile_create, name='profile_create'),
+    path('profile/<int:pk>/edit/', views.profile_update, name='profile_update'),
+    path('people/', views.people_list, name='people_list'),
+    path('<int:user_pk>/follow/', views.follow, name='follow'),
 ]

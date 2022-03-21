@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html>
+{% load static %}
+{% load socialaccount %}
+{% load crispy_forms_tags %}
+{% load account %}
+
+<html lang="en">
 <head>
     <title>{% block head_title %}{% endblock %}</title>
     {% block extra_head %}
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'accounts/auth.css' %}">
+        {% load static %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <link rel="stylesheet" href="{% static '/css/base.css' %}">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+              crossorigin="anonymous">
+
+        <link rel="stylesheet" href="{% static 'accounts/auth.css' %}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     {% endblock %}
 </head>
 <body>
@@ -20,22 +34,27 @@
             </ul>
         </div>
     {% endif %}
+    <nav>
+        {% if user.is_authenticated %}
+            {#        https://django-allauth.readthedocs.io/en/latest/views.html?highlight=login#login-account-login#}
+            <a href="{% url 'account_email' %}">이메일 변경</a>
+            <a href="{% url 'account_logout' %}">로그아웃</a>
+        {% else %}
+            <a href="{% url 'account_login' %}">로그인</a>
+            <a href="{% url 'account_signup' %}">회원가입</a>
+            <a href="{% provider_login_url 'kakao' method='oauth2' %}">카카오 로그인</a>
+            <a href="{% provider_login_url 'google' method='oauth2' %}">구글 로그인</a>
+        {% endif %}
+    </nav>
 
-    <div>
-        <strong>Menu:</strong>
-        <ul>
-            {% if user.is_authenticated %}
-                <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
-                <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
-            {% else %}
-                <li><a href="{% url 'account_login' %}">Sign In</a></li>
-                <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
-            {% endif %}
-        </ul>
-    </div>
+<div class="container">
     {% block content %}
     {% endblock %}
+</div>
 {% endblock %}
 {% block extra_body %}
 {% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 </body>

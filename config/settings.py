@@ -51,6 +51,10 @@ INSTALLED_APPS = [
     # enabled providers
     'allauth.socialaccount.providers.kakao',
     'allauth.socialaccount.providers.google',
+
+    # # crispy forms
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 # allauth 설정
@@ -78,10 +82,16 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'  # 이메일로 로그인
 ACCOUNT_SESSION_REMEMBER = True  # 로그인(세션) 유지
 SESSION_COOKIE_AGE = 86400  # 쿠키 하루동안 저장 -> 세션 정보 제거 python manage.py clearsessions 자동화 req
 
-ACCOUNT_SIGNUP_FORM_CLASS = 'user.forms.SignupForm'
+# ACCOUNT_SIGNUP_FORM_CLASS = 'user.forms.SignupForm'
 ACCOUNT_USERNAME_VALIDATORS = 'user.validators.custom_username_validators'
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+
+ACCOUNT_FORMS = {'signup': 'user.forms.MyCustomSignupForm'}
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
 
 with open(os.path.join(BASE_DIR, 'config/social.json')) as f:
     social = json.loads(f.read())
@@ -176,7 +186,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'ko'
+LANGUAGE_CODE = 'en-US'
 
 TIME_ZONE = 'UTC'
 
