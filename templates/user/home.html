@@ -36,9 +36,11 @@
                 <a href="{% url 'profile_update' user.id %}">프로필 수정하기</a>
                 <h3>유저 프로필</h3>
 {#                <p>{{ user.user_group }}</p>#}
-                <p>생일 : {{ user.userprofile.birth_day|date:"Y-m-d" }}</p>
-                <p>나이 : {{ user.userprofile.birth_day|timesince }}</p>
-                <p>bmi : {{ user.userprofile.bmi }}</p>
+                <p>생일 : {{ user.userprofile.birth_day|date:"Y년 m월 d일" }}</p>
+                <p>나이 : {{ user.userprofile.age }}세</p>
+                <p>bmi 지수 : {{ user.userprofile.bmi }}</p>
+                <p>카테고리 : {{ user.userprofile.bmi_category }}</p>
+                <p>기초대사량 : {{ user.userprofile.bmr }} kcal</p>
                 <p>소개 : {{ user.userprofile.bio }}</p>
 
                 <h3>유저가 팔로우 하는 사람들</h3>
