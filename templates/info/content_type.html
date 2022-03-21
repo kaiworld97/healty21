@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{#타이틀 넣는 곳#}
+{% block title %}
+    {{ type }}
+{% endblock %}
+
+{# css 파일 넣는 곳#}
+{% block css %}
+    {#        <link rel="stylesheet" href="{% static '/css/해당앱.css' %}">#}
+{% endblock %}
+
+{% block js %}
+    <script>
+    const content_type = '{{ type|safe }}'
+    function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+content = document.querySelector(".all_data_container");
+let page = 2
+
+window.onscroll = function() {
+    let url = `/info/${content_type}?page=${page}`
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+
+        }).then(res => {
+            if (res.ok) {
+                return res.json();}
+        }).then(data => {
+            page += 1
+            content.innerHTML += data.map(
+            	res_data=>`
+                <div>
+            	<a href="/info/${res_data.id}">${res_data.item}</a>
+                </div>
+            	`
+            	).join("\n")
+        }).catch(err => {
+            console.log('err = ', err)
+        })
+    }
+}
+</script>
+
+{% endblock %}
+
+{#메인 컨텐츠 들어가는 곳#}
+{% block content %}
+    {{ type }}
+    <div>
+        추천
+    <div>
+        {% for i in recommend %}
+            <div>
+                <a href="/info/{{ i.id }}">{{ i.item }}</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    </div>
+    <div>
+        전체
+    <div class="all_data_container">
+        {% for i in content %}
+            <div>
+                <a href="/info/{{ i.id }}">{{ i.item }}</a>
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+{% endblock %}
+
