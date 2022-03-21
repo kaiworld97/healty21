@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+    <h1>그룹선택</h1>
+
+    {% for group in groups %}
+    <div>
+        <a href = "{%  url 'matching' group.pk %}">
+            <h1>{{ group.type}} {{ group.level }} kg 그룹 선택</h1>
+        </a>
+    </div>
+    {% endfor %}
+    </div>
+    <div>
+
+    </div>
+</body>
+</html>

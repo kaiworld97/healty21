@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <h1>경쟁하기</h1>
+        {%  if user.is_authenticated %}
+            <a href = "{% url 'signout' %}">로그아웃</a>
+            <a href = "{%  url 'set_goal' %}">목표설정</a>
+
+        {% else %}
+            <a href = "{% url 'signin' %}">로그인</a>
+            <a href = "{% url 'signup' %}">회원가입</a>
+        {% endif %}
+    </div>
+    <div>
+        <h3>내가 선택한 경쟁</h3>
+        {%  for game in games %}
+
+        <div>
+            <a href = "{%  url 'game_detail' game.pk %}">
+             <h1>{{ game.title }}</h1>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    <div>
+        <h3>나를 경쟁상대로 선택한 유저</h3>
+        {% for competition in competitions %}
+            <div>
+                <a href="{% url 'compete_followee' competition.pk %}">
+                    <h1>{{ competition.user_id }}</h1>
+                </a>
+            </div>
+        {% endfor %}
+
+
+    </div>
+
+
+</body>
+</html>

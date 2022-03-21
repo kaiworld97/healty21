@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <h1>게임_상세</h1>
+    </div>
+    <div>
+        <h3>{{ competitor.nick_name}}님과 ~일차 대결 중</h3>
+    </div>
+
+    <div>
+        <h3>퀘스트 입력</h3>
+        <form method="POST">
+        {% csrf_token %}
+        <div>
+        <input type = "text" list = "quest-type" name = "type" placeholder="운동 or 식단">
+            <datalist id = "quest-type">
+                <option value = "운동"/>
+                <option value = "식단"/>
+            </datalist>
+        </div>
+        <div>
+            <textarea name = "content" placeholder="퀘스트 설명"></textarea>
+        </div>
+        <button type = "submit">제출하기!</button>
+
+        </form>
+
+    </div>
+    <div>
+        <h3> 내 활동 보기(1주일 치 defalut로)</h3>
+    </div>
+    <div>
+        <h3>경쟁자 활동 보기</h3>
+    </div>
+</body>
+</html>
