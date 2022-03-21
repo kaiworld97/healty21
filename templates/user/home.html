@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load account socialaccount %}
+{% get_social_accounts user as accounts %}
+
+
+{% load static %}
+{#타이틀 넣는 곳#}
+{% block title %}
+    유저 프로필
+{% endblock %}
+
+{# css 파일 넣는 곳#}
+{% block css %}
+    {#        <link rel="stylesheet" href="{% static '/css/user.css' %}">#}
+{% endblock %}
+
+{#자바스크립트 파일 넣는 곳#}
+{% block js %}
+    {#<script type="text/javascript" src="{% static '/js/user.js' %}"></script>#}
+
+{% endblock %}
+
+{#메인 컨텐츠 들어가는 곳#}
+{% block content %}
+    <h1 style="margin-top: 20px">마이 페이지</h1>
+    <div class="container" style="margin-top: 20px">
+        {% if user.is_authenticated %}
+            <p>안녕하세요, {{ user }}님</p>
+            <p>유저명: {% user_display user %}</p>
+            <p>유저 이메일: {{ user.email }}</p>
+            <p>유저 가입일: {{ user.date_joined }}</p>
+            <p>유저 이미지: {{ user.picture }} {% if not user.picture %}<a href="{% url 'home' %}">업로드하기</a> {% endif %}</p>
+            {#        <a href="{% url '' %}">게임 참가하러 가기</a>#}
+
+            {% if user.userprofile %}
+                <a href="{% url 'profile_update' user.id %}">프로필 수정하기</a>
+                <h3>유저 프로필</h3>
+{#                <p>{{ user.user_group }}</p>#}
+                <p>생일 : {{ user.userprofile.birth_day|date:"Y-m-d" }}</p>
+                <p>나이 : {{ user.userprofile.birth_day|timesince }}</p>
+                <p>bmi : {{ user.userprofile.bmi }}</p>
+                <p>소개 : {{ user.userprofile.bio }}</p>
+
+                <h3>유저가 팔로우 하는 사람들</h3>
+                {% for following in followings %}
+                    <p>{{ following }}<a href="{% url 'follow' following.pk %}">언팔로우</a></p>
+                {% endfor %}
+
+                <h3>유저가 팔로우 하지 않는 사람들</h3>
+                {% for nofollowing in nofollowings %}
+                    <p>{{ nofollowing }}<a href="{% url 'follow' nofollowing.pk %}">팔로우</a></p>
+                {% endfor %}
+            {% else %}
+                <a href="{% url 'profile_create' %}">프로필 만들기</a>
+            {% endif %}
+        {% else %}
+            <p>로그인 해주세요.</p>
+        {% endif %}
+    </div>
+{% endblock %}

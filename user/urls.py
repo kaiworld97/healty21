@@ -1,6 +1,10 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('sign_in/', views.sign_in, name='sign_in'),
+    path('', views.home, name='home'),
+    path('profile/create/', views.profile_create, name='profile_create'),
+    path('profile/<int:pk>/edit/', views.profile_update, name='profile_update'),
+    path('people/', views.people_list, name='people_list'),
+    path('<int:user_pk>/follow/', views.follow, name='follow'),
 ]
