@@ -1,5 +1,5 @@
 from django.db import models
-from user.models import UserModel
+from user.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
@@ -9,7 +9,7 @@ class Content(models.Model):
     class Meta:
         db_table = 'content'
 
-    author = models.ForeignKey(UserModel, on_delete=models.PROTECT)
+    author = models.ForeignKey(User, on_delete=models.PROTECT)
     item = models.CharField(max_length=30)
     type = models.CharField(max_length=30)
     description = models.TextField(default='')
@@ -19,7 +19,7 @@ class VisitContent(models.Model):
     class Meta:
         db_table = 'visit_content'
 
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.ForeignKey(Content, on_delete=models.CASCADE)
     visit_count = models.IntegerField(
         default=1,
@@ -33,7 +33,7 @@ class SaveContent(models.Model):
     class Meta:
         db_table = 'save_content'
 
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.ForeignKey(Content, on_delete=models.CASCADE)
 
 
