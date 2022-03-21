@@ -21,3 +21,6 @@ venv/
 0006_initial.py
 
 social.json
+
+migrations/
+!__init__.py
