@@ -20,5 +20,22 @@
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
     {{ type }}
+    <form method="post" action="/competition/">
+    {% csrf_token %}
+    {% if type == 'group' %}
+        {% for group in groups %}
+            <label for="group{{ group.id }}">{{ group }}</label>
+            <input type="radio" id="group{{ group.id }}" name="group" value="{{ group.id }}">
+        {% endfor %}
+    {% endif %}
+    {% if type == 'competitor' %}
+        {% for competitor in competitors %}
+            <label for="{{ competitor.email }}">{{ competitor }}</label>
+            <input type="checkbox" id="{{ competitor.email }}" name="competitor" value="{{ competitor.email }}">
+        {% endfor %}
+    {% endif %}
+    <button>확인</button>
+    </form>
+
 {% endblock %}
 
