@@ -70,11 +70,11 @@
         </div>
     </div>
     <div>
+        <p>{{ user.username }}님의 포인트 {{ user.point }} 포인트</p>
         <p>경쟁하고 있는 유저들</p>
         <div>
             {% for competitor in competitors %}
-                <a href="{% url 'quest' %}?username={{ competitor.competitor.username }}">{{ competitor.competitor.username }}</a>
-
+                <a href="{% url 'quest' %}?username={{ competitor.competitor.username }}">{{ competitor.competitor.username }} {{ competitor.competitor.point }}포인트</a>
             {% endfor %}
         </div>
         <div>

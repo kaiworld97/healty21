@@ -49,8 +49,9 @@ def competition(request):
 
 def quest(request):
     user = User.objects.get(username=request.user)
-    start_date = "2022-03-22"
-    end_date = "2022-03-23"
+    # 날짜별 퀘스트 가져오기
+    start_date = datetime.datetime.today().strftime("%Y-%m-%d")
+    end_date = datetime.datetime.today().strftime("%Y-%m-%d")
     if request.method == 'GET':
         username = request.GET.get('username')
         user_quest = User.objects.get(username=username)
@@ -59,8 +60,6 @@ def quest(request):
     if request.method == 'POST':
         print(request.FILES)
         # print(request.FILES['input_file'])
-        print(request.POST['type'])
-        print(request.POST['content'])
         quest = Quest()
         quest.user = user
         quest.game = user.group.game.last()
@@ -70,4 +69,9 @@ def quest(request):
         # if request.FILES['input_file']:
         #     quest.photo = request.FILES['input_file']
         quest.save()
+        user.point += 5
+        user.save()
+        competition = user.competition.last()
+        competition.point += 5
+        competition.save()
         return redirect('/competition')
