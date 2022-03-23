@@ -1,12 +1,8 @@
 from audioop import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from .models import Post
-from .models import Comment
+from .models import Post, Comment
 from django.contrib.auth.decorators import login_required
-
-import json
-
 
 def community(request):
     if request.method == "GET":
@@ -17,7 +13,7 @@ def community(request):
         else:
             return redirect('/')
 
-def post(request, post_id):
+def post(request):
     if request.method == "GET":
         user = request.user.is_authenticated
         if user:
@@ -26,11 +22,26 @@ def post(request, post_id):
             return redirect('/')
     elif request.method == "POST":
         user = request.user
-        my_post = Post()
-        my_post.author = user
-        my_post.content = request.POST.get('my-content', '')
-        my_post.save()
+        post = Post()
+        post.author = user
+        post.title = request.POST.get('my-title', '')
+        post.content = request.POST.get('my-content', '')
+        post.save()
         return redirect('/community')
+
+@login_required
+def update(request, id):
+    if request.method == "GET":
+        post = Post.objects.get(id=id)
+        return render(request, 'community/community_edit.html', {'post': post})
+    
+    elif request.method == "POST":
+        user = request.user
+        post = Post.objects.get(id=id)
+        post.author = user
+        post.content = request.POST.get('content_edit')
+        post.save()
+        return redirect('/community/' + str(id))
 
 @login_required
 def post_delete(request, id):
@@ -40,9 +51,9 @@ def post_delete(request, id):
 
 @login_required
 def post_detail(request, id):
-    my_post = Post.objects.get(id=id)
+    post = Post.objects.get(id=id)
     post_comment = Comment.objects.filter(post_id=id).order_by('-created_at')
-    return render(request, 'community/community_detail.html', {'post': my_post, 'comments': post_comment})
+    return render(request, 'community/community_detail.html', {'post': post, 'comments': post_comment})
 
 @login_required
 def write_comment(request, id):
@@ -55,14 +66,24 @@ def write_comment(request, id):
         PC.post = current_post
         PC.save()
 
-        return redirect('/community/'+str(id))
+    return redirect('/community/' + str(id))
+
+@login_required
+def comment_update(request, id):
+    if request.method == "POST":
+        comment = Comment.objects.get(id=id)
+        current_post = comment.post.id
+        comment.comment = request.POST['comment_content']
+        print(comment.comment)
+        comment.save()
+    return redirect('/community/' + str(current_post))
     
 @login_required
 def delete_comment(request, id):
     comment = Comment.objects.get(id=id)
     current_post = comment.post.id
     comment.delete()
-    return redirect('/community/'+str(current_post))
+    return redirect('/community/' + str(current_post))
 
 @login_required
 def like(request, post_id):
@@ -76,3 +97,17 @@ def like(request, post_id):
         post.like_count += 1
         post.save()
     return redirect('/community/')
+
+@login_required
+def comment_like(request, id):
+    comment = Comment.objects.get(id=id)
+    current_post = comment.post.id
+    if request.user in comment.like.all():
+        comment.like.remove(request.user)
+        comment.like_count -= 1
+        comment.save()
+    else:
+        comment.like.add(request.user)
+        comment.like_count += 1
+        comment.save()
+    return redirect('/community/' + str(current_post))

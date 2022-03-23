@@ -10,35 +10,7 @@ Community
 {% endblock %}
 
 {% block js %}
-<script type="text/javascript" src="{% static 'js/post_like.js' %}"></script>
-<script type="text/javascript">
-    {% comment %} function handleLikeClick(id) {
-        $.ajax ({
-            url: "{% url 'likes' %}",
-            data: {
-                'post_id': id,
-                'csrfmiddlewaretoken': '{{ csrf_token }}',
-            },
-            dataType: "json",
-            success: function (response) {
-                $('#like_count').html(response.like_count);
-                $('#message').html(response.message);
-            },
-            error: function (request, status, error) {
-                alert(error);
-            },
-        });
-        console.log(buttonId);
 
-        const likeButton = document.getElementById(buttonId);
-        console.log(likeButton);
-        const likeIcon = likeButton.querySelector("i");
-        console.log(likeIcon);
-        likeIcon.classList.replace("fa-heart-o", "fa-heart")
-    
-    } {% endcomment %}
-
-</script>
 {% endblock %}
 
 {% block content %}
@@ -69,16 +41,6 @@ Community
     
 
     {% comment %} 게시물 기능 아이콘 {% endcomment %}
-   
-    {% comment %} <a id="{{ post.id }}" onclick="handleLikeClick(this.id)">
-        {% if request.user in post.like.all %}
-        <i class="fa fa-heart-o" style="font-size:36px;" id="heart"></i>
-        {% else %}
-        <i class="fa fa-heart" style="font-size:36px;" id="heart"></i>
-        {% endif %}
-        <span id="like_count">{{ post.like.count }}</span>
-    </a>  {% endcomment %}
-    
     <a href="{% url 'likes' post.id %}">
         {% if user in post.like.all %}
         <i class="fa fa-heart" style="font-size:36px;" id="heart"></i>

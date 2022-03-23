@@ -14,7 +14,7 @@ Detail
 
 {#자바스크립트 파일 넣는 곳#}
 {% block js %}
-
+<script type="text/javascript" src="{% static 'js/comment_update.js' %}"></script>
 {% endblock %}
 
 {#메인 컨텐츠 들어가는 곳#}
@@ -39,14 +39,39 @@ Detail
         <button type="submit">댓글쓰기</button>
     </form>
 
+    {% comment %} 게시물 수정 {% endcomment %}
+    {% if post.author == user %}
+        <a href="/community/post/update/{{ post.id }}"><i class="fa fa-edit" style="font-size:36px"></i></a>
+    {% endif %}
+
+    {% comment %} 게시물 댓글 {% endcomment %}
     {% for cm in comments %}
-        <span>{{ cm.author }}</span>
-        <span>{{ cm.comment }}</span>
-        <span>{{ cm.created_at | timesince }} 전</span>
+        <p>{{ cm.author }}</p>
+        
+        {% comment %} 댓글 수정 {% endcomment %}
+        <form action="/community/comment/update/{{ cm.id }}" method="POST">
+            {% csrf_token %}
+                <textarea class="comment_content" name="comment_content" readonly>{{ cm.comment }}</textarea>
+            {% if cm.author == user %}
+                <input type="button" class="btnUpdate" value="수정"/>
+                <input type="submit" class="btnSubmit" value="수정완료" style="display: none;"/>
+            {% endif %}
+        </form>
+
+        <p>{{ cm.created_at | timesince }} 전</p>
+        <a href="/community/comment/like/{{ cm.id }}">
+            {% if user in cm.like.all %}
+                <i class="fa fa-heart" style="font-size:36px;" id="heart"></i>
+            {% else %}
+                <i class="fa fa-heart-o" style="font-size:36px;" id="heart"></i>
+            {% endif %}
+                <span> {{ cm.like.count }} </span>
+        </a>
         {% if cm.author == user %}
             <a href="/community/comment/delete/{{ cm.id }}"><span>삭제</span></a>
         {% endif %}
     {% endfor %}
+
 
 {% endblock %}
 
