@@ -22,6 +22,11 @@ class User(AbstractUser):
     point = models.IntegerField(default=0)
 
 
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return f'user_{instance.pk}/{filename}'
+
+
 class UserProfile(models.Model):
     class Meta:
         db_table = "user_profile"
@@ -39,6 +44,7 @@ class UserProfile(models.Model):
         max_length=1,
         choices=GENDER,
     )
+    image = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
     bio = models.CharField(max_length=256, blank=True, help_text="간단한 소개 한마디")
     bmi = models.FloatField()
     bmi_category = models.CharField(max_length=256, null=True)
@@ -46,8 +52,6 @@ class UserProfile(models.Model):
     age = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
-
-    # user_group = models.ForeignKey(UserGroup, on_delete=models.CASCADE, limit_choices_to={'surveyed': True})
 
     def __str__(self):
         return f"{self.user.username}'s Profile"

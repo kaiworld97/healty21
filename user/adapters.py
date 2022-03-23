@@ -2,18 +2,28 @@ from allauth.account.adapter import DefaultAccountAdapter
 from allauth.exceptions import ImmediateHttpResponse
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from django.core.checks import messages
+from django.core.exceptions import ValidationError
 from django.shortcuts import resolve_url, redirect
 
 from config import settings
 from user.models import User
 
 
-class AccountAdapter(DefaultAccountAdapter):
-    def save_user(self, request, user, form, commit=False):
-        data = form.cleaned_data
-        self.populate_username(request, user)
-        user.save()
-        return user
+# class AccountAdapter(DefaultAccountAdapter):
+#     def save_user(self, request, user, form, commit=False):
+#         data = form.cleaned_data
+#         self.populate_username(request, user)
+#         user.save()
+#         return user
+
+
+class UsernameMaxAdapter(DefaultAccountAdapter):
+    def clean_username(self, username):
+        if len(username) > 12:
+            raise ValidationError('닉네임이 너무 깁니다. 다시 설정해주세요.')
+
+        # For other default validations.
+        return DefaultAccountAdapter.clean_username(self, username)
 
 
 class MySocialAccountAdapter(DefaultSocialAccountAdapter):
