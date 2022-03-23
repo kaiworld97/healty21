@@ -10,7 +10,8 @@ from allauth.account.forms import SignupForm, PasswordField
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['gender', 'birth_day', 'height', 'weight', 'bio']
+        fields = ['gender', 'birth_day', 'height', 'weight', 'image', 'bio']
+        # fields = ['gender', 'birth_day', 'height', 'weight',  'bio']
         # YEARS = [x for x in range(1940, 2021)]
 
         labels = {
@@ -19,6 +20,7 @@ class ProfileForm(forms.ModelForm):
             "height": "키",
             "weight": "몸무게",
             "bio": "자기소개",
+            "image": "프로필 이미지",
         }
         widgets = {
             "birth_day": forms.DateInput(attrs={'id': 'b_datepicker', 'class': "form-floating"}),
@@ -28,7 +30,8 @@ class ProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            FloatingField('gender', 'birth_day', 'height', 'weight', 'bio'),
+            FloatingField('gender', 'birth_day', 'height', 'weight', 'image', 'bio'),
+            # FloatingField('gender', 'birth_day', 'height', 'weight', 'bio'),
             ButtonHolder(
                 Submit('submit', '업데이트', css_class='btn btn-primary button white')
             )

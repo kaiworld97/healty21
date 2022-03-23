@@ -31,10 +31,10 @@
         {% if user.is_authenticated %}
             <p>{{ user }}님, 게임에 참여하시려면 추가정보를 입력해주세요. </p>
             {#        <form class="signup" id="user_profile_form" method="post" action="{% url 'user-profile' %}">#}
-            {#        <form action="" method="POST">#}
+        <form action="" enctype="multipart/form-data" method="POST">
             {% csrf_token %}
             {% crispy form %}
-
+        </form>
             <script>
                 $(function () {
                     $("#b_datepicker").datepicker({
