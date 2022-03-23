@@ -1,9 +1,8 @@
 from django import forms
-from django.forms import DateInput
 from .models import User, UserProfile
 from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div, MultiField
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit
 from allauth.account.forms import SignupForm, PasswordField
 
 
@@ -11,7 +10,6 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['gender', 'birth_day', 'height', 'weight', 'image', 'bio']
-        # fields = ['gender', 'birth_day', 'height', 'weight',  'bio']
         # YEARS = [x for x in range(1940, 2021)]
 
         labels = {
@@ -31,7 +29,6 @@ class ProfileForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             FloatingField('gender', 'birth_day', 'height', 'weight', 'image', 'bio'),
-            # FloatingField('gender', 'birth_day', 'height', 'weight', 'bio'),
             ButtonHolder(
                 Submit('submit', '업데이트', css_class='btn btn-primary button white')
             )
