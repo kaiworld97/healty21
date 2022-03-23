@@ -41,5 +41,5 @@ class Quest(models.Model):
     type = models.CharField(max_length=30)
     point = models.IntegerField()
     upload_date = models.DateTimeField(auto_now_add=True)
-    photo = models.URLField(null=True)
+    photo = models.ImageField(upload_to='quest', null=True)
     content = models.TextField()

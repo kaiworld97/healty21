@@ -59,15 +59,15 @@ def quest(request):
         return render(request, 'game/quest.html', {'quests': quests})
     if request.method == 'POST':
         print(request.FILES)
-        # print(request.FILES['input_file'])
+        print(request.FILES['input_file'])
         quest = Quest()
         quest.user = user
         quest.game = user.group.game.last()
         quest.type = request.POST['type']
         quest.point = 5
         quest.content = request.POST['content']
-        # if request.FILES['input_file']:
-        #     quest.photo = request.FILES['input_file']
+        if request.FILES['input_file']:
+            quest.photo = request.FILES['input_file']
         quest.save()
         user.point += 5
         user.save()

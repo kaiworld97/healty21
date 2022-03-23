@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% load static %}
-
 {#타이틀 넣는 곳#}
 {% block title %}
     competition
@@ -109,7 +108,7 @@
         {% for quest in quests %}
             <div>
                 {% if quest.photo %}
-                    <img src="{{ quest.photo }}">
+                    <img src="{{ quest.photo.url }}">
                 {% endif %}
                 <p>{{ quest.content }}</p>
             </div>
