@@ -19,6 +19,7 @@ class User(AbstractUser):
 
     group = models.ForeignKey(UserGroup, on_delete=models.CASCADE, null=True)
     competition_activate = models.BooleanField(default=False)
+    point = models.IntegerField(default=0)
 
 
 class UserProfile(models.Model):

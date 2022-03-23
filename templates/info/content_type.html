@@ -35,7 +35,7 @@ content = document.querySelector(".all_data_container");
 let page = 2
 
 window.onscroll = function() {
-    let url = `/info/${content_type}?page=${page}`
+    let url = `{% url 'info' %}${content_type}?page=${page}`
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
 
         fetch(url, {
@@ -53,7 +53,7 @@ window.onscroll = function() {
             content.innerHTML += data.map(
             	res_data=>`
                 <div>
-            	<a href="/info/${res_data.id}">${res_data.item}</a>
+            	<a href="{% url 'info' %}${res_data.id}">${res_data.item}</a>
                 </div>
             	`
             	).join("\n")
@@ -74,7 +74,7 @@ window.onscroll = function() {
     <div>
         {% for i in recommend %}
             <div>
-                <a href="/info/{{ i.id }}">{{ i.item }}</a>
+                <a href="{% url 'info' %}{{ i.id }}">{{ i.item }}</a>
             </div>
         {% endfor %}
     </div>
@@ -85,7 +85,7 @@ window.onscroll = function() {
     <div class="all_data_container">
         {% for i in content %}
             <div>
-                <a href="/info/{{ i.id }}">{{ i.item }}</a>
+                <a href="{% url 'info' %}{{ i.id }}">{{ i.item }}</a>
             </div>
         {% endfor %}
     </div>

@@ -6,10 +6,11 @@ class Game(models.Model):
     class Meta:
         db_table = 'game'
 
-    group = models.ForeignKey(UserGroup, on_delete=models.CASCADE)
+    group = models.ForeignKey(UserGroup, on_delete=models.CASCADE, related_name='game')
     title = models.CharField(max_length=30)
     start_date = models.DateTimeField(auto_now_add=True)
     end_date = models.DateTimeField()
+    day = models.IntegerField(default=0)
     status = models.BooleanField(default=False)
 
 

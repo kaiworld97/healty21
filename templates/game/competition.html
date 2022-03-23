@@ -14,17 +14,106 @@
 
 {#자바스크립트 파일 넣는 곳#}
 {% block js %}
-    {#<script type="text/javascript" src="{% static '/js/해당앱.js' %}"></script>#}
+    <script>
+        function loadFile(input) {
+            let file = input.files[0];
+            let file_img = document.getElementById("input_img");
+            file_img.src = URL.createObjectURL(file);
+            file_img.classList.remove('hidden')
+        }
+    </script>
+
 {% endblock %}
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-    competition
+    <p>competition</p>
     <div>
         {{ competition.game.title }}
-
     </div>
+    <button onclick="window.location='{% url 'quest' %}?username={{ user }}'">퀘스트 로그</button>
+    <!-- Button trigger modal -->
+    <button type="button" class="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        퀘스트 업로드
+    </button>
 
-    <button>퀘스트</button>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">퀘스트 업로드</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'quest' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <select name="type" class="form-select" aria-label="Default select example">
+                            <option selected>타입을 선택하세요</option>
+                            <option value="workout">운동</option>
+                            <option value="food">식단</option>
+                        </select>
+                        <label class="" for="input_file">
+                            이미지
+                        </label>
+                        <img id="input_img" src="" class="hidden">
+                        <input type="file" id="input_file" name="input_file" class="hidden"
+                               accept="image/gif,image/jpeg,image/png"
+                               onchange="loadFile(this)">
+                        <label for="content">내용</label>
+                        <textarea id="content" class="" name="content"></textarea>
+                        <button type="submit" class="">업로드</button>
+                        <button type="button" class="" data-bs-dismiss="modal">닫기</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p>경쟁하고 있는 유저들</p>
+        <div>
+            {% for competitor in competitors %}
+                <a href="{% url 'quest' %}?username={{ competitor.competitor.username }}">{{ competitor.competitor.username }}</a>
+
+            {% endfor %}
+        </div>
+        <div>
+            <!-- Button trigger modal -->
+            <button type="button" class="" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                {{ user }}를 지목한 유저들
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel1">나를 지목한 유저들</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {% for nomi in nominated %}
+                                <a href="{% url 'quest' %}?username={{ nomi.competition.user }}">{{ nomi.competition.user }}</a>
+                            {% endfor %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        {% for quest in quests %}
+            <div>
+                {% if quest.photo %}
+                    <img src="{{ quest.photo }}">
+                {% endif %}
+                <p>{{ quest.content }}</p>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
 

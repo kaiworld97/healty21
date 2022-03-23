@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from user.models import User, UserGroup
 from .models import *
 import datetime
+from django.db.models import Q
 
 
 def competition(request):
@@ -16,34 +17,24 @@ def competition(request):
             return render(request, 'game/select.html', {'type': 'competitor', 'competitors': competitors})
         else:
             # 현재 진행중인 competition 가져오기
-            competition = user.competition.all().last()
-            # 몇일 진행중 계산
-            # days = str(datetime.datetime.now() - datetime.datetime.fromtimestamp(competition.game.start_date.timestamp()))
-            # if 'days,' in days.split(' '):
-            #     day = days.split(' ')[0] + '일 진행중'
-            # else:
-            #     day = '0일 진행중'
-            # print(day)
+            competition = user.competition.last()
             # 현재 competition에서 모든 경쟁자 가져오기
             competitors = competition.competitor.all()
             # competition 에 속한 competitor의 quest 가져오기
-            # for competitor in competitors:
-            #     competitor.competition.game.quest.all()
+            q = Q()
+            q.add(Q(user=user), q.OR)
+            for competitor in competitors:
+                q.add(Q(user=competitor.competitor), q.OR)
+            quests = user.competition.last().game.quest.filter(q).order_by('-upload_date')
             # 유저가 속해져 있는 모든 경쟁 상대 보기
-            # for i in user.competitor.all():
-            #     print(i.competition.user)
-            return render(request, 'game/competition.html', {'competition': competition, 'competitor': competitors})
+            nominated = user.competitor.all()
+            return render(request, 'game/competition.html', {'competition': competition, 'competitors': competitors, 'quests': quests, 'nominated': nominated})
     if request.method == 'POST':
         if 'group' in request.POST:
             user.group = UserGroup.objects.get(id=request.POST['group'])
             user.save()
         elif 'competitor' in request.POST:
-            game = Game()
-            game.group = user.group
-            game.title = f'{request.user}님의 경쟁'
-            # 기준일이 없어서 일단 현재 시간부터 + 21일
-            game.end_date = datetime.datetime.now() + datetime.timedelta(days=21)
-            game.save()
+            game = user.group.game.last()
             competition = Competition.objects.create(game=game, user=user)
             # 선택한 competitor들 저장
             for competitor_email in request.POST.getlist('competitor'):
@@ -59,9 +50,24 @@ def competition(request):
 def quest(request):
     user = User.objects.get(username=request.user)
     start_date = "2022-03-22"
-    end_date = "2022-03-22"
+    end_date = "2022-03-23"
     if request.method == 'GET':
-        user.quest.filter(upload_date__range=[start_date, end_date])
-        return render(request, 'game/quest.html')
+        username = request.GET.get('username')
+        user_quest = User.objects.get(username=username)
+        quests = user_quest.quest.all().order_by('-upload_date')
+        return render(request, 'game/quest.html', {'quests': quests})
     if request.method == 'POST':
+        print(request.FILES)
+        # print(request.FILES['input_file'])
+        print(request.POST['type'])
+        print(request.POST['content'])
+        quest = Quest()
+        quest.user = user
+        quest.game = user.group.game.last()
+        quest.type = request.POST['type']
+        quest.point = 5
+        quest.content = request.POST['content']
+        # if request.FILES['input_file']:
+        #     quest.photo = request.FILES['input_file']
+        quest.save()
         return redirect('/competition')

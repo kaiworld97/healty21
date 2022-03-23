@@ -19,6 +19,15 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-
+    <div>
+        {% for quest in quests %}
+            <div>
+            {% if quest.photo %}
+                <img src="{{ quest.photo }}">
+            {% endif %}
+            <p>{{ quest.content }}</p>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
 
