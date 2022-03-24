@@ -4,8 +4,9 @@
     align-items: center;
     text-align: center;
     flex-direction: column;
-    margin: 3% auto;
+    margin: 5% auto;
 }
+
 .hidden{
     display: none;
 }
@@ -18,9 +19,11 @@ nav{
     height: 10%;
     width: 100%;
 }
+
 .nav_container{
     display: flex;
     margin: auto;
     width: 50%;
     justify-content: space-evenly;
 }
+

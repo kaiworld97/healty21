@@ -8,7 +8,7 @@
 
 {# css 파일 넣는 곳#}
 {% block css %}
-    {#        <link rel="stylesheet" href="{% static '/css/해당앱.css' %}">#}
+            <link rel="stylesheet" href="{% static '/css/game.css' %}">
 {% endblock %}
 
 {#자바스크립트 파일 넣는 곳#}
@@ -21,7 +21,6 @@
             file_img.classList.remove('hidden')
         }
     </script>
-
 {% endblock %}
 
 {#메인 컨텐츠 들어가는 곳#}
@@ -32,16 +31,16 @@
     </div>
     <button onclick="window.location='{% url 'quest' %}?username={{ user.username }}'">퀘스트 로그</button>
     <!-- Button trigger modal -->
-    <button type="button" class="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" class="" data-bs-toggle="modal" data-bs-target="#quest_upload_Modal">
         퀘스트 업로드
     </button>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="quest_upload_Modal" tabindex="-1" aria-labelledby="quest_upload_modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">퀘스트 업로드</h5>
+                    <h5 class="modal-title" id="quest_upload_modalLabel">퀘스트 업로드</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -78,17 +77,17 @@
         </div>
         <div>
             <!-- Button trigger modal -->
-            <button type="button" class="" data-bs-toggle="modal" data-bs-target="#exampleModal1">
-                {{ user }}를 지목한 유저들
+            <button type="button" class="" data-bs-toggle="modal" data-bs-target="#nominated_modal">
+                나를 지목한 유저들
             </button>
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" id="nominated_modal" tabindex="-1" aria-labelledby="nominated_modalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel1">나를 지목한 유저들</h5>
+                            <h5 class="modal-title" id="nominated_modalLabel">나를 지목한 유저들</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -106,12 +105,13 @@
     </div>
     <div>
         {% for quest in quests %}
-            <div>
-                <p>{{ quest.upload_date|date:'Y년 m월 d일 H시 i분' }}</p>
-                {% if quest.photo %}
-                    <img src="{{ quest.photo.url }}">
-                {% endif %}
-                <p>{{ quest.content }}</p>
+            <div class="card">
+                <img src="{{ quest.photo.url }}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{ quest.user.username }}</h5>
+                    <p class="card-text">{{ quest.content }}</p>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ quest.upload_date|date:'Y년 m월 d일 H시 i분' }}</h6>
+                </div>
             </div>
         {% endfor %}
     </div>

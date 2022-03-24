@@ -79,6 +79,7 @@ def quest(request):
                 q['upload_date'] = quest.upload_date.strftime("%Y년 %m월 %d일 %H시 %M분")
                 q['photo'] = quest.photo.url
                 q['content'] = quest.content
+                q['username'] = quest.user.username
                 quest_list.append(q)
             return JsonResponse(quest_list, status=200, safe=False)
     if request.method == 'POST':

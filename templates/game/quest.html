@@ -9,7 +9,7 @@
 
 {# css 파일 넣는 곳#}
 {% block css %}
-    {#        <link rel="stylesheet" href="{% static '/css/해당앱.css' %}">#}
+            <link rel="stylesheet" href="{% static '/css/game.css' %}">
 {% endblock %}
 
 {#자바스크립트 파일 넣는 곳#}
@@ -21,10 +21,13 @@
                 data => {
                     document.getElementById('quest_container').innerHTML = ''
                     document.getElementById('quest_container').innerHTML += data.map(data_map => `
-                    <div>
-                        <p>${data_map.upload_date}</p>
-                        <img src="${data_map.photo}">
-                        <p>${data_map.content}</p>
+                    <div class="card">
+                        <img src="${data_map.photo}" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">${data_map.username}</h5>
+                            <p class="card-text">${data_map.content}</p>
+                            <h6 class="card-subtitle mb-2 text-muted">${data_map.upload_date}</h6>
+                        </div>
                     </div>
                     `
                     ).join("\n")
@@ -41,10 +44,13 @@
     <input type="date" id="date_input" onchange="date_change(this)" max="{{ game_end|date:'Y-m-d' }}" min="{{ game_start|date:'Y-m-d' }}">
     <div id="quest_container">
         {% for quest in quests %}
-            <div>
-                <p>{{ quest.upload_date|date:'Y년 m월 d일 H시 i분' }}</p>
-                <img src="{{ quest.photo.url }}">
-                <p>{{ quest.content }}</p>
+            <div class="card">
+                <img src="{{ quest.photo.url }}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{ quest.user.username }}</h5>
+                    <p class="card-text">{{ quest.content }}</p>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ quest.upload_date|date:'Y년 m월 d일 H시 i분' }}</h6>
+                </div>
             </div>
         {% endfor %}
     </div>
