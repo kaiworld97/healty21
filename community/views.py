@@ -24,7 +24,7 @@ def post(request):
         user = request.user
         post = Post()
         post.author = user
-        post.title = request.POST.get('my-title', '')
+        post.title = request.POST.get('content_title', '')
         post.content = request.POST.get('my-content', '')
         post.save()
         return redirect('/community')
@@ -74,7 +74,6 @@ def comment_update(request, id):
         comment = Comment.objects.get(id=id)
         current_post = comment.post.id
         comment.comment = request.POST['comment_content']
-        print(comment.comment)
         comment.save()
     return redirect('/community/' + str(current_post))
     

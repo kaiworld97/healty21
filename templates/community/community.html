@@ -37,6 +37,7 @@ Community
         <span>2022.03.16</span>
         <button>팔로우</button>
         <span>{{ post.created_at | timesince }} 전</span>
+        <p>{{ post.title }}</p>
         <span>{{ post.content }}</span>
     
 
@@ -50,16 +51,12 @@ Community
         <span>{{ post.like.count }}</span>
     </a>
 
+    {% comment %} 세부 페이지 이동 {% endcomment %}
     <a href="/community/{{ post.id }}"><i class="fa fa-comment-o" style="font-size:36px"></i></a>
-    <i class="fa fa-bookmark-o" style="font-size:36px"></i>
     {% if post.author == user %}
         <a href="/community/delete/{{ post.id }}"><i class="fa fa-trash" style="font-size:36px"></i></a>
     {% endif %}
     <hr>
-
     {% endfor %}
-
-    
-
 </div>
-    {% endblock %}
+{% endblock %}

@@ -13,17 +13,19 @@ POST
 
 {#자바스크립트 파일 넣는 곳#}
 {% block js %}
-<script type="text/javascript" src="{% static '/js/해당앱.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/valueChange.js' %}"></script>
 {% endblock %}
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
 
-<form action="/post/" method="POST">
-    {% csrf_token %}
-    <textarea name="my-content" id="my-content"></textarea>
-    <button type="submit">제출</button>
-</form>
+{% comment %} 게시물 등록 {% endcomment %}
+    <form action="/post/" method="POST">
+        {% csrf_token %}
+        <input type="text" name="content_title" id="content_title" placeholder="제목"/>
+        <textarea name="my-content" id="my-content" placeholder="내용"></textarea>
+        <button type="submit">제출</button>
+    </form>
 
 </div>
 {% endblock %}
