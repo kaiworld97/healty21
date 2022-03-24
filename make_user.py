@@ -21,7 +21,7 @@ for i in range(1, 6):
     quest.type = 'workout'
     quest.point = 5
     quest.content = f'content{i}'
-    quest.photo = 'quest/헬씨.png'
+    quest.photo = 'quest/healthy21.png'
     quest.save()
     quest1 = Quest()
     quest1.user = user
@@ -29,7 +29,7 @@ for i in range(1, 6):
     quest1.type = 'food'
     quest1.point = 5
     quest1.content = f'content{i}'
-    quest1.photo = 'quest/헬씨.png'
+    quest1.photo = 'quest/healthy21.png'
     quest1.save()
 
 # 퀘스트 추가
@@ -42,7 +42,7 @@ for i in range(1, 6):
 #     quest.type = 'workout'
 #     quest.point = 5
 #     quest.content = f'content{i}'
-#     quest.photo = 'quest/헬씨.png'
+#     quest.photo = 'quest/healthy21.png'
 #     quest.save()
 #     quest1 = Quest()
 #     quest1.user = user
@@ -50,5 +50,5 @@ for i in range(1, 6):
 #     quest1.type = 'food'
 #     quest1.point = 5
 #     quest1.content = f'content{i}'
-#     quest1.photo = 'quest/헬씨.png'
+#     quest1.photo = 'quest/healthy21.png'
 #     quest1.save()

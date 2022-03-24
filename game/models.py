@@ -45,5 +45,5 @@ class Quest(models.Model):
     type = models.CharField(max_length=30)
     point = models.IntegerField()
     upload_date = models.DateTimeField(auto_now_add=True)
-    photo = models.ImageField(upload_to=quest_directory_path, null=True, default='default/헬씨.png')
+    photo = models.ImageField(upload_to=quest_directory_path, null=True, default='default/healthy21.png')
     content = models.TextField()
