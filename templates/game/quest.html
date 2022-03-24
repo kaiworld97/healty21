@@ -38,7 +38,7 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-    <input type="date" id="date_input" onchange="date_change(this)">
+    <input type="date" id="date_input" onchange="date_change(this)" max="{{ game_end|date:'Y-m-d' }}" min="{{ game_start|date:'Y-m-d' }}">
     <div id="quest_container">
         {% for quest in quests %}
             <div>

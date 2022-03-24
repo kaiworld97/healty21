@@ -4,8 +4,23 @@
     align-items: center;
     text-align: center;
     flex-direction: column;
-    margin: 1% 0 0 0;
+    margin: 3% auto;
 }
 .hidden{
     display: none;
+}
+
+nav{
+    position: fixed;
+    bottom: 0;
+    margin: 0;
+    background-color: white;
+    height: 10%;
+    width: 100%;
+}
+.nav_container{
+    display: flex;
+    margin: auto;
+    width: 50%;
+    justify-content: space-evenly;
 }

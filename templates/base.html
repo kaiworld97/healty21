@@ -8,20 +8,13 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %} | Healty 21</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet">
-    {#    <link href="/static/img/파비콘.PNG" rel="shortcut icon" type="image/x-icon">#}
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Shizuru&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <link rel="stylesheet" href="{% static '/css/base.css' %}">
-    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <link rel="stylesheet" href="{% static '/css/base.css' %}">
+
     {% block css %}
     {% endblock %}
 </head>
@@ -37,24 +30,31 @@
             </ul>
         </div>
     {% endif %}
-    <nav>
-        {% if user.is_authenticated %}
-            <a href="{% url 'home' %}">마이페이지</a>
-            <a href="{% url 'account_email' %}">이메일 변경</a>
-            <a href="{% url 'account_logout' %}">로그아웃</a>
-        {% else %}
-            <a href="{% url 'account_login' %}">로그인</a>
-            <a href="{% url 'account_signup' %}">회원가입</a>
-            <a href="{% provider_login_url 'kakao' method='oauth2' %}">카카오 로그인</a>
-            <a href="{% provider_login_url 'google' method='oauth2' %}">구글 로그인</a>
-        {% endif %}
-    </nav>
+
     <div class="main">
     {% block content %}
     {% endblock %}
     </div>
 
 </div>
+<nav>
+    <div class="nav_container">
+        {% if user.is_authenticated %}
+            <a href="{% url 'home' %}">마이페이지</a>
+            <a href="{% url 'account_logout' %}">로그아웃</a>
+            <a href="{% url 'competition' %}">경쟁</a>
+{#            <a href="{% url 'community' %}">커뮤니티</a>#}
+            <a href="{% url 'info' %}">정보</a>
+{#            <a href="{% url 'product' %}">상품</a>#}
+        {% else %}
+
+            <a href="{% url 'account_login' %}">로그인</a>
+            <a href="{% url 'account_signup' %}">회원가입</a>
+            <a href="{% provider_login_url 'kakao' method='oauth2' %}">카카오 로그인</a>
+            <a href="{% provider_login_url 'google' method='oauth2' %}">구글 로그인</a>
+        {% endif %}
+    </div>
+</nav>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>

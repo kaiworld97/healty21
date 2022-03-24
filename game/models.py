@@ -33,7 +33,7 @@ class Competitor(models.Model):
 
 
 def quest_directory_path(instance, filename):
-    return f'quest/{instance.user.username}/{filename}'
+    return f'user_{instance.user.id}/quest/{filename}'
 
 
 class Quest(models.Model):

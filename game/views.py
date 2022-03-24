@@ -63,7 +63,10 @@ def quest(request):
             start_date = (datetime.datetime.today() - datetime.timedelta(days=7)).strftime("%Y-%m-%d")
             end_date = (datetime.datetime.today() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
             quests = user_quest.quest.filter(upload_date__range=[start_date, end_date]).order_by('-upload_date')
-            return render(request, 'game/quest.html', {'quests': quests, 'username': username})
+            game_date = user.group.game.last()
+            game_start = game_date.start_date
+            game_end = game_date.end_date
+            return render(request, 'game/quest.html', {'quests': quests, 'username': username, 'game_start': game_start, 'game_end': game_end})
         # 날짜를 선택할 때
         else:
             start_date = request.GET.get('date')
