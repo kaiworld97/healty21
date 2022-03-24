@@ -35,7 +35,7 @@
             <img src="{{ user.userprofile.image.url }}" alt="{{ user }} profile">
             <p>유저 이메일: {{ user.email }}</p>
             <p>유저 가입일: {{ user.date_joined }}</p>
-            <p>유저 이미지: {{ user.picture }} {% if not user.picture %}<a href="{% url 'home' %}">업로드하기</a> {% endif %}</p>
+{#            <p>유저 이미지: {{ user.picture }} {% if not user.picture %}<a href="{% url 'home' %}">업로드하기</a> {% endif %}</p>#}
             {#        <a href="{% url '' %}">게임 참가하러 가기</a>#}
 
             {% if user.userprofile %}
