@@ -13,6 +13,10 @@ class UserGroup(models.Model):
         return f"그룹 타입: {self.goal} & 레벨: {str(self.level)}"
 
 
+def user_directory_path(instance, filename):
+    return f'user_{instance.user.id}/profile/{filename}'
+
+
 class User(AbstractUser):
     class Meta:
         db_table = "user"
@@ -20,10 +24,7 @@ class User(AbstractUser):
     group = models.ForeignKey(UserGroup, on_delete=models.CASCADE, null=True)
     competition_activate = models.BooleanField(default=False)
     point = models.IntegerField(default=0)
-
-
-def user_directory_path(instance, filename):
-    return f'user_{instance.pk}/{filename}'
+    image = models.ImageField(upload_to=user_directory_path, default='default/healthy21.png')
 
 
 class UserProfile(models.Model):
@@ -43,7 +44,6 @@ class UserProfile(models.Model):
         max_length=1,
         choices=GENDER,
     )
-    image = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
     bio = models.CharField(max_length=256, blank=True, help_text="간단한 소개 한마디")
     bmi = models.FloatField()
     bmi_category = models.CharField(max_length=256, null=True)

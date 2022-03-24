@@ -104,7 +104,7 @@ def profile_update(request, pk):
 
 @login_required()
 def follow(request, user_pk):
-    person = get_object_or_404(User, pk=user_pk)  # fllowing 할 사람
+    person = get_object_or_404(User, pk=user_pk)  # following 할 사람
     following = UserFollowing.objects.filter(following_user=person, user=request.user)
     if person != request.user:
         if not following:
