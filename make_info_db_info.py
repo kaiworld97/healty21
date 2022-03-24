@@ -9,7 +9,7 @@ django.setup()
 
 from info.models import *  # django.setup() 이후에 임포트해야 오류가 나지 않음
 User.objects.get_or_create(username='admin', password=1111, email='admin@admin.admin')
-admin = User.objects.get(id=1)
+admin = User.objects.get(username='admin')
 print('exercises_met.csv를 db에 추가합니다')
 with open('info_db_csv/exercises_met.csv') as in_file:
     data_reader = csv.reader(in_file)

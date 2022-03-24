@@ -7,7 +7,7 @@ django.setup()
 from user.models import User
 from game.models import Quest, Game
 
-
+# 유저 생성 + 퀘스트 추가
 for i in range(1, 6):
     user = User()
     user.username = f'홍채영{i}'
@@ -32,4 +32,23 @@ for i in range(1, 6):
     quest1.photo = 'quest/헬씨.png'
     quest1.save()
 
-
+# 퀘스트 추가
+# for i in range(1, 6):
+#     user = User.objects.get(username=f'홍채영{i}')
+#     game = Game.objects.get(id=3)
+#     quest = Quest()
+#     quest.user = user
+#     quest.game = game
+#     quest.type = 'workout'
+#     quest.point = 5
+#     quest.content = f'content{i}'
+#     quest.photo = 'quest/헬씨.png'
+#     quest.save()
+#     quest1 = Quest()
+#     quest1.user = user
+#     quest1.game = game
+#     quest1.type = 'food'
+#     quest1.point = 5
+#     quest1.content = f'content{i}'
+#     quest1.photo = 'quest/헬씨.png'
+#     quest1.save()

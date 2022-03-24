@@ -30,7 +30,7 @@
     <div>
         {{ competition.game.title }}
     </div>
-    <button onclick="window.location='{% url 'quest' %}?username={{ user }}'">퀘스트 로그</button>
+    <button onclick="window.location='{% url 'quest' %}?username={{ user.username }}'">퀘스트 로그</button>
     <!-- Button trigger modal -->
     <button type="button" class="" data-bs-toggle="modal" data-bs-target="#exampleModal">
         퀘스트 업로드
@@ -93,7 +93,7 @@
                         </div>
                         <div class="modal-body">
                             {% for nomi in nominated %}
-                                <a href="{% url 'quest' %}?username={{ nomi.competition.user }}">{{ nomi.competition.user }}</a>
+                                <a href="{% url 'quest' %}?username={{ nomi.competition.user.username }}">{{ nomi.competition.user.username }}</a>
                             {% endfor %}
                         </div>
                         <div class="modal-footer">
@@ -107,6 +107,7 @@
     <div>
         {% for quest in quests %}
             <div>
+                <p>{{ quest.upload_date|date:'Y년 m월 d일 H시 i분' }}</p>
                 {% if quest.photo %}
                     <img src="{{ quest.photo.url }}">
                 {% endif %}

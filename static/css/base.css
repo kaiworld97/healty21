@@ -1,4 +1,11 @@
-
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    margin: 1% 0 0 0;
+}
 .hidden{
     display: none;
 }

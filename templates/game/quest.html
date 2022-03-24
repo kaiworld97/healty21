@@ -15,17 +15,36 @@
 {#자바스크립트 파일 넣는 곳#}
 {% block js %}
     {#<script type="text/javascript" src="{% static '/js/해당앱.js' %}"></script>#}
+    <script>
+        function date_change(date) {
+            fetch(`{% url 'quest' %}?username={{ username }}&date=${date.value}`).then(res => res.json()).then(
+                data => {
+                    document.getElementById('quest_container').innerHTML = ''
+                    document.getElementById('quest_container').innerHTML += data.map(data_map => `
+                    <div>
+                        <p>${data_map.upload_date}</p>
+                        <img src="${data_map.photo}">
+                        <p>${data_map.content}</p>
+                    </div>
+                    `
+                    ).join("\n")
+                }
+            ).catch(
+                err => console.log(err)
+            )
+        }
+    </script>
 {% endblock %}
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-    <div>
+    <input type="date" id="date_input" onchange="date_change(this)">
+    <div id="quest_container">
         {% for quest in quests %}
             <div>
-            {% if quest.photo %}
-                <img src="{{ quest.photo }}">
-            {% endif %}
-            <p>{{ quest.content }}</p>
+                <p>{{ quest.upload_date|date:'Y년 m월 d일 H시 i분' }}</p>
+                <img src="{{ quest.photo.url }}">
+                <p>{{ quest.content }}</p>
             </div>
         {% endfor %}
     </div>

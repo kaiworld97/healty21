@@ -32,6 +32,10 @@ class Competitor(models.Model):
     competition = models.ForeignKey(Competition, on_delete=models.CASCADE, related_name='competitor')
 
 
+def quest_directory_path(instance, filename):
+    return f'quest/{instance.user.username}/{filename}'
+
+
 class Quest(models.Model):
     class Meta:
         db_table = 'quest'
@@ -41,5 +45,5 @@ class Quest(models.Model):
     type = models.CharField(max_length=30)
     point = models.IntegerField()
     upload_date = models.DateTimeField(auto_now_add=True)
-    photo = models.ImageField(upload_to='quest', null=True)
+    photo = models.ImageField(upload_to=quest_directory_path, null=True, default='default/헬씨.png')
     content = models.TextField()
