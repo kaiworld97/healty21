@@ -10,7 +10,7 @@ class UserGroup(models.Model):
     level = models.IntegerField()
 
     def __str__(self):
-        return f"그룹 타입: {self.goal} & 레벨: {str(self.level)}"
+        return f"그룹 {self.goal} 레벨 {str(self.level)}"
 
 
 def user_directory_path(instance, filename):

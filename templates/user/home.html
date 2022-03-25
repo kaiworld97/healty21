@@ -35,19 +35,27 @@
             <img src="{{ user.image.url }}" alt="{{ user }} profile">
             <p>유저 이메일: {{ user.email }}</p>
             <p>유저 가입일: {{ user.date_joined }}</p>
-{#            <p>유저 이미지: {{ user.picture }} {% if not user.picture %}<a href="{% url 'home' %}">업로드하기</a> {% endif %}</p>#}
-            {#        <a href="{% url '' %}">게임 참가하러 가기</a>#}
+            <p>유저 그룹: {{ user.group }}</p>
+            <p>유저 포인트: {{ user.point }}</p>
+            {#            <p>유저 이미지: {{ user.picture }} {% if not user.picture %}<a href="{% url 'home' %}">업로드하기</a> {% endif %}</p>#}
 
             {% if user.userprofile %}
                 <a href="{% url 'profile_update' user.id %}">프로필 수정하기</a>
                 <h3>유저 프로필</h3>
-                {#                <p>{{ user.user_group }}</p>#}
                 <p>생일 : {{ user.userprofile.birth_day|date:"Y년 m월 d일" }}</p>
                 <p>나이 : {{ user.userprofile.age }}세</p>
                 <p>bmi 지수 : {{ user.userprofile.bmi }}</p>
                 <p>카테고리 : {{ user.userprofile.bmi_category }}</p>
                 <p>기초대사량 : {{ user.userprofile.bmr }} kcal</p>
                 <p>소개 : {{ user.userprofile.bio }}</p>
+
+                <label for="exampleDataList" class="form-label">유저 리스트</label>
+                <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
+                <datalist id="datalistOptions">
+                {% for users in all_users %}
+                    <option value="{{ users }}">
+                {% endfor %}
+                </datalist>
 
                 <h3>유저가 팔로우 하는 사람들</h3>
                 {% for following in followings %}
@@ -57,6 +65,11 @@
                 <h3>유저가 팔로우 하지 않는 사람들</h3>
                 {% for nofollowing in nofollowings %}
                     <p>{{ nofollowing }}<a href="{% url 'follow' nofollowing.pk %}">팔로우</a></p>
+                {% endfor %}
+
+                <h3>유저와 유사한 유저들</h3>
+                {% for user_by_points in users_by_points %}
+                    <p>{{ user_by_points }}: {{ user_by_points.group }}, {{ user_by_points.point }} 포인트 <a href="#">프로필 보기</a></p>
                 {% endfor %}
             {% else %}
                 <a href="{% url 'profile_create' %}">프로필 만들기</a>

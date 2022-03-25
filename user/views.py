@@ -10,12 +10,20 @@ from .models import User, UserProfile, UserFollowing
 def home(request):
     user = request.user
     if user.is_authenticated:
+        all_users = User.objects.all()
         followings_list = UserFollowing.objects.filter(user=user).order_by('created_at')
         followings = [following.following_user for following in followings_list]
+        nofollowings = [x for x in all_users.exclude(id=user.id) if x not in followings]
 
-        nofollowings = [x for x in User.objects.all().exclude(id=user.id) if x not in followings]
+        # 같은 그룹과 유사한 포인트 가진 사람 보여주기
+        users_by_groups = User.objects.filter(group=user.group).exclude(id=user.id)     # 유저 그룹으로 1차 필터링
+        users_abs_point = [(abs(x.point - user.point), x) for x in users_by_groups]     # 유저와 포인트 차이로 튜플 만들기 (포인트 차, 유저 obj)
+        users_by_points = sorted(users_abs_point, key=lambda x: x[0])                   # 포인트 차이로 sort
+        users_by_points = [x[1] for x in users_by_points][:5]                           # <class 'user.models.User'>만 리스트로 (5명까지)
+        print(users_by_points)
 
-        return render(request, 'user/home.html', {'followings': followings, 'nofollowings': nofollowings})
+        return render(request, 'user/home.html', {'followings': followings, 'all_users': all_users,
+                                                  'nofollowings': nofollowings, 'users_by_points': users_by_points})
     else:
         return render(request, 'user/home.html')
 

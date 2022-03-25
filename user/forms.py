@@ -34,7 +34,7 @@ class ProfileForm(forms.ModelForm):
         widgets = {
             "birth_day": forms.DateInput(attrs={'type': 'date', 'id': 'b_datepicker', 'class': "form-floating",
                                                 'min': "1900-01-01", 'value':"2000-01-01", 'max': junior_min}),
-            "height": forms.NumberInput(attrs={'value': '222','min': 50, 'max': 230}),
+            "height": forms.NumberInput(attrs={'min': 50, 'max': 230}),
             "weight": forms.NumberInput(attrs={'min': 20, 'max': 300}),
         }
 
