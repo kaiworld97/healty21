@@ -49,7 +49,10 @@
                 <p>기초대사량 : {{ user.userprofile.bmr }} kcal</p>
                 <p>소개 : {{ user.userprofile.bio }}</p>
 
-                <label for="exampleDataList" class="form-label">유저 리스트</label>
+            {% else %}
+                <a href="{% url 'profile_create' %}">프로필 만들기</a>
+            {% endif %}
+                           <label for="exampleDataList" class="form-label">유저 리스트</label>
                 <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
                 <datalist id="datalistOptions">
                 {% for users in all_users %}
@@ -71,9 +74,6 @@
                 {% for user_by_points in users_by_points %}
                     <p>{{ user_by_points }}: {{ user_by_points.group }}, {{ user_by_points.point }} 포인트 <a href="#">프로필 보기</a></p>
                 {% endfor %}
-            {% else %}
-                <a href="{% url 'profile_create' %}">프로필 만들기</a>
-            {% endif %}
         {% else %}
             <p>로그인 해주세요.</p>
         {% endif %}
