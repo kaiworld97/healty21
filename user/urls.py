@@ -1,4 +1,7 @@
+from django.conf.urls.static import static
 from django.urls import path, include
+
+from config import settings
 from . import views
 
 urlpatterns = [
@@ -8,3 +11,4 @@ urlpatterns = [
     path('people/', views.people_list, name='people_list'),
     path('<int:user_pk>/follow/', views.follow, name='follow'),
 ]
+

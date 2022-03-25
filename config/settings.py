@@ -192,13 +192,13 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -206,3 +206,40 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "user.User"
+
+# Static files, Media files 재설정
+USE_S3 = False
+
+if USE_S3:
+    # # AWS 설정
+    # AWS_ACCESS_KEY_ID = secrets['AWS']['ACCESS_KEY_ID']
+    # AWS_SECRET_ACCESS_KEY = secrets['AWS']['SECRET_ACCESS_KEY']
+    # AWS_STORAGE_BUCKET_NAME = secrets['AWS']['STORAGE_BUCKET_NAME']
+    # AWS_DEFAULT_ACL = 'public-read'
+    # AWS_S3_REGION_NAME = 'ap-northeast-2'
+    # AWS_S3_SIGNATURE_VERSION = 's3v4'
+    #
+    # # STATIC 설정
+    # STATIC_LOCATION = 'static'
+    # AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
+    # # STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+    # STATICFILES_STORAGE = 'config.storages.StaticStorage'  # Static File
+    #
+    # # MEDIA 설정 - 유저 업로드 static files 기본 경로
+    # MEDIA_LOCATION = 'media'
+    # # MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
+    # MEDIA_URL = '/media/'
+    # DEFAULT_FILE_STORAGE = 'config.storages.MediaStorage'  # Media File
+    #
+    # STATICFILES_DIRS = os.path.join(BASE_DIR, 'static')   # !!
+    pass
+else:
+    if DEBUG:
+        STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+        STATIC_ROOT = ''
+    else:
+        STATIC_ROOT = 'static/'
+
+    MEDIA_URL = 'media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+

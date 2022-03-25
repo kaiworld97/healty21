@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{#타이틀 넣는 곳#}
+{% block title %}
+    quest
+{% endblock %}
+
+{# css 파일 넣는 곳#}
+{% block css %}
+            <link rel="stylesheet" href="{% static '/css/game.css' %}">
+{% endblock %}
+
+{#자바스크립트 파일 넣는 곳#}
+{% block js %}
+    {#<script type="text/javascript" src="{% static '/js/해당앱.js' %}"></script>#}
+    <script>
+        function date_change(date) {
+            fetch(`{% url 'quest' %}?username={{ username }}&date=${date.value}`).then(res => res.json()).then(
+                data => {
+                    document.getElementById('quest_container').innerHTML = ''
+                    document.getElementById('quest_container').innerHTML += data.map(data_map => `
+                    <div class="card">
+                        <img src="${data_map.photo}" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">${data_map.username}</h5>
+                            <p class="card-text">${data_map.content}</p>
+                            <h6 class="card-subtitle mb-2 text-muted">${data_map.upload_date}</h6>
+                        </div>
+                    </div>
+                    `
+                    ).join("\n")
+                }
+            ).catch(
+                err => console.log(err)
+            )
+        }
+    </script>
+{% endblock %}
+
+{#메인 컨텐츠 들어가는 곳#}
+{% block content %}
+    <input type="date" id="date_input" onchange="date_change(this)" max="{{ game_end|date:'Y-m-d' }}" min="{{ game_start|date:'Y-m-d' }}">
+    <div id="quest_container">
+        {% for quest in quests %}
+            <div class="card">
+                <img src="{{ quest.photo.url }}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{ quest.user.username }}</h5>
+                    <p class="card-text">{{ quest.content }}</p>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ quest.upload_date|date:'Y년 m월 d일 H시 i분' }}</h6>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+

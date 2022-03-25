@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{#타이틀 넣는 곳#}
+{% block title %}
+    select_{{ type }}
+{% endblock %}
+
+{# css 파일 넣는 곳#}
+{% block css %}
+    {#        <link rel="stylesheet" href="{% static '/css/해당앱.css' %}">#}
+{% endblock %}
+
+{#자바스크립트 파일 넣는 곳#}
+{% block js %}
+    {#<script type="text/javascript" src="{% static '/js/해당앱.js' %}"></script>#}
+{% endblock %}
+
+{#메인 컨텐츠 들어가는 곳#}
+{% block content %}
+    {{ type }}
+    <form method="post" action="/competition/">
+        {% csrf_token %}
+        {% if type == 'group' %}
+            {% for group in groups %}
+                <div>
+                    <label for="group{{ group.id }}">{{ group }}</label>
+                    <input type="radio" id="group{{ group.id }}" name="group" value="{{ group.id }}">
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if type == 'competitor' %}
+            {% for competitor in competitors %}
+                <div>
+                    <label for="{{ competitor.email }}">{{ competitor }}</label>
+                    <input type="checkbox" id="{{ competitor.email }}" name="competitor" value="{{ competitor.email }}">
+                </div>
+
+            {% endfor %}
+        {% endif %}
+        <button>확인</button>
+    </form>
+
+{% endblock %}
+

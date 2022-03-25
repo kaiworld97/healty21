@@ -11,18 +11,18 @@
 {% endblock %}
 
 {# css 파일 넣는 곳#}
-{% block css %}
+{#{% block css %}#}
     {#   for date picker  #}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css"
-          integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous"/>
-{% endblock %}
-
+{#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css"#}
+{#          integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous"/>#}
+{#{% endblock %}#}
+{##}
 {#자바스크립트 파일 넣는 곳#}
-{% block js %}
+{#{% block js %}#}
     {#   for date picker  #}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"
-            integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
-{% endblock %}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"#}
+{#            integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>#}
+{#{% endblock %}#}
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
@@ -31,18 +31,18 @@
         {% if user.is_authenticated %}
             <p>{{ user }}님, 게임에 참여하시려면 추가정보를 입력해주세요. </p>
             {#        <form class="signup" id="user_profile_form" method="post" action="{% url 'user-profile' %}">#}
-            {#        <form action="" method="POST">#}
+        <form action="" enctype="multipart/form-data" method="POST">
             {% csrf_token %}
             {% crispy form %}
-
-            <script>
-                $(function () {
-                    $("#b_datepicker").datepicker({
-                        date: new Date(1995, 10, 8),
-                        format: 'yyyy-mm-dd',
-                    });
-                });
-            </script>
+        </form>
+{#            <script>#}
+{#                $(function () {#}
+{#                    $("#b_datepicker").datepicker({#}
+{#                        date: new Date(2000, 0, 1),#}
+{#                        format: 'yyyy-mm-dd',#}
+{#                    });#}
+{#                });#}
+{#            </script>#}
         {% else %}
             <p>로그인 해주세요.</p>
         {% endif %}

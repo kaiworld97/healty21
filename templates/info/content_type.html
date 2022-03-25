@@ -14,56 +14,29 @@
 
 {% block js %}
     <script>
-    const content_type = '{{ type|safe }}'
-    function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-var csrftoken = getCookie('csrftoken');
-
-content = document.querySelector(".all_data_container");
-let page = 2
-
-window.onscroll = function() {
-    let url = `/info/${content_type}?page=${page}`
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'X-CSRFToken': csrftoken,
-            },
-
-        }).then(res => {
-            if (res.ok) {
-                return res.json();}
-        }).then(data => {
-            page += 1
-            content.innerHTML += data.map(
-            	res_data=>`
+        const content_type = '{{ type|safe }}'
+        content = document.querySelector(".all_data_container");
+        let page = 2
+        window.onscroll = function () {
+            let url = `{% url 'info' %}${content_type}?page=${page}`
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+                fetch(url).then(res =>
+                    res.json()
+                ).then(data => {
+                    page += 1
+                    content.innerHTML += data.map(
+                        res_data => `
                 <div>
-            	<a href="/info/${res_data.id}">${res_data.item}</a>
+            	<a href="{% url 'info' %}${res_data.id}">${res_data.item}</a>
                 </div>
             	`
-            	).join("\n")
-        }).catch(err => {
-            console.log('err = ', err)
-        })
-    }
-}
-</script>
-
+                    ).join("\n")
+                }).catch(err => {
+                    console.log('err = ', err)
+                })
+            }
+        }
+    </script>
 {% endblock %}
 
 {#메인 컨텐츠 들어가는 곳#}
@@ -71,24 +44,24 @@ window.onscroll = function() {
     {{ type }}
     <div>
         추천
-    <div>
-        {% for i in recommend %}
-            <div>
-                <a href="/info/{{ i.id }}">{{ i.item }}</a>
-            </div>
-        {% endfor %}
-    </div>
+        <div>
+            {% for i in recommend %}
+                <div>
+                    <a href="{% url 'info' %}{{ i.id }}">{{ i.item }}</a>
+                </div>
+            {% endfor %}
+        </div>
 
     </div>
     <div>
         전체
-    <div class="all_data_container">
-        {% for i in content %}
-            <div>
-                <a href="/info/{{ i.id }}">{{ i.item }}</a>
-            </div>
-        {% endfor %}
-    </div>
+        <div class="all_data_container">
+            {% for i in content %}
+                <div>
+                    <a href="{% url 'info' %}{{ i.id }}">{{ i.item }}</a>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
 
