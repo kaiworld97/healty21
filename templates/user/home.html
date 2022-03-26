@@ -13,9 +13,52 @@
 {# css 파일 넣는 곳#}
 {% block css %}
     <style>
-        h3 {
-            margin-top: 25px
+        .my-card {
+            border-radius: 5px;
+            width: 300px;
+            text-align: left;
         }
+
+        .about {
+            line-height: 19px
+        }
+
+        .follow {
+            height: 31px;
+            border-radius: 22px
+        }
+
+        hr {
+            color: #c5c4c4
+        }
+
+        img.rounded-circle {
+            margin-right: 10px;
+        }
+
+        h3 {
+            margin-top: 3%;
+        }
+
+        .my-card h5 {
+            text-align: left;
+        }
+
+        .my-card .btn-primary {
+            background-color: #6892B2;
+            border-color: #6892B2;
+        }
+
+        .my-card .btn-outline-primary {
+            color: #6892B2;
+            border-color: #6892B2;
+        }
+
+        .my-card .btn-outline-primary:hover {
+            background-color: #6892B2;
+            color: #fff !important;
+        }
+
     </style>
 {% endblock %}
 
@@ -56,11 +99,52 @@
             {#            {% for following in followings %}#}
             {#                <p>{{ following }}<a href="{% url 'follow' following.pk %}">언팔로우</a></p>#}
             {#            {% endfor %}#}
-            {##}
             {#            <h3>유저가 팔로우 하지 않는 사람들 ({{ nofollowings|length }} 명)</h3>#}
             {#            {% for nofollowing in nofollowings %}#}
             {#                <p>{{ nofollowing }}<a href="{% url 'follow' nofollowing.pk %}">팔로우</a></p>#}
             {#            {% endfor %}#}
+
+            <div class="mt-5 d-flex justify-content-center">
+                <div class="card my-card p-3">
+                    <h5>팔로우 하는 유저들 ({{ followings|length }}명)</h5>
+                    {% for following in followings %}
+                        <div class="d-flex justify-content-between mt-2 align-items-center">
+                            <div class="d-flex flex-row"><img src="{{ following.image.url }}"
+                                                              class="rounded-circle"
+                                                              width="40">
+                                <div class="d-flex flex-column ml-1 about"><span
+                                        class="font-weight-bold">{{ following }}</span>
+                                    <small>585 posts</small></div>
+                            </div>
+                            <button onclick="location.href='{% url 'follow' following.id %}'"
+                                    class="btn btn-outline-primary btn-sm follow">언팔로우
+                            </button>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mt-5 d-flex justify-content-center">
+                <div class="card my-card p-3">
+                    <h5>팔로우 하지 않는 유저들 ({{ nofollowings|length }}명)</h5>
+                    {% for nofollowing in nofollowings %}
+                        <div class="d-flex justify-content-between mt-2 align-items-center">
+                            <div class="d-flex flex-row"><img src="{{ nofollowing.image.url }}"
+                                                              class="rounded-circle"
+                                                              width="40">
+                                <div class="d-flex flex-column ml-1 about"><span
+                                        class="font-weight-bold">{{ nofollowing }}</span>
+                                    <small>585 posts</small></div>
+                            </div>
+                            <button onclick="location.href='{% url 'follow' nofollowing.id %}'"
+                                    class="btn btn-primary btn-sm text-white follow">팔로우
+                            </button>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                </div>
+            </div>
 
             <form class="container-fluid" method="GET" action="{% url 'profile_create' %}">
                 <label for="exampleDataList" class="form-label">유저 검색</label>
@@ -120,7 +204,7 @@
             <h3>유사한 유저들</h3>
             <div class="row row-cols-auto row-cols-sm-5 g-4">
                 {% for user_by_points in users_by_points %}
-                    <div class="col">
+                    <div class="col" justify-content-center>
                         <div class="card h-100">
                             <img src="{{ user_by_points.image.url }}" class="card-img-top"
                                  alt="{{ user_by_points }} profile">
@@ -145,6 +229,8 @@
                     </div>
                 {% endfor %}
             </div>
+
+
 
         {% else %}
             <p>로그인 해주세요.</p>
