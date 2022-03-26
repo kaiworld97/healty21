@@ -125,4 +125,8 @@ def follow(request, user_pk):
 
 
 def people_list(request):  # TemplateView 고려
-    return None
+    return redirect('home')
+
+
+def profile_view(request):
+    return redirect('home')

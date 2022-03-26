@@ -28,53 +28,124 @@
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
     <h1 style=>마이 페이지</h1>
-    <div class="container" style="margin-top: 20px">
+    <div class="container">
         {% if user.is_authenticated %}
             <p>안녕하세요, {{ user }}님</p>
-            <p>유저명: {% user_display user %}</p>
             <img src="{{ user.image.url }}" alt="{{ user }} profile">
             <p>유저 이메일: {{ user.email }}</p>
             <p>유저 가입일: {{ user.date_joined }}</p>
             <p>유저 그룹: {{ user.group }}</p>
             <p>유저 포인트: {{ user.point }}</p>
-            {#            <p>유저 이미지: {{ user.picture }} {% if not user.picture %}<a href="{% url 'home' %}">업로드하기</a> {% endif %}</p>#}
 
             {% if user.userprofile %}
                 <a href="{% url 'profile_update' user.id %}">프로필 수정하기</a>
-                <h3>유저 프로필</h3>
+                <h3>나의 프로필</h3>
                 <p>생일 : {{ user.userprofile.birth_day|date:"Y년 m월 d일" }}</p>
                 <p>나이 : {{ user.userprofile.age }}세</p>
                 <p>bmi 지수 : {{ user.userprofile.bmi }}</p>
                 <p>카테고리 : {{ user.userprofile.bmi_category }}</p>
                 <p>기초대사량 : {{ user.userprofile.bmr }} kcal</p>
-                <p>소개 : {{ user.userprofile.bio }}</p>
+                <p>나의 한줄 소개 : {{ user.userprofile.bio }}</p>
 
             {% else %}
                 <a href="{% url 'profile_create' %}">프로필 만들기</a>
             {% endif %}
-            <label for="exampleDataList" class="form-label">유저 리스트</label>
-            <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
-            <datalist id="datalistOptions">
-                {% for users in all_users %}
-                    <option value="{{ users }}">
+
+
+            {#            <h3>유저가 팔로우 하는 사람들 ({{ followings|length }} 명)</h3>#}
+            {#            {% for following in followings %}#}
+            {#                <p>{{ following }}<a href="{% url 'follow' following.pk %}">언팔로우</a></p>#}
+            {#            {% endfor %}#}
+            {##}
+            {#            <h3>유저가 팔로우 하지 않는 사람들 ({{ nofollowings|length }} 명)</h3>#}
+            {#            {% for nofollowing in nofollowings %}#}
+            {#                <p>{{ nofollowing }}<a href="{% url 'follow' nofollowing.pk %}">팔로우</a></p>#}
+            {#            {% endfor %}#}
+
+            <form class="container-fluid" method="GET" action="{% url 'profile_create' %}">
+                <label for="exampleDataList" class="form-label">유저 검색</label>
+                <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="유저를 찾아보세요">
+                <datalist id="datalistOptions">
+                    {% for users in all_users %}
+                        <option value="{{ users }}">
+                    {% endfor %}
+                </datalist>
+            </form>
+
+            {#            <h3>유저와 유사한 유저들(Modal)</h3>#}
+            {#            {% for user_by_points in users_by_points %}#}
+            {#                <div class="bd-example">#}
+            {#                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"#}
+            {#                            data-bs-target="#{{ user_by_points }}_exampleModal">#}
+            {#                        {{ user_by_points }}#}
+            {#                    </button>#}
+            {#                    <div class="modal fade" id="{{ user_by_points }}_exampleModal" tabindex="-1"#}
+            {#                         aria-labelledby="{{ user_by_points }}_ModalLabel"#}
+            {#                         aria-hidden="true">#}
+            {#                        <div class="modal-dialog modal-dialog-centered">#}
+            {#                            <div class="modal-content">#}
+            {#                                <div class="modal-header">#}
+            {#                                    <h5 class="modal-title"#}
+            {#                                        id="{{ user_by_points }}_ModalLabel">{{ user_by_points }}</h5>#}
+            {#                                    <button type="button" class="btn-close" data-bs-dismiss="modal"#}
+            {#                                            aria-label="Close"></button>#}
+            {#                                </div>#}
+            {#                                <div class="modal-body">#}
+            {#                                    <img src="{{ user_by_points.image.url }}" alt="{{ user_by_points }} profile"#}
+            {#                                         style="width:128px;height:128px;">#}
+            {#                                    <p> {{ user_by_points.group }}</p>#}
+            {#                                    <p> {{ user_by_points.point }} 포인트 </p>#}
+            {#                                </div>#}
+            {#                                <div class="modal-footer">#}
+            {#                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">#}
+            {#                                        Close#}
+            {#                                    </button>#}
+            {#                                    <button type="button" onclick="location.href='{% url 'follow' user_by_points.id %}'"#}
+            {#                                            {% if user_by_points in followings %}#}
+            {#                                            class="btn btn-outline-secondary">#}
+            {#                                                언팔로우#}
+            {#                                            {% else %}#}
+            {#                                                class="btn btn-info text-white">#}
+            {#                                                팔로우#}
+            {#                                            {% endif %}#}
+            {#                                    </button>#}
+            {#                                </div>#}
+            {#                            </div>#}
+            {#                        </div>#}
+            {#                    </div>#}
+            {#                </div>#}
+            {#            {% endfor %}#}
+
+
+            <h3>유사한 유저들</h3>
+            <div class="row row-cols-auto row-cols-sm-5 g-4">
+                {% for user_by_points in users_by_points %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="{{ user_by_points.image.url }}" class="card-img-top"
+                                 alt="{{ user_by_points }} profile">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ user_by_points }}</h5>
+                                <p class="card-text"> {{ user_by_points.group }}</p>
+                                <p class="card-text">  {{ user_by_points.point }} 포인트 </p>
+                                <button type="button" onclick="location.href='{% url 'follow' user_by_points.id %}'"
+                                        {% if user_by_points in followings %}
+                                        class="btn btn-outline-secondary">
+                                            언팔로우
+                                        {% else %}
+                                            class="btn btn-info text-white">
+                                            팔로우
+                                        {% endif %}
+                                </button>
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-muted">Last updated 3 mins ago</small>
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
-            </datalist>
+            </div>
 
-            <h3>유저가 팔로우 하는 사람들</h3>
-            {% for following in followings %}
-                <p>{{ following }}<a href="{% url 'follow' following.pk %}">언팔로우</a></p>
-            {% endfor %}
-
-            <h3>유저가 팔로우 하지 않는 사람들</h3>
-            {% for nofollowing in nofollowings %}
-                <p>{{ nofollowing }}<a href="{% url 'follow' nofollowing.pk %}">팔로우</a></p>
-            {% endfor %}
-
-            <h3>유저와 유사한 유저들</h3>
-            {% for user_by_points in users_by_points %}
-                <p>{{ user_by_points }}: {{ user_by_points.group }}, {{ user_by_points.point }} 포인트 <a href="#">프로필
-                    보기</a></p>
-            {% endfor %}
         {% else %}
             <p>로그인 해주세요.</p>
         {% endif %}

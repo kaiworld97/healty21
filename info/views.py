@@ -25,18 +25,8 @@ def content_type(request, type):
     if request.method == 'GET':
         page_number = request.GET.get('page')
         if not page_number:
-            if type == 'food':
-                recommend = random.sample(list(Content.objects.filter(type='food')), 10)
-                content = Content.objects.filter(type='food')[:20]
-            elif type == 'diet_plan':
-                recommend = random.sample(list(Content.objects.filter(type='diet_plan')), 10)
-                content = Content.objects.filter(type='diet_plan')[:10]
-            elif type == 'workout':
-                recommend = random.sample(list(Content.objects.filter(type='workout')), 10)
-                content = Content.objects.filter(type='workout')[:20]
-            elif type == 'workout_routine':
-                recommend = random.sample(list(Content.objects.filter(type='workout_routine')), 10)
-                content = Content.objects.filter(type='workout_routine')[:10]
+            recommend = random.sample(list(Content.objects.filter(type=type)), 10)
+            content = Content.objects.filter(type=type)[:30]
             return render(request, 'info/content_type.html', {'type': type, 'content': content, 'recommend': recommend})
         else:
             content_list = Content.objects.filter(type=type)
