@@ -1,4 +1,5 @@
 import os
+import random
 from datetime import date
 
 from django.contrib.auth.decorators import login_required
@@ -17,8 +18,11 @@ def home(request):
 
         # 같은 그룹과 유사한 포인트 가진 사람 보여주기
         users_by_groups = User.objects.filter(group=user.group).exclude(id=user.id)     # 유저 그룹으로 1차 필터링
-        users_by_points = sorted(users_by_groups, key=lambda x: abs(x.point - user.point))[:5]  # 유저와 포인트 차이로 sort하고 5명까지
-        print(users_by_points)
+        if user.point == 0:
+            users_by_points = random.sample(list(User.objects.filter(point=0)), 5)
+        else:
+            users_by_points = sorted(users_by_groups, key=lambda x: abs(x.point - user.point))[:5]  # 유저와 포인트 차이로 sort하고 5명까지
+            print(users_by_points)
 
         return render(request, 'user/home.html', {'followings': followings, 'all_users': all_users,
                                                   'nofollowings': nofollowings, 'users_by_points': users_by_points})
@@ -121,4 +125,8 @@ def follow(request, user_pk):
 
 
 def people_list(request):  # TemplateView 고려
-    return None
+    return redirect('home')
+
+
+def profile_view(request):
+    return redirect('home')
