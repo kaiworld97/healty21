@@ -87,7 +87,6 @@
         {% if user.is_authenticated %}
             {% if user.userprofile %}
                 <h1 style=>마이 페이지</h1>
-                <p>안녕하세요, {{ user }}님</p>
                 <section class="h-100 gradient-custom-2">
                     <div class="container my-container  h-100">
                         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -133,29 +132,47 @@
                                     </div>
 
                                     <div class="card-body p-4 text-black">
+
+                                        <p class="lead fw-normal mb-1">기본 정보</p>
+                                        <div class="d-flex rounded-2 p-4 mb-4" style="background-color: #f8f9fa;">
+                                            <div class="col-4 text-center">
+                                                <p class="small text-muted mb-1">생일</p>
+                                                <span class="d-block text-sm">{{ user.userprofile.birth_day|date:"M d일" }}</span>
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <p class="small text-muted mb-1">BMI 지수</p>
+                                                <span class="d-block text-sm">{{ user.userprofile.bmi }}</span></div>
+                                            <div class="col-4 text-center">
+                                                <p class="small text-muted mb-1">기초대사량</p>
+                                                <span class="d-block text-sm">{{ user.userprofile.bmr }} <p
+                                                        style="display:inline;" class="small text-muted">kcal</p></span>
+                                            </div>
+                                        </div>
+
                                         <div class="mb-5">
                                             <p class="lead fw-normal mb-1">About</p>
                                             <div class="p-4 rounded-2" style="background-color: #f8f9fa;">
                                                 <p class="font-italic mb-1">{{ user.userprofile.bio }}</p>
                                             </div>
                                         </div>
-                                        <p class="lead fw-normal mb-1">기본 정보</p>
-                                        <div class="d-flex justify-content-start rounded-2 p-4 mb-5"
-                                             style="background-color: #f8f9fa;">
-                                            <div>
-                                                <p class="small text-muted mb-1">생일</p>
-                                                <p class="mb-0">{{ user.userprofile.birth_day|date:"M d일" }}
-                                                    (만 {{ user.userprofile.age }}세)</p>
-                                            </div>
-                                            <div class="px-5">
-                                                <p class="small text-muted mb-1">BMI 지수</p>
-                                                <p class="mb-0">{{ user.userprofile.bmi }}</p>
-                                            </div>
-                                            <div class="px-4">
-                                                <p class="small text-muted mb-1">기초대사량</p>
-                                                <p class="mb-0">{{ user.userprofile.bmr }} kcal</p>
-                                            </div>
-                                        </div>
+
+                                        {#                                        <p class="lead fw-normal mb-1">기본 정보</p>#}
+                                        {#                                        <div class="d-flex justify-content-start rounded-2 p-4 mb-5"#}
+                                        {#                                             style="background-color: #f8f9fa;">#}
+                                        {#                                            <div>#}
+                                        {#                                                <p class="small text-muted mb-1">생일</p>#}
+                                        {#                                                <p class="mb-0">{{ user.userprofile.birth_day|date:"M d일" }}#}
+                                        {#                                                    (만 {{ user.userprofile.age }}세)</p>#}
+                                        {#                                            </div>#}
+                                        {#                                            <div class="px-5">#}
+                                        {#                                                <p class="small text-muted mb-1">BMI 지수</p>#}
+                                        {#                                                <p class="mb-0">{{ user.userprofile.bmi }}</p>#}
+                                        {#                                            </div>#}
+                                        {#                                            <div class="px-4">#}
+                                        {#                                                <p class="small text-muted mb-1">기초대사량</p>#}
+                                        {#                                                <p class="mb-0">{{ user.userprofile.bmr }} kcal</p>#}
+                                        {#                                            </div>#}
+                                        {#                                        </div>#}
                                         <div class="d-flex justify-content-between align-items-center mb-4">
                                             <p class="lead fw-normal mb-0">최근 퀘스트</p>
                                             <p class="mb-0" align="right"><a href="#!" class="text-muted">전체 보기</a></p>
@@ -342,6 +359,7 @@
                                             팔로우
                                         {% endif %}
                                 </button>
+                                <div class=" px-2 rounded mt-4 date "><span class="join">Joined May,2021</span></div>
                             </div>
                             <div class="card-footer">
                                 <small class="text-muted">Last updated 3 mins ago</small>
