@@ -8,7 +8,7 @@
 
 {# css 파일 넣는 곳#}
 {% block css %}
-            <link rel="stylesheet" href="{% static '/css/game.css' %}">
+    <link rel="stylesheet" href="{% static '/css/game.css' %}">
 {% endblock %}
 
 {#자바스크립트 파일 넣는 곳#}
@@ -19,6 +19,10 @@
             let file_img = document.getElementById("input_img");
             file_img.src = URL.createObjectURL(file);
             file_img.classList.remove('hidden')
+        }
+
+        if (document.getElementById('error_container')) {
+            document.querySelector("div#error_container > button:nth-child(1)").click()
         }
     </script>
 {% endblock %}
@@ -36,44 +40,71 @@
     </button>
 
     <!-- Modal -->
-    <div class="modal fade" id="quest_upload_Modal" tabindex="-1" aria-labelledby="quest_upload_modalLabel" aria-hidden="true">
+    <div class="modal fade" id="quest_upload_Modal" tabindex="-1" aria-labelledby="quest_upload_modalLabel"
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="quest_upload_modalLabel">퀘스트 업로드</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form action="{% url 'quest' %}" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <select name="type" class="form-select" aria-label="Default select example">
-                            <option selected>타입을 선택하세요</option>
-                            <option value="workout">운동</option>
-                            <option value="food">식단</option>
-                        </select>
-                        <label class="" for="input_file">
-                            이미지
-                        </label>
-                        <img id="input_img" src="" class="hidden">
-                        <input type="file" id="input_file" name="input_file" class="hidden"
-                               accept="image/gif,image/jpeg,image/png"
-                               onchange="loadFile(this)">
-                        <label for="content">내용</label>
-                        <textarea id="content" class="" name="content"></textarea>
+                <form action="{% url 'quest' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <select name="type" class="form-select" aria-label="Default select example" required>
+                        <option value="workout">운동</option>
+                        <option value="food">식단</option>
+                    </select>
+                    <label class="" for="input_file">
+                        이미지
+                    </label>
+                    <img id="input_img" src="" class="hidden">
+                    <input type="file" id="input_file" name="input_file" class="hidden"
+                           accept="image/gif,image/jpeg,image/png"
+                           onchange="loadFile(this)">
+                    <label for="content">내용</label>
+                    <textarea id="content" class="" name="content"></textarea>
+                    <div>
                         <button type="submit" class="">업로드</button>
                         <button type="button" class="" data-bs-dismiss="modal">닫기</button>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
     <div>
         <p>{{ user.username }}님의 포인트 {{ user.point }} 포인트</p>
-        <p>경쟁하고 있는 유저들</p>
+{#        <p>경쟁하고 있는 유저들</p>#}
+{#        <div>#}
+{#            {% for competitor in competitors %}#}
+{#                <a href="{% url 'quest' %}?username={{ competitor.competitor.username }}">{{ competitor.competitor.username }} {{ competitor.competitor.point }}포인트</a>#}
+{#            {% endfor %}#}
+{#        </div>#}
         <div>
-            {% for competitor in competitors %}
-                <a href="{% url 'quest' %}?username={{ competitor.competitor.username }}">{{ competitor.competitor.username }} {{ competitor.competitor.point }}포인트</a>
-            {% endfor %}
+            <!-- Button trigger modal -->
+            <button type="button" class="" data-bs-toggle="modal" data-bs-target="#competitor_modal">
+                경쟁하고 있는 유저들
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="competitor_modal" tabindex="-1" aria-labelledby="competitor_modalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="competitor_modalLabel">나를 지목한 유저들</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {% for competitor in competitors %}
+                                <a href="{% url 'quest' %}?username={{ competitor.competitor.username }}">{{ competitor.competitor.username }} {{ competitor.competitor.point }}포인트</a>
+                            {% endfor %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div>
             <!-- Button trigger modal -->

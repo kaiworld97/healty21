@@ -4,6 +4,7 @@ from .models import *
 import datetime
 from django.db.models import Q
 from django.http import JsonResponse
+from django.contrib.messages import error
 
 
 def competition(request):
@@ -88,6 +89,7 @@ def quest(request):
         user_quest = Quest.objects.filter(user=user, upload_date__range=[start_date, end_date])
         # 오늘 퀘스트 4개 했으면 return
         if len(user_quest) == 4:
+            error(request, '일일 퀘스트 4회를 완료했습니다.')
             return redirect('/competition')
         quest = Quest()
         quest.user = user
