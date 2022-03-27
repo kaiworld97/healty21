@@ -3,6 +3,7 @@ from telnetlib import STATUS
 from turtle import title
 from django.db import models
 from user.models import UserModel
+from taggit.managers import TaggableManager
 
 class Post(models.Model):
     class Meta:
@@ -11,6 +12,7 @@ class Post(models.Model):
     author = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     title = models.TextField(max_length=256)
     content = models.TextField() 
+    tags = TaggableManager(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     like = models.ManyToManyField(UserModel, related_name='likes', blank=True)

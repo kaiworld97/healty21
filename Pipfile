@@ -18,6 +18,8 @@ sqlparse = "==0.4.2"
 tzdata = "==2021.5"
 urllib3 = "==1.26.8"
 Django = "==4.0.3"
+django-taggit = "*"
+django-taggit-templatetags2 = "*"
 
 [dev-packages]
 

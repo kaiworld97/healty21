@@ -22,8 +22,13 @@ POST
 {% comment %} 게시물 등록 {% endcomment %}
     <form action="/post/" method="POST">
         {% csrf_token %}
+        {% if error %}
+            <div role="alert">{{ error }}</div>
+        {% endif %}
         <input type="text" name="content_title" id="content_title" placeholder="제목"/>
         <textarea name="my-content" id="my-content" placeholder="내용"></textarea>
+        <label for="tag">이 글의 태그</label>
+        <input type="text" name="tag" id="tag" placeholder="태그 넣는 자리">
         <button type="submit">제출</button>
     </form>
 

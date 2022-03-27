@@ -6,7 +6,7 @@ Community
 {% endblock %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static '/css/community.css' %}">
+<link rel="stylesheet" href="{% static 'css/community.css' %}">
 {% endblock %}
 
 {% block js %}
@@ -15,48 +15,64 @@ Community
 
 {% block content %}
 <div id="community_container">
-
     {% comment %} 임시 로그아웃 {% endcomment %}
     {% if not user.is_authenticated %}
-    <span>Healthy 21</span>
-    <i class="fa fa-search" style="font-size:36px"></i>
     {% else %}
+    <i class="fa fa-search" style="font-size:36px"></i>
     <a href="/logout">로그아웃</a>
     <br>
     {% endif %}
 
     {% comment %} 포스팅 {% endcomment %}
-    <img src="{% static 'img/test.png' %}" alt="프로필" />
-    <a href="/post" alt="포스팅 페이지 이동"><span>게시물을 포스팅하시겠어요?</span></a>
-    <hr>
+    <div class="community_header">
+        <img src="{% static 'img/test.png' %}" alt="프로필" />
+        <a href="/post" alt="포스팅 페이지 이동"><span>게시물을 포스팅하시겠어요?</span></a>
+    </div>
 
     {% comment %} 등록된 게시물 {% endcomment %}
-    {% for post in posts %}
-        <img src="{% static 'img/test.png' %}" />
-        <span>{{ post.author.username }}</span>
-        <span>2022.03.16</span>
-        <button>팔로우</button>
-        <span>{{ post.created_at | timesince }} 전</span>
-        <p>{{ post.title }}</p>
-        <span>{{ post.content }}</span>
-    
+    <div class="community_body">
+        {% for post in posts %}
+        {% comment %} 프로필 {% endcomment %}
+            <div class="body_profile">
+                <img src="{% static 'img/test.png' %}" />
+                <div class="body_profile__name">
+                    <span>{{ post.author.username }}</span>
+                    <span>{{ post.created_at | timesince }} 전</span>
+                </div> 
+            </div>    
+                <p>{{ post.title }}</p>
+                <span>{{ post.content }}</span>
 
-    {% comment %} 게시물 기능 아이콘 {% endcomment %}
-    <a href="{% url 'likes' post.id %}">
-        {% if user in post.like.all %}
-        <i class="fa fa-heart" style="font-size:36px;" id="heart"></i>
-        {% else %}
-        <i class="fa fa-heart-o" style="font-size:36px;" id="heart"></i>
-        {% endif %}
-        <span>{{ post.like.count }}</span>
-    </a>
+            {% comment %} 태그 {% endcomment %}
+            {% if post.tags.all %}
+                {% for tag in post.tags.all %}
+                <a href="{% url 'tagged_object_list' tag.name %}">
+                    <span> {{ tag.name }}</span>
+                </a>
+                {% endfor %}
+                -<a style="text-decoration: none" href="{% url 'tag_cloud' %}">TagCloud</a>
+            {% endif %}
+        
 
-    {% comment %} 세부 페이지 이동 {% endcomment %}
-    <a href="/community/{{ post.id }}"><i class="fa fa-comment-o" style="font-size:36px"></i></a>
-    {% if post.author == user %}
-        <a href="/community/delete/{{ post.id }}"><i class="fa fa-trash" style="font-size:36px"></i></a>
-    {% endif %}
-    <hr>
-    {% endfor %}
+            {% comment %} 게시물 기능 아이콘 {% endcomment %}
+            <a href="{% url 'likes' post.id %}">
+                {% if user in post.like.all %}
+                <i class="fa fa-heart" style="font-size:36px;" id="heart"></i>
+                {% else %}
+                <i class="fa fa-heart-o" style="font-size:36px;" id="heart"></i>
+                {% endif %}
+                <span>{{ post.like.count }}</span>
+            </a>
+
+            {% comment %} 세부 페이지 이동 {% endcomment %}
+            <a href="/community/{{ post.id }}"><i class="fa fa-comment-o" style="font-size:36px"></i></a>
+
+            {% comment %} 포스트 삭제 아이콘 {% endcomment %}
+            {% if post.author == user %}          
+            <a href="/community/delete/{{ post.id }}"><i class="fa fa-trash" style="font-size:36px"></i></a>
+            {% endif %}
+            <hr>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

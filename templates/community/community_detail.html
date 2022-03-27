@@ -34,6 +34,16 @@ Detail
     <p>{{ post.title }}</p>
     <span>{{ post.content }}</span>
 
+    {% comment %} 태그 {% endcomment %}
+    {% if post.tags.all %}
+        {% for tag in post.tags.all %}
+        <a href="{% url 'tagged_object_list' tag.name %}">
+            <span> {{ tag.name }}</span>
+        </a>
+        {% endfor %}
+        -<a style="text-decoration: none" href="{% url 'tag_cloud' %}">TagCloud</a>
+    {% endif %}
+
     <form action="/community/comment/{{ post.id }}" method="POST">
         {% csrf_token %}
         <input type="text" id="comment" name="comment" placeholder="댓글">

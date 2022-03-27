@@ -12,4 +12,6 @@ urlpatterns = [
     path('community/comment/delete/<int:id>', views.delete_comment, name="delete_comment"),
     path('like/<int:post_id>', views.like, name="likes"),
     path('community/comment/like/<int:id>', views.comment_like, name="comment_like"),
+    path('tag/', views.TagCloudTV.as_view(), name='tag_cloud'),
+    path('tag/<str:tag>/', views.TaggedObjectLV.as_view(), name='tagged_object_list'),
 ]
