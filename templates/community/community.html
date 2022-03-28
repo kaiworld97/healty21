@@ -32,47 +32,61 @@ Community
     {% comment %} 등록된 게시물 {% endcomment %}
     <div class="community_body">
         {% for post in posts %}
-        {% comment %} 프로필 {% endcomment %}
+            {% comment %} 프로필 {% endcomment %}
             <div class="body_profile">
                 <img src="{% static 'img/test.png' %}" />
                 <div class="body_profile__name">
                     <span>{{ post.author.username }}</span>
                     <span>{{ post.created_at | timesince }} 전</span>
                 </div> 
-            </div>    
-                <p>{{ post.title }}</p>
-                <span>{{ post.content }}</span>
+            </div>
+            {% comment %} 글 내용 {% endcomment %}
+            <div class="body_content">
+                <span style="dioplay: block;">{{ post.content }}</span style="dioplay: block;">
+            </div>
 
             {% comment %} 태그 {% endcomment %}
-            {% if post.tags.all %}
-                {% for tag in post.tags.all %}
-                <a href="{% url 'tagged_object_list' tag.name %}">
-                    <span> {{ tag.name }}</span>
-                </a>
-                {% endfor %}
-                -<a style="text-decoration: none" href="{% url 'tag_cloud' %}">TagCloud</a>
+            <div class="body_tags">
+                {% if post.tags.all %}
+                    {% for tag in post.tags.all %}
+                    <a href="{% url 'tagged_object_list' tag.name %}">
+                        <span> {{ tag.name }}</span>
+                    </a>
+                    {% endfor %}
+                {% comment %} <a style="text-decoration: none" href="{% url 'tag_cloud' %}">태그</a> {% endcomment %}
             {% endif %}
+            </div>
         
-
-            {% comment %} 게시물 기능 아이콘 {% endcomment %}
-            <a href="{% url 'likes' post.id %}">
-                {% if user in post.like.all %}
-                <i class="fa fa-heart" style="font-size:36px;" id="heart"></i>
-                {% else %}
-                <i class="fa fa-heart-o" style="font-size:36px;" id="heart"></i>
-                {% endif %}
-                <span>{{ post.like.count }}</span>
-            </a>
-
-            {% comment %} 세부 페이지 이동 {% endcomment %}
-            <a href="/community/{{ post.id }}"><i class="fa fa-comment-o" style="font-size:36px"></i></a>
-
-            {% comment %} 포스트 삭제 아이콘 {% endcomment %}
-            {% if post.author == user %}          
-            <a href="/community/delete/{{ post.id }}"><i class="fa fa-trash" style="font-size:36px"></i></a>
-            {% endif %}
-            <hr>
+            <div class="body_functions">
+                <div class="body_functions__left">
+                    {% comment %} 좋아요 {% endcomment %}
+                    <a href="{% url 'likes' post.id %}">
+                        {% if user in post.like.all %}
+                            <i class="fa fa-heart" style="font-size:36px; color: #EB0000; margin-top: 7px; margin-right: 5px;" id="heart"></i>
+                        {% else %}
+                            <i class="fa fa-heart-o" style="font-size: 36px; margin-top: 5px; margin-right: 5px;" id="heart"></i>
+                        {% endif %}
+                    </a>
+            
+                    {% comment %} 세부 페이지 이동 {% endcomment %}
+                    <a href="/community/{{ post.id }}"><i class="fa fa-comment-o" style="font-size:36px; margin-right: 5px;"></i></a>
+          
+                    {% comment %} 포스트 삭제 아이콘 {% endcomment %}
+                    {% if post.author == user %}          
+                    <a href="/community/delete/{{ post.id }}"><i class="fa fa-trash" style="font-size:36px"></i></a>
+                    {% endif %}
+                </div>
+                
+                <div class="body_functions__right">
+                    {% comment %} 좋아요 개수 {% endcomment %}
+                    <span>{{ post.like.count }}명이 좋아합니다.</span>
+                </div>
+                
+            </div>
+            
         {% endfor %}
     </div>
 </div>
 {% endblock %}
+
+{% comment %} 개행오류 {% endcomment %}

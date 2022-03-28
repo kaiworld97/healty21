@@ -34,14 +34,15 @@ def post(request):
             return redirect('/')
     elif request.method == "POST":
         user = request.user
-        title = request.POST.get('content_title', '')
         content = request.POST.get('my-content', '')
+        content = content.replace('\n', '<br>')
+        print(content)
         tags = request.POST.get('tag', '').split('#')
         if content == '':
             all_post = Post.objects.all().order_by('-created_at')
             return render(request, 'community/community_post.html', {'error': '공백은 안됨', 'posts': all_post})
         else:
-            my_post = Post.objects.create(author=user, title=title, content=content)
+            my_post = Post.objects.create(author=user, content=content)
             for tag in tags:
                 tag = tag.strip('#')
                 if tag != '':

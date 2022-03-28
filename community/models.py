@@ -10,8 +10,7 @@ class Post(models.Model):
         db_table = "community_post"
     
     author = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    title = models.TextField(max_length=256)
-    content = models.TextField() 
+    content = models.CharField(max_length=512) 
     tags = TaggableManager(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
