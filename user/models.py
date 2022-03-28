@@ -1,3 +1,4 @@
+from PIL import Image
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -25,6 +26,30 @@ class User(AbstractUser):
     competition_activate = models.BooleanField(default=False)
     point = models.IntegerField(default=0)
     image = models.ImageField(upload_to=user_directory_path, default='default/healthy21.png')
+
+    def get_absolute_url(self):
+        return f"/users/{self.pk}/"
+
+    # Override the save method of the model
+    def save(self):
+        super().save()
+
+        img = Image.open(self.image.path)  # Open image
+
+        # resize image
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)  # Resize image
+            img.save(self.image.path)  # Save it again and override the larger image
+
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     img = Image.open(self.image.path)
+    #     if img.mode in ("RGBA", "P"): img = img.convert("RGB")
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path)
 
 
 class UserProfile(models.Model):
@@ -63,3 +88,5 @@ class UserFollowing(models.Model):
     user = models.ForeignKey(User, related_name="following", on_delete=models.CASCADE)
     following_user = models.ForeignKey(User, related_name="follower", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+
+

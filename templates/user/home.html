@@ -121,7 +121,7 @@
                                                 <p class="small text-muted mb-0">내 점수</p>
                                             </div>
                                             <div class="px-3">
-                                                <p class="mb-1 h5">1026</p>
+                                                <p class="mb-1 h5">{{ followers|length }}</p>
                                                 <p class="small text-muted mb-0">팔로워</p>
                                             </div>
                                             <div class="px-3">
@@ -252,7 +252,7 @@
                                                               width="40" height="40">
                                 <div class="d-flex flex-column ml-1 about"><span
                                         class="font-weight-bold">{{ following }}</span>
-                                    <small>585 posts</small></div>
+                                    <small>585 challenges</small></div>
                             </div>
                             <button onclick="location.href='{% url 'follow' following.id %}'"
                                     class="btn btn-outline-primary btn-sm follow">언팔로우
@@ -273,7 +273,7 @@
                                                               width="40" height="40">
                                 <div class="d-flex flex-column ml-1 about"><span
                                         class="font-weight-bold">{{ nofollowing }}</span>
-                                    <small>585 posts</small></div>
+                                    <small>585 challenges</small></div>
                             </div>
                             <button onclick="location.href='{% url 'follow' nofollowing.id %}'"
                                     class="btn btn-primary btn-sm text-white follow">팔로우
@@ -295,7 +295,7 @@
                                                               width="40" height="40">
                                 <div class="d-flex flex-column ml-1 about"><span
                                         class="font-weight-bold">{{ follower }}</span>
-                                    <small>585 posts</small></div>
+                                    <small>585 challenges</small></div>
                             </div>
                             <button onclick="location.href='{% url 'follow' follower.id %}'"
                                     class="btn btn-primary btn-sm text-white follow">팔로우
@@ -309,13 +309,15 @@
 
             <form class="container-fluid" method="GET" action="{% url 'profile' %}">
                 <label for="exampleDataList" class="form-label">유저 검색</label>
-                <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="유저를 찾아보세요">
+                <input class="form-control" list="datalistOptions" id="exampleDataList"
+                       value="{{ search_word|default_if_none:'' }}" placeholder="유저를 찾아보세요">
                 <datalist id="datalistOptions">
                     {% for users in all_users %}
                         <option value="{{ users }}">
                     {% endfor %}
                 </datalist>
             </form>
+
 
             {#            <h3>유저와 유사한 유저들(Modal)</h3>#}
             {#            {% for user_by_points in users_by_points %}#}

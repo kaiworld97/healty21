@@ -4,7 +4,7 @@ from datetime import date
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import ProfileForm
+from .forms import ProfileForm, UserUpdateForm
 from .models import User, UserProfile, UserFollowing
 
 
@@ -19,9 +19,8 @@ def home(request):
         followings_list = UserFollowing.objects.filter(user=user).order_by('created_at')
         followings = [following.following_user for following in followings_list]
         # 유저가 팔로잉 하지 않는 다른 유저들
-        nofollowings = [x for x in all_users.exclude(id=user.id) if x not in followings]
-        # 추천 필터링
-        if user.point == 0 and (len((users_by_points := User.objects.filter(point=0))) <= 5):
+        nofollowings = [x for x in all_users.exclude(id=user.id) if x not in followings]        # 추천 필터링
+        if user.point == 0 and (len((users_by_points := User.objects.filter(point=0).exclude(id=user.id))) <= 5):
             users_by_points = users_by_points
         elif user.point == 0:
             users_by_points = random.sample(list(users_by_points), 5)
@@ -41,8 +40,14 @@ def home(request):
 @login_required()
 def profile(request):
     if request.method == "POST":
-        form = ProfileForm(request.POST, request.FILES)
-        if form.is_valid():
+        try:
+            form = ProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        except:
+            form = ProfileForm(request.POST, request.FILES)
+
+        u_form = UserUpdateForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid() and u_form.is_valid():
+            u_form.save()
             profile = form.save(commit=False)  # 저장 늦추기
             profile.user = request.user
             weight = form.cleaned_data['weight']
@@ -72,56 +77,16 @@ def profile(request):
             elif profile.gender == 'F':
                 profile.bmr = round(655.0955 + (9.5634 * weight) + (1.8496 * height) - (4.6756 * age), 1)
             profile.save()
+            u_form.save()
+            messages.success(request, f'프로필이 성공적으로 업데이트 되었습니다!')
             return redirect('home')  # ! 나중에 경쟁/game으로 변경
     else:
-        if request.user.userprofile is None: print('none!!!')
-        else: print("yes")
-        form = ProfileForm()
-    return render(request, 'user/profile.html', {'form': form})
-
-#
-# @login_required()
-# def profile_update(request, pk):
-#     if request.user.userprofile is None: print('none!!!')
-#     profile = get_object_or_404(UserProfile, user_id=pk)
-#     if request.method == "POST":
-#         form = ProfileForm(request.POST, request.FILES, instance=profile)
-#         print(f'profile: {profile}')
-#         if form.is_valid():
-#             profile = form.save(commit=False)  # 저장 늦추기
-#             profile.user = request.user
-#             weight = form.cleaned_data['weight']
-#             height = form.cleaned_data['height'] / 100
-#
-#             # bmi 계산
-#             bmi = round(weight / (height * height), 1)
-#             # bmi 카테고리
-#             profile.bmi = bmi
-#             if bmi <= 18.5:
-#                 bmi_category = '저체중 Underweight'
-#             elif bmi <= 24.9:
-#                 bmi_category = '정상체중 Normal'
-#             elif bmi <= 29.9:
-#                 bmi_category = '과체중 Overweight'
-#             else:
-#                 bmi_category = '비만 Obesity'
-#             profile.bmi_category = bmi_category
-#             # 나이 계산
-#             today = date.today()
-#             born = form.cleaned_data['birth_day']
-#             age = today.year - born.year - ((today.month, today.day) < (born.month, born.day))
-#             profile.age = age
-#             # 기초 대사량 계산
-#             if profile.gender == 'M':
-#                 profile.bmr = round(66.4730 + (13.7516 * weight) + (5.0033 * height) - (6.7550 * age), 1)
-#             elif profile.gender == 'F':
-#                 profile.bmr = round(655.0955 + (9.5634 * weight) + (1.8496 * height) - (4.6756 * age), 1)
-#             profile.save()
-#             messages.success(request, 'Your profile was successfully updated!')
-#             return redirect('home')  # ! 나중에 경쟁/game으로 변경
-#     else:
-#         form = ProfileForm(instance=profile)
-#     return render(request, 'user/profile.html', {'form': form})
+        try:
+            form = ProfileForm(instance=request.user.userprofile)
+        except:
+            form = ProfileForm()
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+    return render(request, 'user/profile.html', {'form': form, 'u_form': u_form})
 
 
 @login_required()

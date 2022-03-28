@@ -10,7 +10,7 @@
     유저 프로필
 {% endblock %}
 
- css 파일 넣는 곳
+css 파일 넣는 곳
 {% block css %}
 {% endblock %}
 
@@ -25,11 +25,16 @@
         {% if user.is_authenticated %}
             <p>{{ user }}님, 게임에 참여하시려면 추가정보를 입력해주세요. </p>
             {#        <form class="signup" id="user_profile_form" method="post" action="{% url 'user-profile' %}">#}
-        <form action="" enctype="multipart/form-data" method="POST">
-            {% csrf_token %}
-            {% crispy form %}
-        </form>
-
+            <form action="" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    {{ u_form | crispy }}
+                    {{ form | crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-primary button white" type="submit">업데이트</button>
+                </div>
+            </form>
         {% else %}
             <p>로그인 해주세요.</p>
         {% endif %}

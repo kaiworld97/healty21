@@ -13,15 +13,13 @@ class ProfileForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.layout = Layout(
             FloatingField('gender', 'birth_day', 'height', 'weight', 'bio'),
-            ButtonHolder(
-                Submit('submit', '업데이트', css_class='btn btn-primary button white')
-            )
         )
 
     class Meta:
         model = UserProfile
         fields = ['gender', 'birth_day', 'height', 'weight', 'bio']
-        junior_min = (datetime.datetime.today() - datetime.timedelta(days=(365*15))).strftime("%Y-%m-%d")  # 15세 이상만 가입
+        junior_min = (datetime.datetime.today() - datetime.timedelta(days=(365 * 15))).strftime(
+            "%Y-%m-%d")  # 15세 이상만 가입
 
         labels = {
             "gender": "성별",
@@ -33,7 +31,7 @@ class ProfileForm(forms.ModelForm):
         }
         widgets = {
             "birth_day": forms.DateInput(attrs={'type': 'date', 'id': 'b_datepicker', 'class': "form-floating",
-                                                'min': "1900-01-01", 'value':"2000-01-01", 'max': junior_min}),
+                                                'min': "1900-01-01", 'value': "2000-01-01", 'max': junior_min}),
             "height": forms.NumberInput(attrs={'min': 50, 'max': 230}),
             "weight": forms.NumberInput(attrs={'min': 20, 'max': 300}),
         }
@@ -62,7 +60,20 @@ class MyCustomSignupForm(SignupForm):
         return user
 
 
-
 class UserUpdateForm(forms.ModelForm):
-    email = forms.EmailField()
+    image = forms.ImageField()
 
+    class Meta:
+        model = User
+        fields = ['image']
+
+    def save(self, request):
+        user = super(UserUpdateForm, self).save(request)
+        user.save()
+        return user
+
+
+# class ProfileUpdateForm(forms.ModelForm):
+#     class Meta:
+#         model = UserProfile
+#         fields = ['gender', 'birth_day', 'height', 'weight', 'bio']
