@@ -56,8 +56,13 @@ class MyCustomSignupForm(SignupForm):
         # self.fields['password2'].widget.attrs.update(
         #     {'class': 'form-control', 'placeholder': '******'})
 
-
     def save(self, request):
         user = super(MyCustomSignupForm, self).save(request)
         user.save()
         return user
+
+
+
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField()
+

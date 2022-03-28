@@ -6,12 +6,9 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    # path('profile/create/', views.profile_create, name='profile_create'),
-    # path('profile/<int:pk>/edit/', views.profile_update, name='profile_update'),
-    # path('profile/<int:pk>/', views.profile_view, name='profile_view'),
     path('profile/', include([
-        path('', views.profile_view, name='profile_create'),
-        path('<int:pk>/edit/', views.profile_update, name='profile_update'),
+        path('', views.profile, name='profile'),
+        # path('<int:pk>/edit/', views.profile_update, name='profile_update'),
         path('<int:pk>/', views.profile_view, name='profile_view'),
     ])),
     path('people/', views.people_list, name='people_list'),
