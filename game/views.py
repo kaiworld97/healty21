@@ -3,10 +3,13 @@ from user.models import User, UserGroup
 from .models import *
 import datetime
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from django.core.paginator import Paginator
 from django.contrib.messages import error
+from django.contrib.auth.decorators import login_required
 
 
+@login_required()
 def competition(request):
     user = User.objects.get(username=request.user)
     if request.method == 'GET':
@@ -20,6 +23,7 @@ def competition(request):
             competitors = User.objects.exclude(username=request.user)
             return render(request, 'game/select.html', {'type': 'competitor', 'competitors': competitors})
         else:
+            page_number = request.GET.get('page')
             # 현재 진행중인 competition 가져오기
             competition = user.competition.last()
             # 현재 competition에서 모든 경쟁자 가져오기
@@ -29,12 +33,33 @@ def competition(request):
             q.add(Q(user=user), q.OR)
             for competitor in competitors:
                 q.add(Q(user=competitor.competitor), q.OR)
-            quests = user.competition.last().game.quest.filter(q).order_by('-upload_date')
-            # 유저가 속해져 있는 모든 경쟁 상대 보기
-            nominated = user.competitor.all()
-            return render(request, 'game/competition.html',
-                          {'competition': competition, 'competitors': competitors, 'quests': quests,
-                           'nominated': nominated})
+            # 경쟁 시작한 날부터 퀘스트 불러오기
+            if (datetime.datetime.today() - competition.created_at).days < 7:
+                start_date = competition.created_at.strftime("%Y-%m-%d")
+                end_date = (datetime.datetime.today() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+            else:
+                start_date = (datetime.datetime.today() - datetime.timedelta(days=7)).strftime("%Y-%m-%d")
+                end_date = (datetime.datetime.today() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+            if not page_number:
+                quests = competition.game.quest.filter(q) & competition.game.quest.filter(
+                    upload_date__range=[start_date, end_date]).order_by('-upload_date')[:10]
+                # 유저가 속해져 있는 모든 경쟁 상대 보기
+                nominated = user.competitor.all()
+                return render(request, 'game/competition.html',
+                              {'competition': competition, 'competitors': competitors, 'quests': quests,
+                               'nominated': nominated})
+            else:
+                quests = competition.game.quest.filter(q) & competition.game.quest.filter(
+                    upload_date__range=[start_date, end_date]).order_by('-upload_date')
+                paginator = Paginator(quests, 10)
+                if int(page_number) <= paginator.num_pages:
+                    obj_list = paginator.get_page(page_number)
+                    data_list = [{'username': obj.user.username, 'photo': obj.photo.url, 'content': obj.content,
+                                  'date': obj.upload_date.strftime("%Y년 %m월 %d일 %H시 %M분")} for obj in obj_list]
+                    return JsonResponse(data_list, status=200, safe=False)
+                elif int(page_number) > paginator.num_pages:
+                    return HttpResponse(status=404)
+
     if request.method == 'POST':
         if 'group' in request.POST:
             user.group = UserGroup.objects.get(id=request.POST['group'])
@@ -53,6 +78,7 @@ def competition(request):
         return redirect('/competition')
 
 
+@login_required()
 def quest(request):
     user = User.objects.get(username=request.user)
     if request.method == 'GET':
@@ -61,13 +87,14 @@ def quest(request):
         user_quest = User.objects.get(username=username)
         # 처음 퀘스트 로그로 들어올 때
         if not request.GET.get('date'):
-            start_date = (datetime.datetime.today() - datetime.timedelta(days=7)).strftime("%Y-%m-%d")
+            start_date = datetime.datetime.today().strftime("%Y-%m-%d")
             end_date = (datetime.datetime.today() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
             quests = user_quest.quest.filter(upload_date__range=[start_date, end_date]).order_by('-upload_date')
             game_date = user.group.game.last()
             game_start = game_date.start_date
             game_end = game_date.end_date
-            return render(request, 'game/quest.html', {'quests': quests, 'username': username, 'game_start': game_start, 'game_end': game_end})
+            return render(request, 'game/quest.html',
+                          {'quests': quests, 'username': username, 'game_start': game_start, 'game_end': game_end})
         # 날짜를 선택할 때
         else:
             start_date = request.GET.get('date')

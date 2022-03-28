@@ -9,13 +9,29 @@
 
 {# css 파일 넣는 곳#}
 {% block css %}
-            <link rel="stylesheet" href="{% static '/css/game.css' %}">
+    <link rel="stylesheet" href="{% static '/css/game.css' %}">
 {% endblock %}
 
 {#자바스크립트 파일 넣는 곳#}
 {% block js %}
     {#<script type="text/javascript" src="{% static '/js/해당앱.js' %}"></script>#}
     <script>
+        document.getElementById('date_input').value = toStringByFormatting(new Date())
+
+        function leftPad(value) {
+            if (value >= 10) {
+                return value;
+            }
+            return `0${value}`;
+        }
+
+        function toStringByFormatting(source, delimiter = '-') {
+            const year = source.getFullYear();
+            const month = leftPad(source.getMonth() + 1);
+            const day = leftPad(source.getDate());
+            return [year, month, day].join(delimiter);
+        }
+
         function date_change(date) {
             fetch(`{% url 'quest' %}?username={{ username }}&date=${date.value}`).then(res => res.json()).then(
                 data => {
@@ -41,7 +57,8 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-    <input type="date" id="date_input" onchange="date_change(this)" max="{{ game_end|date:'Y-m-d' }}" min="{{ game_start|date:'Y-m-d' }}">
+    <input type="date" id="date_input" onchange="date_change(this)" max="{{ game_end|date:'Y-m-d' }}"
+           min="{{ game_start|date:'Y-m-d' }}">
     <div id="quest_container">
         {% for quest in quests %}
             <div class="card">

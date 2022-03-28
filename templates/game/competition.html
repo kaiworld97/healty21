@@ -21,8 +21,35 @@
             file_img.classList.remove('hidden')
         }
 
-        if (document.getElementById('error_container')) {
-            document.querySelector("div#error_container > button:nth-child(1)").click()
+        const content = document.querySelector("#quest_container");
+        let page = 2
+        let next_page = true
+        window.onscroll = function () {
+            let url = `{% url 'competition' %}?page=${page}`
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight && next_page) {
+                page += 1
+                fetch(url).then(res =>
+                    res.json()
+                ).then(data => {
+                    content.innerHTML += data.map(
+                        res_data => `
+                            <div class="card">
+                                <img src="${res_data.photo}" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">${res_data.username}</h5>
+                                    <p class="card-text">${res_data.content}</p>
+                                    <h6 class="card-subtitle mb-2 text-muted">${res_data.date}</h6>
+                                </div>
+                            </div>
+            	`
+                    ).join("\n")
+                }).catch(err => {
+                    next_page = false
+                    content.innerHTML += `
+                    <p>마지막 컨텐츠입니다.</p>
+                    `
+                })
+            }
         }
     </script>
 {% endblock %}
@@ -73,12 +100,12 @@
     </div>
     <div>
         <p>{{ user.username }}님의 포인트 {{ user.point }} 포인트</p>
-{#        <p>경쟁하고 있는 유저들</p>#}
-{#        <div>#}
-{#            {% for competitor in competitors %}#}
-{#                <a href="{% url 'quest' %}?username={{ competitor.competitor.username }}">{{ competitor.competitor.username }} {{ competitor.competitor.point }}포인트</a>#}
-{#            {% endfor %}#}
-{#        </div>#}
+        {#        <p>경쟁하고 있는 유저들</p>#}
+        {#        <div>#}
+        {#            {% for competitor in competitors %}#}
+        {#                <a href="{% url 'quest' %}?username={{ competitor.competitor.username }}">{{ competitor.competitor.username }} {{ competitor.competitor.point }}포인트</a>#}
+        {#            {% endfor %}#}
+        {#        </div>#}
         <div>
             <!-- Button trigger modal -->
             <button type="button" class="" data-bs-toggle="modal" data-bs-target="#competitor_modal">
@@ -134,7 +161,7 @@
             </div>
         </div>
     </div>
-    <div>
+    <div id="quest_container">
         {% for quest in quests %}
             <div class="card">
                 <img src="{{ quest.photo.url }}" class="card-img-top">
