@@ -28,11 +28,7 @@ def competition(request):
             competition = user.competition.last()
             # 현재 competition에서 모든 경쟁자 가져오기
             competitors = competition.competitor.all()
-            # competition 에 속한 competitor의 quest 가져오기
             q = Q()
-            q.add(Q(user=user), q.OR)
-            for competitor in competitors:
-                q.add(Q(user=competitor.competitor), q.OR)
             # 경쟁 시작한 날부터 퀘스트 불러오기
             if (datetime.datetime.today() - competition.created_at).days < 7:
                 start_date = competition.created_at.strftime("%Y-%m-%d")
@@ -40,18 +36,26 @@ def competition(request):
             else:
                 start_date = (datetime.datetime.today() - datetime.timedelta(days=7)).strftime("%Y-%m-%d")
                 end_date = (datetime.datetime.today() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+            # competition 에 속한 competitor의 quest 가져오기
+            q.add(Q(user=user), q.OR)
+            for competitor in competitors:
+                q.add(Q(user=competitor.competitor), q.OR)
+            all_quests = competition.game.quest.filter(Q(upload_date__range=[start_date, end_date]) & q).order_by(
+                '-upload_date')
             if not page_number:
-                quests = competition.game.quest.filter(q) & competition.game.quest.filter(
-                    upload_date__range=[start_date, end_date]).order_by('-upload_date')[:10]
+                quests = all_quests[:10]
+                # competitors의 점수
+                for competitor in competitors:
+                    competitor.point = sum(map(lambda x: x.point,
+                                               filter(lambda x: x.user.username == competitor.competitor.username,
+                                                      all_quests)))
                 # 유저가 속해져 있는 모든 경쟁 상대 보기
                 nominated = user.competitor.all()
                 return render(request, 'game/competition.html',
                               {'competition': competition, 'competitors': competitors, 'quests': quests,
                                'nominated': nominated})
             else:
-                quests = competition.game.quest.filter(q) & competition.game.quest.filter(
-                    upload_date__range=[start_date, end_date]).order_by('-upload_date')
-                paginator = Paginator(quests, 10)
+                paginator = Paginator(all_quests, 10)
                 if int(page_number) <= paginator.num_pages:
                     obj_list = paginator.get_page(page_number)
                     data_list = [{'username': obj.user.username, 'photo': obj.photo.url, 'content': obj.content,
@@ -101,6 +105,8 @@ def quest(request):
             end_date = (datetime.datetime.strptime(request.GET.get('date'), '%Y-%m-%d') + datetime.timedelta(
                 days=1)).strftime("%Y-%m-%d")
             quests = user_quest.quest.filter(upload_date__range=[start_date, end_date]).order_by('-upload_date')
+            if len(quests) == 0:
+                return HttpResponse(status=404)
             quest_list = []
             for quest in quests:
                 q = {}
@@ -113,10 +119,17 @@ def quest(request):
     if request.method == 'POST':
         start_date = datetime.datetime.today().strftime("%Y-%m-%d")
         end_date = (datetime.datetime.today() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
-        user_quest = Quest.objects.filter(user=user, upload_date__range=[start_date, end_date])
+        user_quest = Quest.objects.filter(user=user, upload_date__range=[start_date, end_date]).order_by('-upload_date')
         # 오늘 퀘스트 4개 했으면 return
         if len(user_quest) == 4:
             error(request, '일일 퀘스트 4회를 완료했습니다.')
+            return redirect('/competition')
+        # 같은 타입의 퀘스트가 1시간 이내에 들어오면 return
+        elif (len(user_quest) > 0 and user_quest[0].type == request.POST['type'] and (
+                datetime.datetime.today() - user_quest[0].upload_date).seconds < 3600) or (
+                len(user_quest) > 1 and user_quest[1].type == request.POST['type'] and (
+                datetime.datetime.today() - user_quest[1].upload_date).seconds < 3600):
+            error(request, '같은 타입의 퀘스트는 1시간이 지나야 합니다.')
             return redirect('/competition')
         quest = Quest()
         quest.user = user

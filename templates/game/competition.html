@@ -46,7 +46,7 @@
                 }).catch(err => {
                     next_page = false
                     content.innerHTML += `
-                    <p>마지막 컨텐츠입니다.</p>
+                    <p>마지막 퀘스트입니다.</p>
                     `
                 })
             }
@@ -123,7 +123,7 @@
                         </div>
                         <div class="modal-body">
                             {% for competitor in competitors %}
-                                <a href="{% url 'quest' %}?username={{ competitor.competitor.username }}">{{ competitor.competitor.username }} {{ competitor.competitor.point }}포인트</a>
+                                <a href="{% url 'quest' %}?username={{ competitor.competitor.username }}">{{ competitor.competitor.username }} {{ competitor.point }}포인트</a>
                             {% endfor %}
                         </div>
                         <div class="modal-footer">
