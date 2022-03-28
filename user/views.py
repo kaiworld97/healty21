@@ -1,7 +1,7 @@
-import os
 import random
 from datetime import date
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ProfileForm
@@ -15,13 +15,15 @@ def home(request):
         followings_list = UserFollowing.objects.filter(user=user).order_by('created_at')
         followings = [following.following_user for following in followings_list]
         nofollowings = [x for x in all_users.exclude(id=user.id) if x not in followings]
-
-        # 같은 그룹과 유사한 포인트 가진 사람 보여주기
-        users_by_groups = User.objects.filter(group=user.group).exclude(id=user.id)     # 유저 그룹으로 1차 필터링
-        if user.point == 0:
-            users_by_points = random.sample(list(User.objects.filter(point=0)), 5)
+        if user.point == 0 and (len((users_by_points := User.objects.filter(point=0))) <= 5):
+            users_by_points = users_by_points
+        elif user.point == 0:
+            users_by_points = random.sample(list(users_by_points), 5)
         else:
-            users_by_points = sorted(users_by_groups, key=lambda x: abs(x.point - user.point))[:5]  # 유저와 포인트 차이로 sort하고 5명까지
+            # 같은 그룹과 유사한 포인트 가진 사람 보여주기
+            users_by_groups = User.objects.filter(group=user.group).exclude(id=user.id)  # 유저 그룹으로 1차 필터링
+            # 유저와 포인트 차이로 sort하고 5명까지
+            users_by_points = sorted(users_by_groups, key=lambda x: abs(x.point - user.point))[:5]
             print(users_by_points)
 
         return render(request, 'user/home.html', {'followings': followings, 'all_users': all_users,
@@ -33,7 +35,8 @@ def home(request):
 @login_required()
 def profile_create(request):
     if request.method == "POST":
-        form = ProfileForm(request.POST, request.FILES)
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        print(f'profile: {profile}')
         if form.is_valid():
             profile = form.save(commit=False)  # 저장 늦추기
             profile.user = request.user
@@ -75,6 +78,7 @@ def profile_update(request, pk):
     profile = get_object_or_404(UserProfile, user_id=pk)
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=profile)
+        print(f'profile: {profile}')
         if form.is_valid():
             profile = form.save(commit=False)  # 저장 늦추기
             profile.user = request.user
@@ -105,7 +109,7 @@ def profile_update(request, pk):
             elif profile.gender == 'F':
                 profile.bmr = round(655.0955 + (9.5634 * weight) + (1.8496 * height) - (4.6756 * age), 1)
             profile.save()
-            # messages.success(request, _('Your profile was successfully updated!'))
+            messages.success(request, 'Your profile was successfully updated!')
             return redirect('home')  # ! 나중에 경쟁/game으로 변경
     else:
         form = ProfileForm(instance=profile)
