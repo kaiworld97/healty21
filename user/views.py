@@ -47,7 +47,7 @@ def profile(request):
 
         u_form = UserUpdateForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid() and u_form.is_valid():
-            u_form.save()
+            # u_form.save()
             profile = form.save(commit=False)  # 저장 늦추기
             profile.user = request.user
             weight = form.cleaned_data['weight']
@@ -77,7 +77,7 @@ def profile(request):
             elif profile.gender == 'F':
                 profile.bmr = round(655.0955 + (9.5634 * weight) + (1.8496 * height) - (4.6756 * age), 1)
             profile.save()
-            u_form.save()
+            # u_form.save()
             messages.success(request, f'프로필이 성공적으로 업데이트 되었습니다!')
             return redirect('home')  # ! 나중에 경쟁/game으로 변경
     else:
