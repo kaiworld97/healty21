@@ -7,7 +7,7 @@ from django.http import JsonResponse
 import random
 
 
-@login_required()
+# @login_required()
 def info(request):
     if request.method == 'GET':
         data = {}
