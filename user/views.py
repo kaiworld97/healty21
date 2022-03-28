@@ -20,7 +20,8 @@ def signup(request):
         else:
             new_user = UserModel.objects.create_user(
                 username=request.POST['username'],
-                password=request.POST['password']
+                password=request.POST['password'],
+                nick_name=request.POST['nickname']
             )
             auth.login(request, new_user)
             return redirect('index')

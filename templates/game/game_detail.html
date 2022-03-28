@@ -9,9 +9,20 @@
         <h1>게임_상세</h1>
     </div>
     <div>
-        <h3>{{ competitor.nick_name}}님과 ~일차 대결 중</h3>
+        <h3>{{ competitor.competitor_id.nick_name}}님과 대결중</h3>
+        <p> 대결 기간: {{ start }}~{{ end }}</p>
     </div>
-
+    <div>
+        {% if competition.point > your_point %}
+            <h3>{{ competitor.competitor_id.nick_name}}님 상대로 앞서고 있어요!</h3>
+            <a >추천 목록(이기는 유저)</a>
+        {% else %}
+            <h3>{{ competitor.competitor_id.nick_name}}님 점수를 추월하기 위해 추천을 통해 운동해보세요!</h3>
+            <a >추천 목록(지고 있는 유저</a>
+        {% endif %}
+        <p>내점수:{{competition.point}}</p>
+        <p>상대 점수: {{ your_point }}</p>
+    </div>
     <div>
         <h3>퀘스트 입력</h3>
         <form method="POST">
@@ -32,10 +43,22 @@
 
     </div>
     <div>
-        <h3> 내 활동 보기(1주일 치 defalut로)</h3>
+        <h3> 내 활동 보기</h3>
+        {% for quest in quests %}
+
+                <p>date: {{ quest.upload_date| date:'Y-m-d'}} type: {{ quest.type }} content:{{ quest.content }}</p>
+
+        {% endfor %}
+
     </div>
     <div>
-        <h3>경쟁자 활동 보기</h3>
+    <h3>경쟁자 활동 보기</h3>
+    {% for quest in your_quests %}
+        <p>date: {{ quest.upload_date| date:'Y-m-d' }} type: {{ quest.type }} content:{{ quest.content }}</p>
+
+    {% endfor %}
+
     </div>
+
 </body>
 </html>

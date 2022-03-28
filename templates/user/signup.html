@@ -11,8 +11,9 @@
     {% endif %}
     <form method="POST">
         {% csrf_token %}
-        <input name="username">
-        <input type="password" name="password">
+        <input name="username" placeholder="아이디">
+        <input type="password" name="password" placeholder="비밀번호">
+        <input name="nickname" placeholder="닉네임">
         <button type="submit">가입하기</button>
     </form>
 </body>

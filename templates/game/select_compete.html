@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+<body>
+      <h1>{{ group.type }}  멤버 목록</h1>
+
+    {% for member in members %}
+        {%if not member == user  %}
+        <div>
+            <h1>유저명:{{ member.nick_name}} </h1>
+        </div>
+        {% endif %}
+    {% endfor %}
+        <form method="POST">
+    <div>
+        {% csrf_token %}
+        <input name = "nick_name">
+
+        <button type = "submit">선택하기</button>
+    </div>
+    </form>
+</body>
+</body>
+</html>

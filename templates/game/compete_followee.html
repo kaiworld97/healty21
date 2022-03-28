@@ -5,7 +5,18 @@
     <title>Title</title>
 </head>
 <body>
-    <h1>나를 지목한 유저</h1>
+    <h1>나를 지목한 유저!</h1>
+    <p> {{ competition.user_id.nick_name }}</p>
 
+    <h3></h3>
+
+    <form method="POST">
+     <div>
+        {% csrf_token %}
+
+    <button type = "submit">나도 상대 선택하기</button>
+    </div>
+  </form>
+    <p> </p>
 </body>
 </html>

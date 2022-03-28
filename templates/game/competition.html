@@ -10,6 +10,7 @@
         {%  if user.is_authenticated %}
             <a href = "{% url 'signout' %}">로그아웃</a>
             <a href = "{%  url 'set_goal' %}">목표설정</a>
+            <a href = "{%  url 'select_compete' %}">경쟁자 선택</a>
 
         {% else %}
             <a href = "{% url 'signin' %}">로그인</a>
@@ -17,14 +18,16 @@
         {% endif %}
     </div>
     <div>
+        <h3>내 목표그룹: {{ username.group_id.type }} </h3>
         <h3>내가 선택한 경쟁</h3>
-        {%  for game in games %}
+        {%  for nickname in my_competitor %}
 
         <div>
-            <a href = "{%  url 'game_detail' game.pk %}">
-             <h1>{{ game.title }}</h1>
+            <a href = "{%  url 'game_detail' nickname.competition_id.pk %}">
+             <p>{{ nickname.competitor_id.nick_name}}님과 경쟁</p>
             </a>
         </div>
+
         {% endfor %}
     </div>
     <div>
@@ -32,13 +35,26 @@
         {% for competition in competitions %}
             <div>
                 <a href="{% url 'compete_followee' competition.pk %}">
-                    <h1>{{ competition.user_id }}</h1>
+                    <h1>{{ competition.user_id.nick_name }}</h1>
                 </a>
             </div>
+        {% endfor %}
+    </div>
+    <div>
+        <h3>종료된 경쟁(21일 경과)</h3>
+        {% for game in games %}
+            {% if game.status == 0 %}
+                <div>
+                    <a href="{% url 'game_detail' game.pk %}">
+                        <h1>{{ game.title }}</h1>
+                    </a>
+                </div>
+            {% endif %}
         {% endfor %}
 
 
     </div>
+
 
 
 </body>

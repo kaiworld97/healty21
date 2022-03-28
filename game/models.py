@@ -44,7 +44,7 @@ class Competitor(models.Model):
     class Meta:
         db_table = "Competitor"
     competitor_id = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    competition_id = models.ForeignKey(Competition, on_delete=models.CASCADE)
+    competition_id = models.ForeignKey(Competition, on_delete=models.CASCADE,related_name='com')
 
 class Quest(models.Model):
     class Meta:
