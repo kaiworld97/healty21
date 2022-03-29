@@ -57,7 +57,7 @@
 {% block content %}
     {{ type }}
     <div>
-        추천
+        <p>추천</p>
         <div>
             {% for i in recommend %}
                 <div>
@@ -65,10 +65,9 @@
                 </div>
             {% endfor %}
         </div>
-
     </div>
     <div>
-        전체
+        <p>전체</p>
         <div class="all_data_container">
             {% for i in content %}
                 <div>

@@ -1,14 +1,9 @@
-.container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    flex-direction: column;
-    margin: 5% auto;
+a{
+    text-decoration: auto;
 }
 
-.hidden{
-    display: none;
+a:hover{
+    text-decoration: auto;
 }
 
 nav{
@@ -27,3 +22,15 @@ nav{
     justify-content: space-evenly;
 }
 
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    margin: 5% auto;
+}
+
+.hidden{
+    display: none;
+}

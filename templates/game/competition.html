@@ -65,112 +65,112 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-    <p>competition</p>
-    <div>
-        {{ competition.game.title }}
+    <div id="game_title">
+        <h1>{{ competition.game.title }}</h1>
     </div>
-    <button onclick="window.location='{% url 'quest' %}?username={{ user.username }}'">퀘스트 로그</button>
-    <!-- Button trigger modal -->
-    <button type="button" class="" data-bs-toggle="modal" data-bs-target="#quest_upload_Modal">
-        퀘스트 업로드
-    </button>
-
-    <!-- Modal -->
-    <div class="modal fade" id="quest_upload_Modal" tabindex="-1" aria-labelledby="quest_upload_modalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="quest_upload_modalLabel">퀘스트 업로드</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="{% url 'quest' %}" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <select name="type" class="form-select" aria-label="Default select example" required>
-                        <option value="workout">운동</option>
-                        <option value="food">식단</option>
-                    </select>
-                    <label class="" for="input_file">
-                        이미지
-                    </label>
-                    <img id="input_img" src="" class="hidden">
-                    <input type="file" id="input_file" name="input_file" class="hidden"
-                           accept="image/gif,image/jpeg,image/png"
-                           onchange="loadFile(this)">
-                    <label for="content">내용</label>
-                    <textarea id="content" class="" name="content"></textarea>
-                    <div>
-                        <button type="submit" class="">업로드</button>
-                        <button type="button" class="" data-bs-dismiss="modal">닫기</button>
+    <div id="user_container">
+        <!-- Button trigger modal -->
+        <button type="button" class="" data-bs-toggle="modal" data-bs-target="#competitor_modal">
+            내가 지목한 유저들
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="competitor_modal" tabindex="-1" aria-labelledby="competitor_modalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="competitor_modalLabel">나를 지목한 유저들</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                </form>
+                    <div class="modal-body">
+                        {% for competitor in competitors %}
+                            <a href="{% url 'quest' %}?username={{ competitor.competitor.username }}">{{ competitor.competitor.username }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Button trigger modal -->
+        <button type="button" class="" data-bs-toggle="modal" data-bs-target="#nominated_modal">
+            나를 지목한 유저들
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="nominated_modal" tabindex="-1" aria-labelledby="nominated_modalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="nominated_modalLabel">나를 지목한 유저들</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% for nomi in nominated %}
+                            <a href="{% url 'quest' %}?username={{ nomi.competition.user.username }}">{{ nomi.competition.user.username }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div>
-        <p>{{ user.username }}님의 포인트 {{ user.point }} 포인트</p>
-        {#        <p>경쟁하고 있는 유저들</p>#}
-        {#        <div>#}
-        {#            {% for competitor in competitors %}#}
-        {#                <a href="{% url 'quest' %}?username={{ competitor.competitor.username }}">{{ competitor.competitor.username }} {{ competitor.competitor.point }}포인트</a>#}
-        {#            {% endfor %}#}
-        {#        </div>#}
-        <div>
-            <!-- Button trigger modal -->
-            <button type="button" class="" data-bs-toggle="modal" data-bs-target="#competitor_modal">
-                경쟁하고 있는 유저들
-            </button>
-
-            <!-- Modal -->
-            <div class="modal fade" id="competitor_modal" tabindex="-1" aria-labelledby="competitor_modalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="competitor_modalLabel">나를 지목한 유저들</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            {% for competitor in competitors %}
-                                <a href="{% url 'quest' %}?username={{ competitor.competitor.username }}">{{ competitor.competitor.username }} {{ competitor.point }}포인트</a>
-                            {% endfor %}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
+        현재 순위
+        {% for point in points %}
+            <div>
+                {{ forloop.counter }}등
+                {% for key, val in point.items %}
+                    {{ val }}
+                {% endfor %}
+                포인트
             </div>
-        </div>
-        <div>
-            <!-- Button trigger modal -->
-            <button type="button" class="" data-bs-toggle="modal" data-bs-target="#nominated_modal">
-                나를 지목한 유저들
-            </button>
-
-            <!-- Modal -->
-            <div class="modal fade" id="nominated_modal" tabindex="-1" aria-labelledby="nominated_modalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="nominated_modalLabel">나를 지목한 유저들</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            {% for nomi in nominated %}
-                                <a href="{% url 'quest' %}?username={{ nomi.competition.user.username }}">{{ nomi.competition.user.username }}</a>
-                            {% endfor %}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
     <div id="quest_container">
+        <button onclick="window.location='{% url 'quest' %}?username={{ user.username }}'">퀘스트 로그</button>
+        <!-- Button trigger modal -->
+        <button type="button" class="" data-bs-toggle="modal" data-bs-target="#quest_upload_Modal">
+            퀘스트 업로드
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="quest_upload_Modal" tabindex="-1" aria-labelledby="quest_upload_modalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="quest_upload_modalLabel">퀘스트 업로드</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{% url 'quest' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label for="type">퀘스트 타입</label>
+                        <select id="type" name="type" class="form-select" aria-label="Default select example" required>
+                            <option value="workout">운동</option>
+                            <option value="food">식단</option>
+                        </select>
+                        <label class="" for="input_file">
+                            이미지
+                        </label>
+                        <img id="input_img" src="" class="hidden">
+                        <input type="file" id="input_file" name="input_file" class="hidden"
+                               accept="image/gif,image/jpeg,image/png"
+                               onchange="loadFile(this)">
+                        <label for="content">내용</label>
+                        <textarea id="content" class="" name="content" maxlength="300"></textarea>
+                        <div id="quest_button_wrapper">
+                            <button type="submit" class="">업로드</button>
+                            <button type="button" class="" data-bs-dismiss="modal">닫기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="quest_log_container">
         {% for quest in quests %}
             <div class="card">
                 <img src="{{ quest.photo.url }}" class="card-img-top">

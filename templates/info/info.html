@@ -9,7 +9,7 @@
 
 {# css 파일 넣는 곳#}
 {% block css %}
-    {#        <link rel="stylesheet" href="{% static '/css/해당앱.css' %}">#}
+    <link rel="stylesheet" href="{% static '/css/info.css' %}">
 {% endblock %}
 
 {#자바스크립트 파일 넣는 곳#}
@@ -20,54 +20,26 @@
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
     <div>
-        추천
-        {% if data.recommend %}
-            {% for i in data.recommend %}
-                <div>
-                    <a href="{{ i.id }}">{{ i.item }}</a>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
-    <div>
-        <a href="diet_plan">diet_plan</a>
-        {% if data.diet_plan %}
-            {% for i in data.diet_plan %}
-                <div>
-                    <a href="{{ i.id }}">{{ i.item }}</a>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
-    <div>
-        <a href="food">food</a>
-        {% if data.food %}
-            {% for i in data.food %}
-                <div>
-                    <a href="{{ i.id }}">{{ i.item }}</a>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
-    <div>
-        <a href="workout_routine">workout_routine</a>
-        {% if data.workout_routine %}
-            {% for i in data.workout_routine %}
-                <div>
-                    <a href="{{ i.id }}">{{ i.item }}</a>
-                </div>
-            {% endfor %}
-        {% endif %}
-    </div>
-    <div>
-        <a href="workout">workout</a>
-        {% if data.workout %}
-            {% for i in data.workout %}
-                <div>
-                    <a href="{{ i.id }}">{{ i.item }}</a>
-                </div>
-            {% endfor %}
-        {% endif %}
+        {% for key, val in data.items %}
+            <div class="type_wrapper">
+                {% if key == 'recommend' %}
+                    <p>추천</p>
+                {% elif key == 'food' %}
+                    <a href="{{ key }}">음식</a>
+                {% elif key == 'diet_plan' %}
+                    <a href="{{ key }}">식단</a>
+                {% elif key == 'workout' %}
+                    <a href="{{ key }}">운동</a>
+                {% elif key == 'workout_routine' %}
+                    <a href="{{ key }}">운동 루틴</a>
+                {% endif %}
+            </div>
+            <div class="item_wrapper">
+                {% for v in val %}
+                    <a href="{{ v.id }}">{{ v.item }}</a>
+                {% endfor %}
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
 

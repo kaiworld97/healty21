@@ -1,0 +1,7 @@
+.type_wrapper{
+    margin: 5%;
+}
+.item_wrapper{
+    display: flex;
+    flex-direction: column;
+}

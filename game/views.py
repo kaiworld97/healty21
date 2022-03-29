@@ -7,11 +7,12 @@ from django.http import JsonResponse, HttpResponse
 from django.core.paginator import Paginator
 from django.contrib.messages import error
 from django.contrib.auth.decorators import login_required
+import random
 
 
 @login_required()
 def competition(request):
-    user = User.objects.get(username=request.user)
+    user = request.user
     if request.method == 'GET':
         # 그룹이 없다면 그룹 설정
         if not user.group:
@@ -20,8 +21,17 @@ def competition(request):
         # 경쟁 상태가 아니라면 경쟁자 선정 후 경쟁 생성
         elif not user.competition_activate:
             # 유저 추천이 들어갈 부분
-            competitors = User.objects.exclude(username=request.user)
-            return render(request, 'game/select.html', {'type': 'competitor', 'competitors': competitors})
+            if user.point == 0 and (
+                    len((users_by_points := User.objects.filter(group=user.group, point=0).exclude(id=user.id))) <= 5):
+                users_by_points = User.objects.filter(group=user.group).exclude(id=user.id).order_by('point')[:5]
+            elif user.point == 0:
+                users_by_points = random.sample(list(users_by_points), 5)
+            else:
+                # 같은 그룹과 유사한 포인트 가진 사람 보여주기
+                users_by_groups = User.objects.filter(group=user.group).exclude(id=user.id)  # 유저 그룹으로 1차 필터링
+                # 유저와 포인트 차이로 sort하고 5명까지
+                users_by_points = sorted(users_by_groups, key=lambda x: abs(x.point - user.point))[:5]
+            return render(request, 'game/select.html', {'type': 'competitor', 'competitors': users_by_points})
         else:
             page_number = request.GET.get('page')
             # 현재 진행중인 competition 가져오기
@@ -45,15 +55,19 @@ def competition(request):
             if not page_number:
                 quests = all_quests[:10]
                 # competitors의 점수
+                point = [{'username': user.username, 'point': competition.point}]
                 for competitor in competitors:
-                    competitor.point = sum(map(lambda x: x.point,
-                                               filter(lambda x: x.user.username == competitor.competitor.username,
-                                                      all_quests)))
+                    point.append({'username': competitor.competitor.username,
+                                  'point': sum(map(lambda x: x.point,
+                                                   filter(lambda
+                                                              x: x.user.username == competitor.competitor.username,
+                                                          all_quests)))})
+                points = sorted(point, key=lambda x: -x['point'])
                 # 유저가 속해져 있는 모든 경쟁 상대 보기
                 nominated = user.competitor.all()
                 return render(request, 'game/competition.html',
                               {'competition': competition, 'competitors': competitors, 'quests': quests,
-                               'nominated': nominated})
+                               'nominated': nominated, 'points': points})
             else:
                 paginator = Paginator(all_quests, 10)
                 if int(page_number) <= paginator.num_pages:
@@ -84,7 +98,7 @@ def competition(request):
 
 @login_required()
 def quest(request):
-    user = User.objects.get(username=request.user)
+    user = request.user
     if request.method == 'GET':
         # 날짜별 퀘스트 가져오기
         username = request.GET.get('username')
