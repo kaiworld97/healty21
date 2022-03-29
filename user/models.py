@@ -25,6 +25,7 @@ class User(AbstractUser):
     group = models.ForeignKey(UserGroup, on_delete=models.CASCADE, null=True)
     competition_activate = models.BooleanField(default=False)
     point = models.IntegerField(default=0)
+    view_eval = models.BooleanField(default=False)
     image = models.ImageField(upload_to=user_directory_path, default='default/healthy21.png')
 
     def get_absolute_url(self):
@@ -78,7 +79,7 @@ class UserProfile(models.Model):
     age = models.IntegerField(null=True)
     public = models.CharField(
         max_length=20, blank=True, default='public',
-        choices=PUBLICPRIVATE, null=True,
+        choices=PUBLICPRIVATE,
         help_text="챌린지 공개 여부를 선택해주세요."
     )
     created_at = models.DateTimeField(auto_now_add=True)
@@ -96,4 +97,12 @@ class UserFollowing(models.Model):
     following_user = models.ForeignKey(User, related_name="follower", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
+
+class UserBlocking(models.Model):
+    class Meta:
+        db_table = "user_block"
+
+    user = models.ForeignKey(User, related_name="blocked", on_delete=models.CASCADE)
+    blocking_user = models.ForeignKey(User, related_name="blocked_by", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
