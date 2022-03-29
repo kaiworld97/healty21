@@ -47,7 +47,9 @@ def profile(request):
 
         u_form = UserUpdateForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid() and u_form.is_valid():
-            # u_form.save()
+            u_form.save(commit=False)
+            if 'image' in request.FILES:
+                request.user.image = request.FILES['image']
             profile = form.save(commit=False)  # 저장 늦추기
             profile.user = request.user
             weight = form.cleaned_data['weight']

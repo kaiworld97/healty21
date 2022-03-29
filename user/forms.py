@@ -27,7 +27,6 @@ class ProfileForm(forms.ModelForm):
             "height": "키 (cm)",
             "weight": "몸무게 (kg)",
             "bio": "자기소개",
-            "image": "프로필 이미지",
         }
         widgets = {
             "birth_day": forms.DateInput(attrs={'type': 'date', 'id': 'b_datepicker', 'class': "form-floating",
@@ -61,19 +60,12 @@ class MyCustomSignupForm(SignupForm):
 
 
 class UserUpdateForm(forms.ModelForm):
-    image = forms.ImageField()
 
     class Meta:
         model = User
         fields = ['image']
 
-    def save(self, request):
-        user = super(UserUpdateForm, self).save(request)
-        user.save()
-        return user
+    labels = {
+        "image": "이미지",
+    }
 
-
-# class ProfileUpdateForm(forms.ModelForm):
-#     class Meta:
-#         model = UserProfile
-#         fields = ['gender', 'birth_day', 'height', 'weight', 'bio']

@@ -69,9 +69,9 @@ class UserProfile(models.Model):
         max_length=1,
         choices=GENDER,
     )
-    bio = models.CharField(max_length=256, blank=True, help_text="간단한 소개 한마디")
+    bio = models.CharField(max_length=300, blank=True, help_text="간단한 소개 한마디")
     bmi = models.FloatField()
-    bmi_category = models.CharField(max_length=256, null=True)
+    bmi_category = models.CharField(max_length=100, null=True)
     bmr = models.FloatField(null=True)
     age = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
