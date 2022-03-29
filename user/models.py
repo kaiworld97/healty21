@@ -56,15 +56,17 @@ class UserProfile(models.Model):
     class Meta:
         db_table = "user_profile"
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birth_day = models.DateField()
-    height = models.FloatField()
-    weight = models.FloatField()
     GENDER = [
         (None, '성별을 선택해주세요.'),
         ('M', '남성'),
         ('F', '여성')
     ]
+    PUBLICPRIVATE = [('public', '공개'), ('private', '비공개')]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    birth_day = models.DateField()
+    height = models.FloatField()
+    weight = models.FloatField()
     gender = models.CharField(
         max_length=1,
         choices=GENDER,
@@ -74,6 +76,11 @@ class UserProfile(models.Model):
     bmi_category = models.CharField(max_length=100, null=True)
     bmr = models.FloatField(null=True)
     age = models.IntegerField(null=True)
+    public = models.CharField(
+        max_length=20, blank=True, default='public',
+        choices=PUBLICPRIVATE, null=True,
+        help_text="챌린지 공개 여부를 선택해주세요."
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
