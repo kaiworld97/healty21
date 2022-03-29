@@ -18,26 +18,36 @@
         const content = document.querySelector(".all_data_container");
         let page = 2
         let next_page = true
+
+        var scrollTimer = 0;
+
         window.onscroll = function () {
-            let url = `{% url 'info' %}${content_type}?page=${page}`
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight && next_page) {
-                page += 1
-                fetch(url).then(res =>
-                    res.json()
-                ).then(data => {
-                    content.innerHTML += data.map(
-                        res_data => `
-                <div>
-            	<a href="{% url 'info' %}${res_data.id}">${res_data.item}</a>
-                </div>
-            	`
-                    ).join("\n")
-                }).catch(err => {
-                    next_page = false
-                    content.innerHTML += `
-                    <p>마지막 컨텐츠입니다.</p>
-                    `
-                })
+            var minScrollTime = 200;
+
+            if (!scrollTimer) {
+                scrollTimer = setTimeout(function () {
+                    scrollTimer = null;
+                    let url = `{% url 'info' %}${content_type}?page=${page}`
+                    if (window.innerHeight + window.scrollY >= document.body.offsetHeight && next_page) {
+                        page += 1
+                        fetch(url).then(res =>
+                            res.json()
+                        ).then(data => {
+                            content.innerHTML += data.map(
+                                res_data => `
+                        <div>
+                        <a href="{% url 'info' %}${res_data.id}">${res_data.item}</a>
+                        </div>
+                        `
+                            ).join("\n")
+                        }).catch(err => {
+                            next_page = false
+                            content.innerHTML += `
+                            <p>마지막 컨텐츠입니다.</p>
+                            `
+                        })
+                    }
+                }, minScrollTime);
             }
         }
     </script>
