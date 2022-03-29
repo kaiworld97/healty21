@@ -10,8 +10,18 @@
     유저 프로필
 {% endblock %}
 
- css 파일 넣는 곳
+css 파일 넣는 곳
 {% block css %}
+    <style>
+        input, select, textarea {
+            padding: 0;
+        }
+        {#to remove dajgno model form default none value '--------'#}
+        #div_id_public div:first-child {
+            display:none
+        }
+
+    </style>
 {% endblock %}
 
 자바스크립트 파일 넣는 곳
@@ -21,17 +31,25 @@
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
     <h1 style="margin-top: 20px">유저 프로필</h1>
-    <div class="container">
+
         {% if user.is_authenticated %}
             <p>{{ user }}님, 게임에 참여하시려면 추가정보를 입력해주세요. </p>
             {#        <form class="signup" id="user_profile_form" method="post" action="{% url 'user-profile' %}">#}
-        <form action="" enctype="multipart/form-data" method="POST">
-            {% csrf_token %}
-            {% crispy form %}
-        </form>
-
+            <form action="" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <img src="{{ user.image.url }}" alt="{{ user }} profile"
+                         class="img-fluid img-thumbnail mt-4 mb-2"
+                         style="width: 150px; z-index: 1; justify-items: center">
+                    {{ u_form | crispy }}
+                    {{ form | crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-primary button white" type="submit">업데이트</button>
+                </div>
+            </form>
         {% else %}
             <p>로그인 해주세요.</p>
         {% endif %}
-    </div>
+
 {% endblock %}

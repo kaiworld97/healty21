@@ -99,7 +99,7 @@
                                                  class="img-fluid img-thumbnail mt-4 mb-2"
                                                  style="width: 150px; z-index: 1">
                                             <button type="button"
-                                                    onclick="location.href='{% url 'profile_update' user.id %}'"
+                                                    onclick="location.href='{% url 'profile' %}'"
                                                     class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                                                     style="z-index: 1;">
                                                 프로필 수정하기
@@ -121,11 +121,11 @@
                                                 <p class="small text-muted mb-0">내 점수</p>
                                             </div>
                                             <div class="px-3">
-                                                <p class="mb-1 h5">1026</p>
+                                                <p class="mb-1 h5">{{ followers|length }}</p>
                                                 <p class="small text-muted mb-0">팔로워</p>
                                             </div>
                                             <div class="px-3">
-                                                <p class="mb-1 h5">478</p>
+                                                <p class="mb-1 h5">{{ followings|length }}</p>
                                                 <p class="small text-muted mb-0">팔로잉</p>
                                             </div>
                                         </div>
@@ -204,7 +204,7 @@
                     </div>
                 </section>
             {% else %}
-                <a href="{% url 'profile_create' %}">프로필 만들기</a>
+                <a href="{% url 'profile' %}">프로필 만들기</a>
             {% endif %}
 
             {#    #}
@@ -229,7 +229,7 @@
             {#                <p>나의 한줄 소개 : {{ user.userprofile.bio }}</p>#}
             {##}
             {#            {% else %}#}
-            {#                <a href="{% url 'profile_create' %}">프로필 만들기</a>#}
+            {#                <a href="{% url 'profile' %}">프로필 만들기</a>#}
             {#            {% endif %}#}
             {##}
             {##}
@@ -244,7 +244,7 @@
 
             <div class="d-flex justify-content-center">
                 <div class="card my-card p-3 mb-5">
-                    <h5>팔로우 하는 유저들 ({{ followings|length }}명)</h5>
+                    <h5>내가 팔로우 하는 유저들 ({{ followings|length }}명)</h5>
                     {% for following in followings %}
                         <div class="d-flex justify-content-between mt-2 align-items-center">
                             <div class="d-flex flex-row"><img src="{{ following.image.url }}"
@@ -252,7 +252,7 @@
                                                               width="40" height="40">
                                 <div class="d-flex flex-column ml-1 about"><span
                                         class="font-weight-bold">{{ following }}</span>
-                                    <small>585 posts</small></div>
+                                    <small>585 challenges</small></div>
                             </div>
                             <button onclick="location.href='{% url 'follow' following.id %}'"
                                     class="btn btn-outline-primary btn-sm follow">언팔로우
@@ -273,7 +273,7 @@
                                                               width="40" height="40">
                                 <div class="d-flex flex-column ml-1 about"><span
                                         class="font-weight-bold">{{ nofollowing }}</span>
-                                    <small>585 posts</small></div>
+                                    <small>585 challenges</small></div>
                             </div>
                             <button onclick="location.href='{% url 'follow' nofollowing.id %}'"
                                     class="btn btn-primary btn-sm text-white follow">팔로우
@@ -284,15 +284,40 @@
                 </div>
             </div>
 
-            <form class="container-fluid" method="GET" action="{% url 'profile_create' %}">
+
+            <div class="mt-5 d-flex justify-content-center">
+                <div class="card my-card p-3 mb-5">
+                    <h5>나를 팔로우 하는 유저들 ({{ followers|length }}명)</h5>
+                    {% for follower in followers %}
+                        <div class="d-flex justify-content-between mt-2 align-items-center">
+                            <div class="d-flex flex-row"><img src="{{ follower.image.url }}"
+                                                              class="rounded-circle"
+                                                              width="40" height="40">
+                                <div class="d-flex flex-column ml-1 about"><span
+                                        class="font-weight-bold">{{ follower }}</span>
+                                    <small>585 challenges</small></div>
+                            </div>
+                            <button onclick="location.href='{% url 'follow' follower.id %}'"
+                                    class="btn btn-primary btn-sm text-white follow">팔로우
+                            </button>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            <form class="container-fluid" method="GET" action="{% url 'profile' %}">
                 <label for="exampleDataList" class="form-label">유저 검색</label>
-                <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="유저를 찾아보세요">
+                <input class="form-control" list="datalistOptions" id="exampleDataList"
+                       value="{{ search_word|default_if_none:'' }}" placeholder="유저를 찾아보세요">
                 <datalist id="datalistOptions">
                     {% for users in all_users %}
                         <option value="{{ users }}">
                     {% endfor %}
                 </datalist>
             </form>
+
 
             {#            <h3>유저와 유사한 유저들(Modal)</h3>#}
             {#            {% for user_by_points in users_by_points %}#}

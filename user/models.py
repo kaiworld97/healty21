@@ -1,3 +1,4 @@
+from PIL import Image
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -26,29 +27,60 @@ class User(AbstractUser):
     point = models.IntegerField(default=0)
     image = models.ImageField(upload_to=user_directory_path, default='default/healthy21.png')
 
+    def get_absolute_url(self):
+        return f"/users/{self.pk}/"
+
+    # Override the save method of the model
+    # def save(self):
+    #     super().save()
+    #
+    #     img = Image.open(self.image.path)  # Open image
+    #
+    #     # resize image
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size)  # Resize image
+    #         img.save(self.image.path)  # Save it again and override the larger image
+
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     img = Image.open(self.image.path)
+    #     if img.mode in ("RGBA", "P"): img = img.convert("RGB")
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path)
+
 
 class UserProfile(models.Model):
     class Meta:
         db_table = "user_profile"
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birth_day = models.DateField()
-    height = models.FloatField()
-    weight = models.FloatField()
     GENDER = [
         (None, '성별을 선택해주세요.'),
         ('M', '남성'),
         ('F', '여성')
     ]
+    PUBLICPRIVATE = [('public', '공개'), ('private', '비공개')]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    birth_day = models.DateField()
+    height = models.FloatField()
+    weight = models.FloatField()
     gender = models.CharField(
         max_length=1,
         choices=GENDER,
     )
-    bio = models.CharField(max_length=256, blank=True, help_text="간단한 소개 한마디")
+    bio = models.CharField(max_length=300, blank=True, help_text="간단한 소개 한마디")
     bmi = models.FloatField()
-    bmi_category = models.CharField(max_length=256, null=True)
+    bmi_category = models.CharField(max_length=100, null=True)
     bmr = models.FloatField(null=True)
     age = models.IntegerField(null=True)
+    public = models.CharField(
+        max_length=20, blank=True, default='public',
+        choices=PUBLICPRIVATE, null=True,
+        help_text="챌린지 공개 여부를 선택해주세요."
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
@@ -63,3 +95,5 @@ class UserFollowing(models.Model):
     user = models.ForeignKey(User, related_name="following", on_delete=models.CASCADE)
     following_user = models.ForeignKey(User, related_name="follower", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
