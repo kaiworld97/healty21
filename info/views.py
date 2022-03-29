@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -8,25 +7,21 @@ from django.http import JsonResponse
 import random
 
 
-# @login_required()
+@login_required()
 def info(request):
-    if request.user.is_authenticated:
-        if request.method == 'GET':
-            data = {}
-            recommend = random.sample(list(Content.objects.all()), 10)
-            food = random.sample(list(Content.objects.filter(type='food')), 10)
-            # diet_plan = random.sample(list(Content.objects.filter(type='diet_plan')), 10)
-            workout = random.sample(list(Content.objects.filter(type='workout')), 10)
-            # workout_routine = random.sample(list(Content.objects.filter(type='workout_routine')), 10)
-            data['recommend'] = recommend
-            data['food'] = food
-            # data['diet_plan'] = diet_plan
-            data['workout'] = workout
-            # data['workout_routine'] = workout_routine
-            return render(request, 'info/info.html', {'data': data})
-    else:
-        messages.warning(request, f'info를 보시려면 로그인 해주세요.')
-        return redirect(settings.LOGIN_URL)
+    if request.method == 'GET':
+        data = {}
+        recommend = random.sample(list(Content.objects.all()), 10)
+        food = random.sample(list(Content.objects.filter(type='food')), 10)
+        # diet_plan = random.sample(list(Content.objects.filter(type='diet_plan')), 10)
+        workout = random.sample(list(Content.objects.filter(type='workout')), 10)
+        # workout_routine = random.sample(list(Content.objects.filter(type='workout_routine')), 10)
+        data['recommend'] = recommend
+        data['food'] = food
+        # data['diet_plan'] = diet_plan
+        data['workout'] = workout
+        # data['workout_routine'] = workout_routine
+        return render(request, 'info/info.html', {'data': data})
 
 
 def content_type(request, type):
