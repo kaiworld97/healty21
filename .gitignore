@@ -8,14 +8,7 @@ venv/
 
 .venv
 
-0001_initial.py
+migrations/
+!__init__.py
 
-0002_initial.py
-
-0003_initial.py
-
-0004_initial.py
-
-0005_initial.py
-
-0006_initial.py
+config/social.json

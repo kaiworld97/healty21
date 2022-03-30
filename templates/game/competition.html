@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{#타이틀 넣는 곳#}
+{% block title %}
+    competition
+{% endblock %}
+
+{# css 파일 넣는 곳#}
+{% block css %}
+    <link rel="stylesheet" href="{% static '/css/game.css' %}">
+{% endblock %}
+
+{#자바스크립트 파일 넣는 곳#}
+{% block js %}
+    <script>
+        function loadFile(input) {
+            let file = input.files[0];
+            let file_img = document.getElementById("input_img");
+            file_img.src = URL.createObjectURL(file);
+            file_img.classList.remove('hidden')
+        }
+
+        const content = document.querySelector("#quest_log_container");
+        let page = 2
+        let next_page = true
+        var scrollTimer = 0;
+
+        window.onscroll = function () {
+            var minScrollTime = 200;
+
+            if (!scrollTimer) {
+                scrollTimer = setTimeout(function () {
+                    scrollTimer = null;
+                    let url = `{% url 'competition' %}?page=${page}`
+                    if (window.innerHeight + window.scrollY >= document.body.offsetHeight && next_page) {
+                        page += 1
+                        fetch(url).then(res =>
+                            res.json()
+                        ).then(data => {
+                            content.innerHTML += data.map(
+                                res_data => `
+                            <div class="card">
+                                <img src="${res_data.photo}" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">${res_data.username}</h5>
+                                    <p class="card-text">${res_data.content}</p>
+                                    <h6 class="card-subtitle mb-2 text-muted">${res_data.date}</h6>
+                                </div>
+                            </div>
+            	`
+                            ).join("\n")
+                        }).catch(err => {
+                            next_page = false
+                            content.innerHTML += `
+                                <p>마지막 퀘스트입니다.</p>
+                                `
+                        })
+                    }
+                }, minScrollTime);
+            }
+        }
+    </script>
+{% endblock %}
+
+{#메인 컨텐츠 들어가는 곳#}
+{% block content %}
+    <div id="game_title">
+        <h1>{{ competition.game.title }}</h1>
+    </div>
+    <div id="user_container">
+        <!-- Button trigger modal -->
+        <button type="button" class="" data-bs-toggle="modal" data-bs-target="#competitor_modal">
+            내가 지목한 유저들
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="competitor_modal" tabindex="-1" aria-labelledby="competitor_modalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="competitor_modalLabel">나를 지목한 유저들</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% for competitor in competitors %}
+                            <a href="{% url 'quest' %}?username={{ competitor.competitor.username }}">{{ competitor.competitor.username }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Button trigger modal -->
+        <button type="button" class="" data-bs-toggle="modal" data-bs-target="#nominated_modal">
+            나를 지목한 유저들
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="nominated_modal" tabindex="-1" aria-labelledby="nominated_modalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="nominated_modalLabel">나를 지목한 유저들</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% for nomi in nominated %}
+                            <a href="{% url 'quest' %}?username={{ nomi.competition.user.username }}">{{ nomi.competition.user.username }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        현재 순위
+        {% for point in points %}
+            <div>
+                {{ forloop.counter }}등
+                {% for key, val in point.items %}
+                    {{ val }}
+                {% endfor %}
+                포인트
+            </div>
+        {% endfor %}
+    </div>
+    <div id="quest_container">
+        <button onclick="window.location='{% url 'quest' %}?username={{ user.username }}'">퀘스트 로그</button>
+        <!-- Button trigger modal -->
+        <button type="button" class="" data-bs-toggle="modal" data-bs-target="#quest_upload_Modal">
+            퀘스트 업로드
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="quest_upload_Modal" tabindex="-1" aria-labelledby="quest_upload_modalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="quest_upload_modalLabel">퀘스트 업로드</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{% url 'quest' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label for="type">퀘스트 타입</label>
+                        <select id="type" name="type" class="form-select" aria-label="Default select example" required>
+                            <option value="workout">운동</option>
+                            <option value="food">식단</option>
+                        </select>
+                        <label class="" for="input_file">
+                            이미지
+                        </label>
+                        <img id="input_img" src="" class="hidden">
+                        <input type="file" id="input_file" name="input_file" class="hidden"
+                               accept="image/gif,image/jpeg,image/png"
+                               onchange="loadFile(this)">
+                        <label for="content">내용</label>
+                        <textarea id="content" class="" name="content" maxlength="300"></textarea>
+                        <div id="quest_button_wrapper">
+                            <button type="submit" class="">업로드</button>
+                            <button type="button" class="" data-bs-dismiss="modal">닫기</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="quest_log_container">
+        {% for quest in quests %}
+            <div class="card">
+                <img src="{{ quest.photo.url }}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">{{ quest.user.username }}</h5>
+                    <p class="card-text">{{ quest.content }}</p>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ quest.upload_date|date:'Y년 m월 d일 H시 i분' }}</h6>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+

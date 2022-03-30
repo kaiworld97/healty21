@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{#타이틀 넣는 곳#}
+{% block title %}
+    info
+{% endblock %}
+
+{# css 파일 넣는 곳#}
+{% block css %}
+    <link rel="stylesheet" href="{% static '/css/info.css' %}">
+{% endblock %}
+
+{#자바스크립트 파일 넣는 곳#}
+{% block js %}
+    {#<script type="text/javascript" src="{% static '/js/해당앱.js' %}"></script>#}
+{% endblock %}
+
+{#메인 컨텐츠 들어가는 곳#}
+{% block content %}
+    <div>
+        {% for key, val in data.items %}
+            <div class="type_wrapper">
+                {% if key == 'recommend' %}
+                    <p>추천</p>
+                {% elif key == 'food' %}
+                    <a href="{{ key }}">음식</a>
+                {% elif key == 'diet_plan' %}
+                    <a href="{{ key }}">식단</a>
+                {% elif key == 'workout' %}
+                    <a href="{{ key }}">운동</a>
+                {% elif key == 'workout_routine' %}
+                    <a href="{{ key }}">운동 루틴</a>
+                {% endif %}
+            </div>
+            <div class="item_wrapper">
+                {% for v in val %}
+                    <a href="{{ v.id }}">{{ v.item }}</a>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% load static %}
+{#타이틀 넣는 곳#}
+{% block title %}
+    {% trans "Sign Out" %}
+{% endblock %}
+{# css 파일 넣는 곳#}
+{% block css %}
+{% endblock %}
+
+{#자바스크립트 파일 넣는 곳#}
+{% block js %}
+{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Sign Out" %}</h1>
+
+    <p>{% trans 'Are you sure you want to sign out?' %}</p>
+
+    <form method="post" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+        <button type="submit">{% trans 'Sign Out' %}</button>
+    </form>
+
+
+{% endblock %}
