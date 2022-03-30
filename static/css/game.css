@@ -1,6 +1,11 @@
+.container p{
+    font-size: 2rem;
+}
+
+
 .card {
     text-align: left;
-    width: 25rem;
+    width: 85%;
     margin-bottom: 7%
 }
 
@@ -11,24 +16,39 @@ form {
     align-items: center;
     text-align: center;
     box-shadow: unset;
+    max-width: none;
+    width: 100%;
 }
 
 button {
     margin: 1%;
     border-radius: 30px;
     padding: 3%;
+    font-size: 2rem;
 }
 
 #quest_container {
     display: flex;
     justify-content: center;
     margin: 5% auto;
+    width: 100%;
+}
+
+#quest_container button {
+    font-size: 2rem;
+    width: 30vw;
 }
 
 #user_container {
     display: flex;
     justify-content: center;
     margin: 5% 0;
+    width: 100%;
+}
+
+#user_container button {
+    font-size: 2rem;
+    width: 35vw;
 }
 
 #quest_log_container {
@@ -36,34 +56,111 @@ button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 #game_title h1 {
     font-weight: bold;
     margin: 0 0 3% 0;
+    font-size: 3rem;
 }
 
-#quest_button_wrapper button{
-    width: 100px;
+#quest_button_wrapper button {
+    width: 15vw;
 }
 
-#quest_button_wrapper{
+#quest_button_wrapper {
     display: flex;
     justify-content: center;
     margin-top: 5%;
 }
 
-#type{
-    width: 100px;
+#type {
+    width: 15vw;
+    font-size: 2rem;
+    text-align: center;
 }
 
-#content{
+#content {
     resize: none;
+    width: 100%;
 }
 
-#quest_log_input_wrapper{
+#quest_log_input_wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: 5% 0;
+    width: 70%;
+}
+
+#quest_log_input_wrapper button{
+    font-size: 2rem;
+}
+
+.card-title {
+    font-size: 3rem;
+}
+
+.card-body p {
+    font-size: 2rem;
+}
+
+.card-subtitle {
+    font-size: 2rem;
+}
+
+.point_container {
+    font-size: 2rem;
+}
+
+.modal-dialog {
+    max-width: none;
+}
+
+.modal-content {
+    margin: 5%;
+}
+
+.modal-dialog {
+    font-size: 2rem;
+}
+
+.modal-title {
+    font-size: 2rem;
+}
+
+#input_img {
+    max-width: 500px;
+}
+.quest_type{
+    margin: 0 0 1% 0;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+input[type="checkbox"]+label, input[type="radio"]+label {
+    display: inline-block;
+    font-weight: bold;
+    position: relative;
+    top: 1px;
+}
+
+#date_input{
+    font-size: 2rem;
+    width: 30vw;
+    text-align: center;
+}
+
+.modal-body{
+    display: flex;
+    flex-direction: column;
+}
+.group_wrapper{
+    font-size: 2rem;
+    margin: 3%;
+}
+.competitor_wrapper{
+    font-size: 2rem;
+    margin: 3%;
 }

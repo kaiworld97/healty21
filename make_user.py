@@ -14,7 +14,7 @@ for i in range(1, 6):
     user.email = f'hcy{i}@gmail.com'
     user.password = '1111'
     user.save()
-    game = Game.objects.get(id=3)
+    game = Game.objects.get(id=1)
     quest = Quest()
     quest.user = user
     quest.game = game

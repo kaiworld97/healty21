@@ -18,8 +18,9 @@ nav{
 .nav_container{
     display: flex;
     margin: auto;
-    width: 50%;
+    width: 100%;
     justify-content: space-evenly;
+    font-size: xx-large;
 }
 
 .container{
@@ -28,10 +29,10 @@ nav{
     align-items: center;
     text-align: center;
     flex-direction: column;
-    margin: 5% auto;
+    max-width: none;
+    margin: 5% 0 15% 0;
 }
 
 .hidden{
     display: none;
 }
-

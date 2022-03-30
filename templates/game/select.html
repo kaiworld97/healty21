@@ -9,7 +9,7 @@
 
 {# css 파일 넣는 곳#}
 {% block css %}
-    {#        <link rel="stylesheet" href="{% static '/css/해당앱.css' %}">#}
+            <link rel="stylesheet" href="{% static '/css/game.css' %}">
 {% endblock %}
 
 {#자바스크립트 파일 넣는 곳#}
@@ -30,7 +30,7 @@
         {% csrf_token %}
         {% if type == 'group' %}
             {% for group in groups %}
-                <div>
+                <div class="group_wrapper">
                     <label for="group{{ group.id }}">{{ group }}</label>
                     <input type="radio" id="group{{ group.id }}" name="group" value="{{ group.id }}">
                 </div>
@@ -38,7 +38,7 @@
         {% endif %}
         {% if type == 'competitor' %}
             {% for competitor in competitors %}
-                <div>
+                <div class="competitor_wrapper">
                     <label for="{{ competitor.email }}">{{ competitor }}님의 총 포인트 <br>{{ competitor.point }}포인트</label>
                     <input type="checkbox" id="{{ competitor.email }}" name="competitor" value="{{ competitor.email }}">
                 </div>

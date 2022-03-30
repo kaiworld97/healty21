@@ -9,7 +9,7 @@
 
 {# css 파일 넣는 곳#}
 {% block css %}
-    {#        <link rel="stylesheet" href="{% static '/css/해당앱.css' %}">#}
+            <link rel="stylesheet" href="{% static '/css/info.css' %}">
 {% endblock %}
 
 {#자바스크립트 파일 넣는 곳#}
@@ -19,47 +19,45 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
+    <div class="detail_container">
     {% if type == 'diet_plan' %}
-        {{ data.content.item }}
-        {{ data.content.author }}
-        {{ data.content.description }}
-        {{ data.food_list }}
-        {{ data.meal_type }}
-        {{ data.total_calories }}
+        <p>식단 이름 <br> {{ data.content.item }}</p>
+        <p>콘텐츠 저자 <br> {{ data.content.author }}</p>
+        <p>설명 <br> {{ data.content.description }}</p>
+        <p>음식 리스트 <br> {{ data.food_list }}</p>
+        <p>식단 타입 <br> {{ data.meal_type }}</p>
+        <p>총 칼로리 <br> {{ data.total_calories }}</p>
     {% endif %}
     {% if type == 'food' %}
-        {{ data.content.item }}
-        {{ data.content.author }}
-        {{ data.content.description }}
-        {{ data.category }}
-        {{ data.calories }}
-        {{ data.protein }}
-        {{ data.carbs }}
-        {{ data.fat }}
-        {{ data.sodium }}
+        <p>음식 이름 <br> {{ data.content.item }}</p>
+        <p>콘텐츠 저자 <br> {{ data.content.author }}</p>
+        <p>설명 <br> {{ data.content.description }}</p>
+        <p>카테고리 <br> {{ data.category }}</p>
+        <p>칼로리 <br> {{ data.calories }}</p>
+        <p>단백질 <br> {{ data.protein }}</p>
+        <p>탄수화물 <br> {{ data.carbs }}</p>
+        <p>지방 <br> {{ data.fat }}</p>
+        <p>나트륨 <br> {{ data.sodium }}</p>
         {% if data.maker %}
-            {{ data.maker }}
+            <p>만드는 회사 <br> {{ data.maker }}</p>
         {% endif %}
     {% endif %}
     {% if type == 'workout_routine' %}
-        {{ data.content.item }}
-        {{ data.content.author }}
-        {{ data.content.description }}
-        {{ data.workout_list }}
-        {{ data.total_consume_cal }}
+        <p>운동 루틴 이름 <br> {{ data.content.item }}</p>
+        <p>컨텐츠 저자 <br> {{ data.content.author }}</p>
+        <p>운동 루틴 설명 <br> {{ data.content.description }}</p>
+        <p>운동 리스트 <br> {{ data.workout_list }}</p>
+        <p>총 칼로리 소모 <br> {{ data.total_consume_cal }}</p>
     {% endif %}
     {% if type == 'workout' %}
         <img src="{{ data.gif_url }}">
-        {{ data.content.item }}
-        {{ data.content.author }}
-        {{ data.content.description }}
-        {{ data.body_part }}
-        {{ data.kor_body_part }}
-        {{ data.equipment }}
-        {{ data.kor_equipment }}
-        {{ data.eng_name }}
-        {{ data.target }}
-        {{ data.kor_target }}
+        <p>운동 이름 <br> {{ data.content.item }} / <br> {{ data.eng_name }}</p>
+        <p>컨텐츠 저자 <br> {{ data.content.author }}</p>
+        <p>운동 루틴 설명 <br> {{ data.content.description }}</p>
+        <p>사용 부위 <br> {{ data.kor_body_part }} / {{ data.body_part }}</p>
+        <p>사용 장비 <br> {{ data.kor_equipment }} / {{ data.equipment }}</p>
+        <p>운동 타겟 <br> {{ data.kor_target }} / {{ data.target }}</p>
     {% endif %}
+    </div>
 {% endblock %}
 

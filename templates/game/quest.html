@@ -64,14 +64,30 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-    <h2>{{ username }}님의 퀘스트 로그</h2>
+    <p>{{ username }}님의 퀘스트 로그</p>
     <div id="quest_log_input_wrapper">
-    <input type="date" id="date_input" onchange="date_change(this)" max="{{ game_end|date:'Y-m-d' }}"
-           min="{{ game_start|date:'Y-m-d' }}">
-    <!-- Button trigger modal -->
-    <button type="button" class="" data-bs-toggle="modal" data-bs-target="#quest_delete_Modal">
-        퀘스트 삭제
-    </button>
+        <input type="date" id="date_input" onchange="date_change(this)" max="{{ game_end|date:'Y-m-d' }}"
+               min="{{ game_start|date:'Y-m-d' }}">
+        <!-- Button trigger modal -->
+        <button type="button" class="" data-bs-toggle="modal" data-bs-target="#quest_delete_Modal">
+            퀘스트 삭제
+        </button>
+    </div>
+
+    <div id="quest_log_container">
+        {% if not quests|length == 0 %}
+            {% for quest in quests %}
+                <div class="card">
+                    <img src="{{ quest.photo.url }}" class="card-img-top">
+                    <div class="card-body">
+                        <p class="card-text">{{ quest.content }}</p>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ quest.upload_date|date:'Y년 m월 d일 H시 i분' }}</h6>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>퀘스트가 없습니다.</p>
+        {% endif %}
     </div>
     <!-- Modal -->
     <div class="modal fade" id="quest_delete_Modal" tabindex="-1" aria-labelledby="quest_delete_modalLabel"
@@ -92,21 +108,6 @@
                 </form>
             </div>
         </div>
-    </div>
-    <div id="quest_log_container">
-        {% if not quests|length == 0 %}
-            {% for quest in quests %}
-                <div class="card">
-                    <img src="{{ quest.photo.url }}" class="card-img-top">
-                    <div class="card-body">
-                        <p class="card-text">{{ quest.content }}</p>
-                        <h6 class="card-subtitle mb-2 text-muted">{{ quest.upload_date|date:'Y년 m월 d일 H시 i분' }}</h6>
-                    </div>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>퀘스트가 없습니다.</p>
-        {% endif %}
     </div>
 {% endblock %}
 

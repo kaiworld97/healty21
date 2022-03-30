@@ -9,7 +9,7 @@
 
 {# css 파일 넣는 곳#}
 {% block css %}
-    {#        <link rel="stylesheet" href="{% static '/css/해당앱.css' %}">#}
+            <link rel="stylesheet" href="{% static '/css/info.css' %}">
 {% endblock %}
 
 {% block js %}
@@ -55,25 +55,18 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-    {{ type }}
-    <div>
+    <div class="recommend_container">
         <p>추천</p>
-        <div>
-            {% for i in recommend %}
-                <div>
-                    <a href="{% url 'info' %}{{ i.id }}">{{ i.item }}</a>
-                </div>
-            {% endfor %}
-        </div>
+        {% for i in recommend %}
+                <a href="{% url 'info' %}{{ i.id }}">{{ i.item }}</a>
+        {% endfor %}
     </div>
     <div>
         <p>전체</p>
         <div class="all_data_container">
-            {% for i in content %}
-                <div>
-                    <a href="{% url 'info' %}{{ i.id }}">{{ i.item }}</a>
-                </div>
-            {% endfor %}
+        {% for i in content %}
+                <a href="{% url 'info' %}{{ i.id }}">{{ i.item }}</a>
+        {% endfor %}
         </div>
     </div>
 {% endblock %}
