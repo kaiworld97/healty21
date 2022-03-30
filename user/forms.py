@@ -33,7 +33,7 @@ class ProfileForm(forms.ModelForm):
             "height": "키 (cm)",
             "weight": "몸무게 (kg)",
             "bio": "자기소개",
-            'public': "계정 공개 여부"
+            'public': "계정 공개"
         }
         widgets = {
             "birth_day": forms.DateInput(attrs={'type': 'date', 'id': 'b_datepicker', 'class': "form-floating",
