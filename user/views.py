@@ -76,7 +76,7 @@ def profile(request):
             profile.age = age
             # 기초 대사량 계산
             if profile.gender == 'M':
-                profile.bmr = round(66.4730 + (13.7516 * weight) + (5.0033 * height) - (6.7550 * age), 1)
+                profile.bmr = round(664.730 + (13.7516 * weight) + (5.0033 * height) - (6.7550 * age), 1)
             elif profile.gender == 'F':
                 profile.bmr = round(655.0955 + (9.5634 * weight) + (1.8496 * height) - (4.6756 * age), 1)
             profile.save()
