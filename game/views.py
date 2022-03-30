@@ -130,6 +130,7 @@ def quest(request):
                 q['username'] = quest.user.username
                 quest_list.append(q)
             return JsonResponse(quest_list, status=200, safe=False)
+
     if request.method == 'POST':
         start_date = datetime.datetime.today().strftime("%Y-%m-%d")
         end_date = (datetime.datetime.today() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
