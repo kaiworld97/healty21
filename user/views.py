@@ -12,13 +12,13 @@ def home(request):
     user = request.user
     if user.is_authenticated:
         all_users = User.objects.all()
-        # 유저를 팔로우하는 유저들
+        # 유저를 팔로우하는 유저들 .order_by('created_at')
         # user.follower.all() = 유저의 팔로워 = following_user가 나인 관계
-        follower_list = UserFollowing.objects.filter(following_user=user).order_by('created_at')
+        follower_list = UserFollowing.objects.filter(following_user=user)
         followers = [follower.user for follower in follower_list]
         # 유저가 팔로잉 하는 유저들
         # user.following.all() = 유저의 팔로잉 = user가 나인 관계
-        followings_list = UserFollowing.objects.filter(user=user).order_by('created_at')
+        followings_list = UserFollowing.objects.filter(user=user)
         followings = [following.following_user for following in followings_list]
         # 유저가 팔로잉 하지 않는 다른 유저들
         nofollowings = [x for x in all_users.exclude(id=user.id) if x not in followings]        # 추천 필터링
