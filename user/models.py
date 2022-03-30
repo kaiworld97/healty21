@@ -32,25 +32,28 @@ class User(AbstractUser):
         return f"/users/{self.pk}/"
 
     # Override the save method of the model
-    # def save(self):
-    #     super().save()
-    #
-    #     img = Image.open(self.image.path)  # Open image
-    #
-    #     # resize image
-    #     if img.height > 300 or img.width > 300:
-    #         output_size = (300, 300)
-    #         img.thumbnail(output_size)  # Resize image
-    #         img.save(self.image.path)  # Save it again and override the larger image
+    def save(self):
+        super().save()
+        img = Image.open(self.image.path)  # Open image
+        result_size = 300  # height, width
 
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-    #     img = Image.open(self.image.path)
-    #     if img.mode in ("RGBA", "P"): img = img.convert("RGB")
-    #     if img.height > 300 or img.width > 300:
-    #         output_size = (300, 300)
-    #         img.thumbnail(output_size)
-    #         img.save(self.image.path)
+        # resize and crop image
+        w, h = img.size
+        if w > result_size or h > result_size:
+            ratio = max(result_size / w, result_size / h)  # Resize based on on largest size (w, h)
+            neww, newh = map(int, (w * ratio, h * ratio))
+            output_size = (neww, newh)
+            img.thumbnail(output_size)  # Resize image thumbnail((max w, max h))
+        else:  # if image is smaller than expected size, then just crop
+            result_size = min(w, h)
+            neww, newh = w, h
+        left = (neww - result_size) / 2
+        top = (newh - result_size) / 2
+        right = (neww + result_size) / 2
+        bottom = (newh + result_size) / 2
+        img = img.crop((left, top, right, bottom))  # Crop image center
+        img.show()
+        img.save(self.image.path, quality=95)  # Save it again and override the larger image
 
 
 class UserProfile(models.Model):
