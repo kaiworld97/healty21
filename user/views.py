@@ -1,12 +1,8 @@
-import random
-from datetime import date
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ProfileForm, UserUpdateForm
 from .models import User, UserProfile, UserFollowing
-
 
 def home(request):
     user = request.user

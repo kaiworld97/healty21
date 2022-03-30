@@ -105,4 +105,3 @@ class UserBlocking(models.Model):
     user = models.ForeignKey(User, related_name="blocked", on_delete=models.CASCADE)
     blocking_user = models.ForeignKey(User, related_name="blocked_by", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-

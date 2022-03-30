@@ -1,0 +1,124 @@
+/* 임시로 설정해둔 값입니다. 후에 삭제할 예정 */
+:root {
+    --page-color: #FFE650;
+    --page-color-10: #FAFAD2;
+    --page-color-red: #EB0000;
+    --page-color-black: black;
+    --page-color-white: white;
+}
+
+/* 페이지 기본 뼈대 */
+#community_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#community_container img {
+    width: 15vw;
+    height: 15vw;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 50%;
+}
+
+#community_container a {
+    color: var(--page-color-black);
+    text-decoration-line: none;
+}
+
+#community_container a:hover {
+    color: var(--page-color-red);
+}
+
+#community_container i {
+    font-size: 30px;
+}
+
+/* 포스팅 */
+#community_container .community_header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 7px solid var(--page-color);
+    margin-bottom: 15px;
+}
+
+/* 등록된 게시물 */
+#community_container .community_header span {
+    display: inline-block;
+    width: 70vw;
+    height: 50vw;
+    line-height: 70px;
+    max-width: 723px;
+    max-height: 100px;
+    text-align: center;
+    font-size: 40px;
+    padding: 15px;
+    margin-left: 15px;
+    border-radius: 10px;
+    background-color: var(--page-color-10);
+}
+
+/* 프로필 */
+#community_container .community_body .body_profile {
+    width: 80vw;
+    max-width: 820px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+}
+
+#community_container .community_body .body_profile img {
+    margin-right: 20px;
+}
+
+
+#community_container .community_body .body_profile .body_profile__name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#community_container .community_body .body_profile .body_profile__name span:first-child {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#community_container .community_body .body_profile .body_profile__name span:last-child {
+    font-size: 18px;
+}
+
+/* 글 내용 */
+#community_container .community_body .body_content {
+    display: -webkit-box;
+    width: 100%;
+    max-width: 820px;
+    height: auto;
+    padding: 10px;
+    font-size: 25px;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background-color: var(--page-color-10);
+}
+
+/* 태그 */
+#community_container .community_body .body_tags {
+    font-size: 20px;
+    background-color: var(--page-color-10);
+    margin-bottom: 10px;
+}
+
+/* 기능 */
+#community_container .community_body .body_functions {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    margin-bottom: 50px;
+    border-bottom: 2px solid var(--page-color);
+    justify-content: space-between;
+}

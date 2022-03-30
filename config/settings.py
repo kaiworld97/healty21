@@ -43,6 +43,10 @@ INSTALLED_APPS = [
     'community',
     'game',
 
+    'taggit.apps.TaggitAppConfig',
+    'taggit_templatetags2',
+    'django_summernote',
+  
     # allauth
     'allauth',
     'allauth.account',
@@ -56,6 +60,8 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
 ]
+TAGGIT_CASE_INSENSITIVE = True
+TAGGIT_LIMIT = 50
 
 # allauth 설정
 AUTHENTICATION_BACKENDS = [
