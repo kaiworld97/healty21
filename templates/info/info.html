@@ -4,7 +4,7 @@
 
 {#타이틀 넣는 곳#}
 {% block title %}
-    info
+    Info
 {% endblock %}
 
 {# css 파일 넣는 곳#}
@@ -19,25 +19,25 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-        {% for key, val in data.items %}
-            <div class="type_wrapper">
-                {% if key == 'recommend' %}
-                    <p>추천</p>
-                {% elif key == 'food' %}
-                    <a href="{{ key }}">음식</a>
-                {% elif key == 'diet_plan' %}
-                    <a href="{{ key }}">식단</a>
-                {% elif key == 'workout' %}
-                    <a href="{{ key }}">운동</a>
-                {% elif key == 'workout_routine' %}
-                    <a href="{{ key }}">운동 루틴</a>
-                {% endif %}
-            </div>
-            <div class="item_wrapper">
-                {% for v in val %}
-                    <a href="{{ v.id }}">{{ v.item }}</a>
-                {% endfor %}
-            </div>
-        {% endfor %}
+    {% for key, val in data.items %}
+        <div class="type_wrapper">
+            {% if key == 'recommend' %}
+                <p>추천</p>
+            {% elif key == 'food' %}
+                <a href="{{ key }}">음식</a>
+            {% elif key == 'diet_plan' %}
+                <a href="{{ key }}">식단</a>
+            {% elif key == 'workout' %}
+                <a href="{{ key }}">운동</a>
+            {% elif key == 'workout_routine' %}
+                <a href="{{ key }}">운동 루틴</a>
+            {% endif %}
+        </div>
+        <div class="item_wrapper">
+            {% for v in val %}
+                <a href="{{ v.id }}">{{ v.item }}</a>
+            {% endfor %}
+        </div>
+    {% endfor %}
 {% endblock %}
 

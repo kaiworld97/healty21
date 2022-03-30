@@ -4,7 +4,7 @@
 
 {#타이틀 넣는 곳#}
 {% block title %}
-    quest
+    Quest
 {% endblock %}
 
 {# css 파일 넣는 곳#}
@@ -68,12 +68,10 @@
     <div id="quest_log_input_wrapper">
         <input type="date" id="date_input" onchange="date_change(this)" max="{{ game_end|date:'Y-m-d' }}"
                min="{{ game_start|date:'Y-m-d' }}">
-        <!-- Button trigger modal -->
         <button type="button" class="" data-bs-toggle="modal" data-bs-target="#quest_delete_Modal">
             퀘스트 삭제
         </button>
     </div>
-
     <div id="quest_log_container">
         {% if not quests|length == 0 %}
             {% for quest in quests %}
@@ -89,7 +87,6 @@
             <p>퀘스트가 없습니다.</p>
         {% endif %}
     </div>
-    <!-- Modal -->
     <div class="modal fade" id="quest_delete_Modal" tabindex="-1" aria-labelledby="quest_delete_modalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">

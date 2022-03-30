@@ -6,7 +6,8 @@
 .card {
     text-align: left;
     width: 85%;
-    margin-bottom: 7%
+    margin-bottom: 7%;
+    box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
 }
 
 form {

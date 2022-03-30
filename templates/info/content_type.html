@@ -4,12 +4,20 @@
 
 {#타이틀 넣는 곳#}
 {% block title %}
-    {{ type }}
+    {% if type == 'food' %}
+        Food
+    {% elif type == 'diet_plan' %}
+        Diet plan
+    {% elif type == 'workout' %}
+        Workout
+    {% elif type == 'workout_routine' %}
+        Workout routine
+    {% endif %}
 {% endblock %}
 
 {# css 파일 넣는 곳#}
 {% block css %}
-            <link rel="stylesheet" href="{% static '/css/info.css' %}">
+    <link rel="stylesheet" href="{% static '/css/info.css' %}">
 {% endblock %}
 
 {% block js %}
@@ -56,15 +64,15 @@
     <div class="recommend_container">
         <p>추천</p>
         {% for i in recommend %}
-                <a href="{% url 'info' %}{{ i.id }}">{{ i.item }}</a>
+            <a href="{% url 'info' %}{{ i.id }}">{{ i.item }}</a>
         {% endfor %}
     </div>
     <div>
         <p>전체</p>
         <div class="all_data_container">
-        {% for i in content %}
+            {% for i in content %}
                 <a href="{% url 'info' %}{{ i.id }}">{{ i.item }}</a>
-        {% endfor %}
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

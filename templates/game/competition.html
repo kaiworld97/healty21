@@ -3,7 +3,7 @@
 {% load static %}
 {#타이틀 넣는 곳#}
 {% block title %}
-    competition
+    Competition
 {% endblock %}
 
 {# css 파일 넣는 곳#}
@@ -69,16 +69,12 @@
         <h1>{{ competition.game.title }}</h1>
     </div>
     <div id="user_container">
-        <!-- Button trigger modal -->
         <button type="button" class="" data-bs-toggle="modal" data-bs-target="#competitor_modal">
             내가 지목한 유저들
         </button>
-
-        <!-- Button trigger modal -->
         <button type="button" class="" data-bs-toggle="modal" data-bs-target="#nominated_modal">
             나를 지목한 유저들
         </button>
-
     </div>
     <div class="point_container">
         현재 순위
@@ -93,8 +89,9 @@
         {% endfor %}
     </div>
     <div id="quest_container">
-        <button onclick="window.location='{% url 'quest' %}?username={{ user.username }}'">퀘스트 로그</button>
-        <!-- Button trigger modal -->
+        <button onclick="window.location='{% url 'quest' %}?username={{ user.username }}'">
+            퀘스트 로그
+        </button>
         <button type="button" class="" data-bs-toggle="modal" data-bs-target="#quest_upload_Modal">
             퀘스트 업로드
         </button>
@@ -111,7 +108,6 @@
             </div>
         {% endfor %}
     </div>
-    <!-- Modal -->
     <div class="modal fade" id="quest_upload_Modal" tabindex="-1" aria-labelledby="quest_upload_modalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -146,7 +142,6 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
     <div class="modal fade" id="nominated_modal" tabindex="-1" aria-labelledby="nominated_modalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -166,8 +161,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal -->
     <div class="modal fade" id="competitor_modal" tabindex="-1" aria-labelledby="competitor_modalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
