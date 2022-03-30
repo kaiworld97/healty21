@@ -35,9 +35,7 @@
                         ).then(data => {
                             content.innerHTML += data.map(
                                 res_data => `
-                        <div>
                         <a href="{% url 'info' %}${res_data.id}">${res_data.item}</a>
-                        </div>
                         `
                             ).join("\n")
                         }).catch(err => {

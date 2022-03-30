@@ -19,7 +19,6 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-    <div>
         {% for key, val in data.items %}
             <div class="type_wrapper">
                 {% if key == 'recommend' %}
@@ -40,6 +39,5 @@
                 {% endfor %}
             </div>
         {% endfor %}
-    </div>
 {% endblock %}
 

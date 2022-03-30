@@ -5,6 +5,7 @@
 
 .type_wrapper{
     margin: 5%;
+    width: 100%;
 }
 .type_wrapper a{
     font-size: 2rem;
@@ -17,6 +18,7 @@
 .item_wrapper{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 .item_wrapper a{
     font-size: 2rem;
@@ -30,6 +32,7 @@
 .recommend_container{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 .recommend_container a{
     font-size: 2rem;
@@ -56,6 +59,7 @@
 }
 .detail_container img{
     max-width: 500px;
+    margin: 10% auto;
 }
 .detail_container p{
     font-size: 2rem;
