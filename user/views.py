@@ -11,13 +11,13 @@ def home(request):
     user = request.user
     if user.is_authenticated:
         all_users = User.objects.all()
-        # 유저를 팔로우하는 유저들
+        # 유저를 팔로우하는 유저들 .order_by('created_at')
         # user.follower.all() = 유저의 팔로워 = following_user가 나인 관계
-        follower_list = UserFollowing.objects.filter(following_user=user).order_by('created_at')
+        follower_list = UserFollowing.objects.filter(following_user=user)
         followers = [follower.user for follower in follower_list]
         # 유저가 팔로잉 하는 유저들
         # user.following.all() = 유저의 팔로잉 = user가 나인 관계
-        followings_list = UserFollowing.objects.filter(user=user).order_by('created_at')
+        followings_list = UserFollowing.objects.filter(user=user)
         followings = [following.following_user for following in followings_list]
         # 유저가 팔로잉 하지 않는 다른 유저들
         nofollowings = [x for x in all_users.exclude(id=user.id) if x not in followings]        # 추천 필터링
@@ -30,8 +30,6 @@ def home(request):
             users_by_groups = User.objects.filter(group=user.group).exclude(id=user.id)  # 유저 그룹으로 1차 필터링
             # 유저와 포인트 차이로 sort하고 5명까지
             users_by_points = sorted(users_by_groups, key=lambda x: abs(x.point - user.point))[:5]
-            print(users_by_points)
-
         return render(request, 'user/home.html', {'followings': followings, 'followers':followers, 'all_users': all_users,
                                                   'nofollowings': nofollowings, 'users_by_points': users_by_points})
     else:
@@ -76,7 +74,7 @@ def profile(request):
             profile.age = age
             # 기초 대사량 계산
             if profile.gender == 'M':
-                profile.bmr = round(664.730 + (13.7516 * weight) + (5.0033 * height) - (6.7550 * age), 1)
+                profile.bmr = round(66.4730 + (13.7516 * weight) + (5.0033 * height) - (6.7550 * age), 1)
             elif profile.gender == 'F':
                 profile.bmr = round(655.0955 + (9.5634 * weight) + (1.8496 * height) - (4.6756 * age), 1)
             profile.save()
