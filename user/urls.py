@@ -14,4 +14,3 @@ urlpatterns = [
     path('people/', views.people_list, name='people_list'),
     path('<int:user_pk>/follow/', views.follow, name='follow'),
 ]
-

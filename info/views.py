@@ -1,13 +1,11 @@
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .models import *
 from django.core.paginator import Paginator
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import random
+from django.contrib.auth.decorators import login_required
 
 
-@login_required()
 def info(request):
     if request.method == 'GET':
         data = {}
@@ -32,13 +30,14 @@ def content_type(request, type):
             content = Content.objects.filter(type=type)[:30]
             return render(request, 'info/content_type.html', {'type': type, 'content': content, 'recommend': recommend})
         else:
-            content_list = Content.objects.filter(type=type)
+            content_list = Content.objects.filter(type=type).order_by('pk')[20:]
             paginator = Paginator(content_list, 10)
-
             if int(page_number) <= paginator.num_pages:
                 obj_list = paginator.get_page(page_number)
                 data_list = [{'id': obj.id, 'item': obj.item} for obj in obj_list]
                 return JsonResponse(data_list, status=200, safe=False)
+            elif int(page_number) > paginator.num_pages:
+                return HttpResponse(status=404)
 
 
 def content_detail(request, pk):
@@ -56,6 +55,7 @@ def content_detail(request, pk):
         return render(request, 'info/content_detail.html', {'type': type, 'data': data})
 
 
+@login_required()
 def content_save(request, pk):
     if request.method == 'POST':
         return redirect(request.headers['Referer'])

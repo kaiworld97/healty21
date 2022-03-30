@@ -11,7 +11,7 @@ from info.models import *  # django.setup() 이후에 임포트해야 오류가 
 User.objects.get_or_create(username='admin', password=1111, email='admin@admin.admin')
 admin = User.objects.get(username='admin')
 print('exercises_met.csv를 db에 추가합니다')
-with open('info_db_csv/exercises_met.csv') as in_file:
+with open('info_db_csv/exercises_met.csv', encoding='UTF8') as in_file:
     data_reader = csv.reader(in_file)
     next(data_reader, None)  # 출력시 함께 출력되는 맨첫줄을 제외하고 출력하기 위함
     for row in data_reader:
@@ -67,7 +67,7 @@ for i in range(7):
             food.save()
 
 print('k_food.csv를 db에 추가합니다')
-with open('info_db_csv/k_food.csv') as in_file:
+with open('info_db_csv/k_food.csv', encoding='UTF8') as in_file:
     data_reader = csv.reader(in_file)
     next(data_reader, None)
     for row in data_reader:

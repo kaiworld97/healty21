@@ -19,7 +19,13 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-    {{ type }}
+    <div>
+        {% if type == 'group' %}
+            <p>그룹 선택</p>
+        {% else %}
+            <p>경쟁할 사람 선택</p>
+        {% endif %}
+    </div>
     <form method="post" action="/competition/">
         {% csrf_token %}
         {% if type == 'group' %}
@@ -33,14 +39,12 @@
         {% if type == 'competitor' %}
             {% for competitor in competitors %}
                 <div>
-                    <label for="{{ competitor.email }}">{{ competitor }}</label>
+                    <label for="{{ competitor.email }}">{{ competitor }}님의 총 포인트 <br>{{ competitor.point }}포인트</label>
                     <input type="checkbox" id="{{ competitor.email }}" name="competitor" value="{{ competitor.email }}">
                 </div>
-
             {% endfor %}
         {% endif %}
         <button>확인</button>
     </form>
-
 {% endblock %}
 

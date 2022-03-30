@@ -1,0 +1,87 @@
+:root {
+    --page-color: #FFE650;
+    --page-color-10: #FAFAD2;
+    --page-color-red: #EB0000;
+    --page-color-error: #FA8282;
+    --page-color-black: black;
+    --page-color-white: white;
+}
+
+/* 페이지 기본 뼈대 */
+#community_post_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#community_post_container a {
+    color: var(--page-color-black);
+    text-decoration-line: none;
+}
+
+#community_post_container a:hover {
+    color: var(--page-color-red);
+}
+
+/* 게시물 등록 */
+#community_post_container .container_header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 7px solid var(--page-color);
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+#community_post_container form .container_header i {
+    font-size: 50px;
+}
+
+#community_post_container form .container_header span {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+#community_post_container form .container_header button {
+    width: 5vw;
+    max-width: 50px;
+    height: 45px;
+    border: none;
+    border-radius: 10px;
+}
+
+#community_post_container form .container_header button:hover {
+    background-color: var(--page-color-black);
+    color: var(--page-color-white);
+}
+
+#community_post_container textarea {
+    display: block;
+    width: 820px;
+    height: 1200px;
+    margin-bottom: 10px;
+    border: none;
+    border-bottom: 1px solid var(--page-color-10);
+}
+
+#community_post_container input {
+    width: 90vw;
+    max-width: 820px;
+    border: none;
+    margin-bottom: 20px;
+}
+
+/* 에러 */
+#community_post_container .error {
+    width: 820px;
+    text-align: center;
+    border: 1px solid var(--page-color-red);
+    color: var(--page-color-white);
+    background-color: var(--page-color-error);
+    padding: 20px;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 10px;
+}

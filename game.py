@@ -4,7 +4,7 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
-from game.models import Game, UserGroup
+from game.models import Game, UserGroup, User
 import datetime
 
 groups = [{'goal': 3, 'level': 1}, {'goal': 3, 'level': 2}, {'goal': 3, 'level': 3}, {'goal': 5, 'level': 1},
@@ -30,21 +30,23 @@ def make_game():
 
 
 def start_game():
-    games = Game.objects.filter()
-    games.save()
+    games = Game.objects.all().order_by('start_date')[:6]
+    games.update(status=True)
+    User.objects.all().update(competition_activate=False)
 
 
 def end_game():
-    games = Game.objects.filter()
-    games.save()
+    games = Game.objects.filter(status=True)
+    games.update(status=False)
 
 
 def days_gone():
-    game = Game.objects.filter()
+    User.objects.all().update(view_eval=False)
+    games = Game.objects.filter(status=True)
     # 몇일 진행중 계산
     day = int(
         str(datetime.datetime.now() - datetime.datetime.fromtimestamp(game[0].start_date.timestamp())).split(' ')[0])
-    game.update(day=day)
+    games.update(day=day)
 
 
 make_group()

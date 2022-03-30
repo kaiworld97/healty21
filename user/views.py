@@ -1,11 +1,10 @@
-import random
-from datetime import date
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ProfileForm, UserUpdateForm
 from .models import User, UserProfile, UserFollowing
+import random
+from datetime import date
 
 
 def home(request):
@@ -77,7 +76,7 @@ def profile(request):
             profile.age = age
             # 기초 대사량 계산
             if profile.gender == 'M':
-                profile.bmr = round(66.4730 + (13.7516 * weight) + (5.0033 * height) - (6.7550 * age), 1)
+                profile.bmr = round(664.730 + (13.7516 * weight) + (5.0033 * height) - (6.7550 * age), 1)
             elif profile.gender == 'F':
                 profile.bmr = round(655.0955 + (9.5634 * weight) + (1.8496 * height) - (4.6756 * age), 1)
             profile.save()

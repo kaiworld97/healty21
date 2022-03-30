@@ -9,18 +9,36 @@
 
 {# css 파일 넣는 곳#}
 {% block css %}
-            <link rel="stylesheet" href="{% static '/css/game.css' %}">
+    <link rel="stylesheet" href="{% static '/css/game.css' %}">
 {% endblock %}
 
 {#자바스크립트 파일 넣는 곳#}
 {% block js %}
     {#<script type="text/javascript" src="{% static '/js/해당앱.js' %}"></script>#}
     <script>
+        document.getElementById('date_input').value = toStringByFormatting(new Date())
+
+        function leftPad(value) {
+            if (value >= 10) {
+                return value;
+            }
+            return `0${value}`;
+        }
+
+        function toStringByFormatting(source, delimiter = '-') {
+            const year = source.getFullYear();
+            const month = leftPad(source.getMonth() + 1);
+            const day = leftPad(source.getDate());
+            return [year, month, day].join(delimiter);
+        }
+
+        const quests = document.getElementById('quest_log_container')
+
         function date_change(date) {
             fetch(`{% url 'quest' %}?username={{ username }}&date=${date.value}`).then(res => res.json()).then(
                 data => {
-                    document.getElementById('quest_container').innerHTML = ''
-                    document.getElementById('quest_container').innerHTML += data.map(data_map => `
+                    quests.innerHTML = ''
+                    quests.innerHTML += data.map(data_map => `
                     <div class="card">
                         <img src="${data_map.photo}" class="card-img-top">
                         <div class="card-body">
@@ -33,7 +51,12 @@
                     ).join("\n")
                 }
             ).catch(
-                err => console.log(err)
+                err => {
+                    quests.innerHTML = ''
+                    quests.innerHTML += `
+                    <p>퀘스트가 없습니다.</p>
+                    `
+                }
             )
         }
     </script>
@@ -41,18 +64,49 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-    <input type="date" id="date_input" onchange="date_change(this)" max="{{ game_end|date:'Y-m-d' }}" min="{{ game_start|date:'Y-m-d' }}">
-    <div id="quest_container">
-        {% for quest in quests %}
-            <div class="card">
-                <img src="{{ quest.photo.url }}" class="card-img-top">
-                <div class="card-body">
-                    <h5 class="card-title">{{ quest.user.username }}</h5>
-                    <p class="card-text">{{ quest.content }}</p>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ quest.upload_date|date:'Y년 m월 d일 H시 i분' }}</h6>
+    <h2>{{ username }}님의 퀘스트 로그</h2>
+    <div id="quest_log_input_wrapper">
+    <input type="date" id="date_input" onchange="date_change(this)" max="{{ game_end|date:'Y-m-d' }}"
+           min="{{ game_start|date:'Y-m-d' }}">
+    <!-- Button trigger modal -->
+    <button type="button" class="" data-bs-toggle="modal" data-bs-target="#quest_delete_Modal">
+        퀘스트 삭제
+    </button>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="quest_delete_Modal" tabindex="-1" aria-labelledby="quest_delete_modalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="quest_delete_modalLabel">퀘스트 삭제</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <form action="{% url 'quest' %}delete" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <q>삭제된 퀘스트는 복구되지 않습니다.</q>
+                    <div id="quest_button_wrapper">
+                        <button type="submit" class="">삭제하기</button>
+                        <button type="button" class="" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </form>
             </div>
-        {% endfor %}
+        </div>
+    </div>
+    <div id="quest_log_container">
+        {% if not quests|length == 0 %}
+            {% for quest in quests %}
+                <div class="card">
+                    <img src="{{ quest.photo.url }}" class="card-img-top">
+                    <div class="card-body">
+                        <p class="card-text">{{ quest.content }}</p>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ quest.upload_date|date:'Y년 m월 d일 H시 i분' }}</h6>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>퀘스트가 없습니다.</p>
+        {% endif %}
     </div>
 {% endblock %}
 
