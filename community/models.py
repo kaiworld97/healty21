@@ -1,16 +1,16 @@
-from multiprocessing import AuthenticationError
-from telnetlib import STATUS
-from turtle import title
 from django.db import models
+from django import forms
 from user.models import UserModel
 from taggit.managers import TaggableManager
+
 
 class Post(models.Model):
     class Meta:
         db_table = "community_post"
     
     author = models.ForeignKey(UserModel, on_delete=models.CASCADE)
-    content = models.CharField(max_length=512) 
+    title = models.CharField(max_length=256)
+    content = models.TextField()
     tags = TaggableManager(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)

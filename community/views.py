@@ -35,12 +35,11 @@ def post(request):
     elif request.method == "POST":
         user = request.user
         content = request.POST.get('my-content', '')
-        content = content.replace('\n', '<br>')
         print(content)
         tags = request.POST.get('tag', '').split('#')
         if content == '':
             all_post = Post.objects.all().order_by('-created_at')
-            return render(request, 'community/community_post.html', {'error': '공백은 안됨', 'posts': all_post})
+            return render(request, 'community/community_post.html', {'error': '공백은 제출할 수 없습니다.', 'posts': all_post})
         else:
             my_post = Post.objects.create(author=user, content=content)
             for tag in tags:

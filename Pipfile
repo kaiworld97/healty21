@@ -20,6 +20,7 @@ urllib3 = "==1.26.8"
 Django = "==4.0.3"
 django-taggit = "*"
 django-taggit-templatetags2 = "*"
+django-summernote = "*"
 
 [dev-packages]
 

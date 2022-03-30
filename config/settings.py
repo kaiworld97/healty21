@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'game',
     'taggit.apps.TaggitAppConfig',
     'taggit_templatetags2',
+    'django_summernote',
 ]
 
 TAGGIT_CASE_INSENSITIVE = True

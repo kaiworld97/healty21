@@ -26,7 +26,7 @@ Community
     {% comment %} 포스팅 {% endcomment %}
     <div class="community_header">
         <img src="{% static 'img/test.png' %}" alt="프로필" />
-        <a href="/post" alt="포스팅 페이지 이동"><span>게시물을 포스팅하시겠어요?</span></a>
+        <a href="/post" alt="포스팅 페이지 이동"><span>나눌 의견이 있다면 클릭!</span></a>
     </div>
 
     {% comment %} 등록된 게시물 {% endcomment %}
@@ -42,8 +42,12 @@ Community
             </div>
             {% comment %} 글 내용 {% endcomment %}
             <div class="body_content">
-                <span style="dioplay: block;">{{ post.content }}</span style="dioplay: block;">
-            </div>
+                <span style="display: block;">{{ post.content | linebreaksbr }}</span>
+            </div> 
+            {% comment %} <div class="body_content">
+                {{ content | safe }}
+            </div> {% endcomment %}
+
 
             {% comment %} 태그 {% endcomment %}
             <div class="body_tags">
@@ -88,5 +92,3 @@ Community
     </div>
 </div>
 {% endblock %}
-
-{% comment %} 개행오류 {% endcomment %}
