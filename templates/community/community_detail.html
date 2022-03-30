@@ -4,104 +4,97 @@
 
 {#타이틀 넣는 곳#}
 {% block title %}
-Detail 
+    Detail
 {% endblock %}
 
 {# css 파일 넣는 곳#}
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/community_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/community_detail.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock %}
 
 {#자바스크립트 파일 넣는 곳#}
 {% block js %}
-<script type="text/javascript" src="{% static 'js/comment_update.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/comment_update.js' %}"></script>
 
 {% endblock %}
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-<div id="community_detail_container">
-    {% comment %} 임시 로그아웃 {% endcomment %}
-    {% if not user.is_authenticated %}
-    <span>Healthy 21</span>
-    <i class="fa fa-search" style="font-size:36px"></i>
-    {% else %}
-    <a href="/logout">로그아웃</a>
-    <br>
-    {% endif %}
-
-    {% comment %} 등록된 게시물 {% endcomment %}
-    <div class="detail_posted">
-        <div class="detail_posted__header">
-            <a href="{% url 'community' %}"><i class="fa fa-caret-square-o-left" id="test1"></i></a>
-            <span style="font-size: 30px;"><strong>{{ post.author.username }}</strong>님의 글</span>
-            {% comment %} 게시물 수정 {% endcomment %}
-            {% if post.author == user %}
-                <a href="/community/post/update/{{ post.id }}"><i class="fa fa-edit"></i></a>
-            {% else %}
-            <a onclick="alert('당신은 이 기능을 사용할 수 없습니다.');"><i class="fa fa-edit"></i></a>
-            {% endif %}
-        </div>
-        <div class="detail_posted__body">
-            <span>{{ post.content | linebreaksbr }}</span>
-        </div>
-        
-    </div>
-    
-    {% comment %} 태그 {% endcomment %}
-    <div class="detail_tags">
-        {% if post.tags.all %}
-        {% for tag in post.tags.all %}
-        <a href="{% url 'tagged_object_list' tag.name %}">
-            <span> {{ tag.name }}</span>
-        </a>
-        {% endfor %}
-    {% endif %}
-    </div>
-    
-
-    {% comment %} 게시물 댓글 {% endcomment %}
-    <div class="detail_comment">
-        <div class="detail_comment__result">
-            {% for cm in comments %}
-            <span>{{ cm.author }}</span>
-            
-            {% comment %} 댓글 수정 {% endcomment %}
-            <form action="/community/comment/update/{{ cm.id }}" method="POST">
-                {% csrf_token %}
-                    <textarea class="comment_content" name="comment_content" readOnly>{{ cm.comment }}</textarea>
-                {% if cm.author == user %}
-                    <input style="display: inline-block;" class="comment_edit_{{ cm.id }}" type="button" onclick="editListener({{ cm.id }})" value="수정" id="test"></input>
-                {% endif %}
-            </form>
-
-            {% comment %} 댓글 삭제 {% endcomment %}
-            {% if cm.author == user %}
-                <a href="/community/comment/delete/{{ cm.id }}"><span>삭제</span></a>
-            {% endif %}
-            
-            {% comment %} 댓글 좋아요 {% endcomment %}
-            <span>{{ cm.created_at | timesince }} 전</span>
-            <a href="/community/comment/like/{{ cm.id }}">
-                {% if user in cm.like.all %}
-                    <span>추천취소</span>
+    <div id="community_detail_container">
+        {% comment %} 등록된 게시물 {% endcomment %}
+        <div class="detail_posted">
+            <div class="detail_posted__header">
+                <a href="{% url 'community' %}"><i class="fa fa-caret-square-o-left" id="test1"></i></a>
+                <span style="font-size: 30px;"><strong>{{ post.author.username }}</strong>님의 글</span>
+                {% comment %} 게시물 수정 {% endcomment %}
+                {% if post.author == user %}
+                    <a href="/community/post/update/{{ post.id }}"><i class="fa fa-edit"></i></a>
                 {% else %}
-                    <span>추천</span>
+                    <a onclick="alert('당신은 이 기능을 사용할 수 없습니다.');"><i class="fa fa-edit"></i></a>
                 {% endif %}
-                    <span> {{ cm.like.count }} </span>
-            </a>
+            </div>
+            <div class="detail_posted__body">
+                <span>{{ post.content | linebreaksbr }}</span>
+            </div>
 
-            {% endfor %}
         </div>
-        
-        {% comment %} 댓글쓰기 버튼 {% endcomment %}
-        <form action="/community/comment/{{ post.id }}" method="POST">
-            {% csrf_token %}
-            <input type="text" id="comment" name="comment" placeholder="댓글">
-            <button type="submit">댓글쓰기</button>
-        </form>
+
+        {% comment %} 태그 {% endcomment %}
+        <div class="detail_tags">
+            {% if post.tags.all %}
+                {% for tag in post.tags.all %}
+                    <a href="{% url 'tagged_object_list' tag.name %}">
+                        <span> {{ tag.name }}</span>
+                    </a>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+
+        {% comment %} 게시물 댓글 {% endcomment %}
+        <div class="detail_comment">
+            <div class="detail_comment__result">
+                {% for cm in comments %}
+                    <span>{{ cm.author }}</span>
+
+                    {% comment %} 댓글 수정 {% endcomment %}
+                    <form action="/community/comment/update/{{ cm.id }}" method="POST">
+                        {% csrf_token %}
+                        <textarea class="comment_content" name="comment_content" readOnly>{{ cm.comment }}</textarea>
+                        {% if cm.author == user %}
+                            <input style="display: inline-block;" class="comment_edit_{{ cm.id }}" type="button"
+                                   onclick="editListener({{ cm.id }})" value="수정" id="test"></input>
+                        {% endif %}
+                    </form>
+
+                    {% comment %} 댓글 삭제 {% endcomment %}
+                    {% if cm.author == user %}
+                        <a href="/community/comment/delete/{{ cm.id }}"><span>삭제</span></a>
+                    {% endif %}
+
+                    {% comment %} 댓글 좋아요 {% endcomment %}
+                    <span>{{ cm.created_at | timesince }} 전</span>
+                    <a href="/community/comment/like/{{ cm.id }}">
+                        {% if user in cm.like.all %}
+                            <span>추천취소</span>
+                        {% else %}
+                            <span>추천</span>
+                        {% endif %}
+                        <span> {{ cm.like.count }} </span>
+                    </a>
+
+                {% endfor %}
+            </div>
+
+            {% comment %} 댓글쓰기 버튼 {% endcomment %}
+            <form action="/community/comment/{{ post.id }}" method="POST">
+                {% csrf_token %}
+                <input type="text" id="comment" name="comment" placeholder="댓글">
+                <button type="submit">댓글쓰기</button>
+            </form>
+        </div>
     </div>
-</div>
-    
+
 {% endblock %}
 
