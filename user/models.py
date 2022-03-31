@@ -1,6 +1,6 @@
-from PIL import Image
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
+from PIL import Image
 
 
 class UserGroup(models.Model):
@@ -15,7 +15,7 @@ class UserGroup(models.Model):
 
 
 def user_directory_path(instance, filename):
-    return f'user_{instance.user.id}/profile/{filename}'
+    return f"user_{instance.user.id}/profile/{filename}"
 
 
 class User(AbstractUser):
@@ -26,6 +26,7 @@ class User(AbstractUser):
     competition_activate = models.BooleanField(default=False)
     point = models.IntegerField(default=0)
     view_eval = models.BooleanField(default=False)
+
     # image = models.ImageField(upload_to=user_directory_path, default='default/healthy21.png')
 
     def get_absolute_url(self):
@@ -36,12 +37,8 @@ class UserProfile(models.Model):
     class Meta:
         db_table = "user_profile"
 
-    GENDER = [
-        (None, '성별을 선택해주세요.'),
-        ('M', '남성'),
-        ('F', '여성')
-    ]
-    PUBLICPRIVATE = [('public', '공개'), ('private', '비공개')]
+    GENDER = [(None, "성별을 선택해주세요."), ("M", "남성"), ("F", "여성")]
+    PUBLICPRIVATE = [("public", "공개"), ("private", "비공개")]
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birth_day = models.DateField()
@@ -57,14 +54,17 @@ class UserProfile(models.Model):
     bmr = models.FloatField(null=True)
     age = models.IntegerField(null=True)
     public = models.CharField(
-        max_length=20, blank=True, default='public',
+        max_length=20,
+        blank=True,
+        default="public",
         choices=PUBLICPRIVATE,
-        help_text="챌린지 공개 여부를 선택해주세요."
+        help_text="챌린지 공개 여부를 선택해주세요.",
     )
     image = models.ImageField(
         upload_to=user_directory_path,
-        default='default/healthy21.png',
-        help_text="변경을 원하시면 업로드 해주세요. 자동으로 크롭됩니다.")
+        default="default/healthy21.png",
+        help_text="변경을 원하시면 업로드 해주세요. 자동으로 크롭됩니다.",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
@@ -94,7 +94,6 @@ class UserProfile(models.Model):
         img = img.crop((left, top, right, bottom))  # Crop image center
         # img.show()
         img.save(self.image.path, quality=95)  # Save it again and override the larger image
-
 
 
 class UserFollowing(models.Model):
