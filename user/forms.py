@@ -23,17 +23,18 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ['gender', 'birth_day', 'height', 'weight', 'bio', 'public']
+        fields = ['image', 'gender', 'birth_day', 'height', 'weight', 'bio', 'public']
         junior_min = (datetime.datetime.today() - datetime.timedelta(days=(365 * 15))).strftime(
             "%Y-%m-%d")  # 15세 이상만 가입
 
         labels = {
+            'image': "프로필 이미지",
             "gender": "성별",
             "birth_day": "생일",
             "height": "키 (cm)",
             "weight": "몸무게 (kg)",
             "bio": "자기소개",
-            'public': "계정 공개"
+            'public': "계정 공개",
         }
         widgets = {
             "birth_day": forms.DateInput(attrs={'type': 'date', 'id': 'b_datepicker', 'class': "form-floating",
@@ -67,13 +68,13 @@ class MyCustomSignupForm(SignupForm):
         return user
 
 
-class UserUpdateForm(forms.ModelForm):
-
-    class Meta:
-        model = User
-        fields = ['image']
-
-    labels = {
-        "image": "이미지",
-    }
+# class UserUpdateForm(forms.ModelForm):
+#
+#     class Meta:
+#         model = User
+#         fields = ['image']
+#
+#     labels = {
+#         "image": "이미지",
+#     }
 

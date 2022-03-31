@@ -1,7 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import ProfileForm, UserUpdateForm
+from .forms import ProfileForm
 from .models import User, UserProfile, UserFollowing
 import random
 from datetime import date
@@ -10,17 +11,21 @@ from datetime import date
 def home(request):
     user = request.user
     if user.is_authenticated:
-        all_users = User.objects.all()
-        # 유저를 팔로우하는 유저들 .order_by('created_at')
-        # user.follower.all() = 유저의 팔로워 = following_user가 나인 관계
-        follower_list = UserFollowing.objects.filter(following_user=user)
-        followers = [follower.user for follower in follower_list]
-        # 유저가 팔로잉 하는 유저들
-        # user.following.all() = 유저의 팔로잉 = user가 나인 관계
-        followings_list = UserFollowing.objects.filter(user=user)
-        followings = [following.following_user for following in followings_list]
-        # 유저가 팔로잉 하지 않는 다른 유저들
-        nofollowings = [x for x in all_users.exclude(id=user.id) if x not in followings]        # 추천 필터링
+        all_users = User.objects.all().select_related('userprofile')  # user.profile시 query 사용 방지
+        # 유저를 팔로우하는 유저들 = user.follower.all() = follower_list의 following_user가 로그인 된 유저
+        # follower_list[0].user 시 쿼리 방지
+        follower_list = UserFollowing.objects.filter(following_user=user).select_related('user', 'following_user')
+        follower_list = all_users.filter(following__in=follower_list)   # follower_list[2].userprofile로 접근 가능 + 쿼리 방지
+
+        # 유저가 팔로잉 하는 유저들 = user.following.all() = user가 로그인 된 유저인 관계
+        # following_list[2].following_user 시 쿼리 방지
+        following_list = UserFollowing.objects.filter(user=user).select_related('user', 'following_user')
+        # 유저가 팔로잉 하지 않는 다른 유저들 (nofollowings[8].userprofile.id 해도 query 사용 안함)
+        nofollowing_list = all_users.exclude(Q(follower__in=following_list) | Q(id=user.id)).select_related('userprofile')
+
+        following_list = all_users.filter(follower__in=following_list)  # following_list[2].userprofile로 접근 가능 + 쿼리 방지
+
+        # 추천 필터링
         if user.point == 0 and (len((users_by_points := User.objects.filter(point=0).exclude(id=user.id))) <= 5):
             users_by_points = users_by_points
         elif user.point == 0:
@@ -30,8 +35,13 @@ def home(request):
             users_by_groups = User.objects.filter(group=user.group).exclude(id=user.id)  # 유저 그룹으로 1차 필터링
             # 유저와 포인트 차이로 sort하고 5명까지
             users_by_points = sorted(users_by_groups, key=lambda x: abs(x.point - user.point))[:5]
-        return render(request, 'user/home.html', {'followings': followings, 'followers':followers, 'all_users': all_users,
-                                                  'nofollowings': nofollowings, 'users_by_points': users_by_points})
+        return render(request, 'user/home.html', {
+            'all_users': all_users,
+            'nofollowing_list': nofollowing_list,
+            'follower_list': follower_list,
+            'following_list': following_list,
+            'users_by_points': users_by_points,
+        })
     else:
         return render(request, 'user/home.html')
 
@@ -44,9 +54,7 @@ def profile(request):
         except:
             form = ProfileForm(request.POST, request.FILES)
 
-        u_form = UserUpdateForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid() and u_form.is_valid():
-            u_form.save(commit=False)
+        if form.is_valid():
             if 'image' in request.FILES:
                 request.user.image = request.FILES['image']
             profile = form.save(commit=False)  # 저장 늦추기
@@ -78,7 +86,6 @@ def profile(request):
             elif profile.gender == 'F':
                 profile.bmr = round(655.0955 + (9.5634 * weight) + (1.8496 * height) - (4.6756 * age), 1)
             profile.save()
-            # u_form.save()
             messages.success(request, f'프로필이 성공적으로 업데이트 되었습니다!')
             return redirect('home')  # ! 나중에 경쟁/game으로 변경
     else:
@@ -86,8 +93,7 @@ def profile(request):
             form = ProfileForm(instance=request.user.userprofile)
         except:
             form = ProfileForm()
-        u_form = UserUpdateForm(request.POST, instance=request.user)
-    return render(request, 'user/profile.html', {'form': form, 'u_form': u_form})
+    return render(request, 'user/profile.html', {'form': form})
 
 
 @login_required()
