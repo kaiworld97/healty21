@@ -95,7 +95,7 @@
                                     <div class="rounded-top text-white d-flex flex-row"
                                          style="background-color: #e3c0b4; height:200px;">
                                         <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
-                                            <img src="{{ user.image.url }}" alt="{{ user }} profile"
+                                            <img src="{{ user.userprofile.image.url }}" alt="{{ user }} profile"
                                                  class="img-fluid img-thumbnail mt-4 mb-2"
                                                  style="width: 150px; z-index: 1">
                                             <button type="button"
@@ -237,23 +237,29 @@
             {#            {% for following in followings %}#}
             {#                <p>{{ following }}<a href="{% url 'follow' following.pk %}">언팔로우</a></p>#}
             {#            {% endfor %}#}
-            {#            <h3>유저가 팔로우 하지 않는 사람들 ({{ nofollowings|length }} 명)</h3>#}
-            {#            {% for nofollowing in nofollowings %}#}
+            {#            <h3>유저가 팔로우 하지 않는 사람들 ({{ nofollowing_list|length }} 명)</h3>#}
+            {#            {% for nofollowing in nofollowing_list %}#}
             {#                <p>{{ nofollowing }}<a href="{% url 'follow' nofollowing.pk %}">팔로우</a></p>#}
             {#            {% endfor %}#}
 
             <div class="d-flex justify-content-center">
                 <div class="card my-card p-3 mb-5">
-                    <h5>내가 팔로우 하는 유저들 ({{ followings|length }}명)</h5>
-                    {% for following in followings %}
+                    <h5>내가 팔로우 하는 유저들 ({{ following_list|length }}명)</h5>
+                    {% for following in following_list %}
                         <div class="d-flex justify-content-between mt-2 align-items-center">
-                            <div class="d-flex flex-row"><img src="{{ following.image.url }}"
-                                                              class="rounded-circle"
-                                                              width="40" height="40">
+                            <div class="d-flex flex-row"><img
+                                    {% if following.userprofile %}
+                                        src="{{ following.userprofile.image.url }}"
+                                    {% else %}
+                                        src="{% get_media_prefix %}default/healthy21.png"
+                                    {% endif %}
+                                        class="rounded-circle"
+                                        width="40" height="40">
                                 <div class="d-flex flex-column ml-1 about"><span
                                         class="font-weight-bold">{{ following }}</span>
                                     <small>585 challenges</small></div>
                             </div>
+
                             <button onclick="location.href='{% url 'follow' following.id %}'"
                                     class="btn btn-outline-primary btn-sm follow">언팔로우
                             </button>
@@ -265,12 +271,17 @@
 
             <div class="mt-5 d-flex justify-content-center">
                 <div class="card my-card p-3 mb-5">
-                    <h5>팔로우 하지 않는 유저들 ({{ nofollowings|length }}명)</h5>
-                    {% for nofollowing in nofollowings %}
+                    <h5>팔로우 하지 않는 유저들 ({{ nofollowing_list|length }}명)</h5>
+                    {% for nofollowing in nofollowing_list %}
                         <div class="d-flex justify-content-between mt-2 align-items-center">
-                            <div class="d-flex flex-row"><img src="{{ nofollowing.image.url }}"
-                                                              class="rounded-circle"
-                                                              width="40" height="40">
+                            <div class="d-flex flex-row"><img
+                                    {% if following.following_user.userprofile %}
+                                        src="{{ nofollowing.userprofile.image.url }}"
+                                    {% else %}
+                                        src="{% get_media_prefix %}default/healthy21.png"
+                                    {% endif %}
+                                        class="rounded-circle"
+                                        width="40" height="40">
                                 <div class="d-flex flex-column ml-1 about"><span
                                         class="font-weight-bold">{{ nofollowing }}</span>
                                     <small>585 challenges</small></div>
@@ -287,18 +298,29 @@
 
             <div class="mt-5 d-flex justify-content-center">
                 <div class="card my-card p-3 mb-5">
-                    <h5>나를 팔로우 하는 유저들 ({{ followers|length }}명)</h5>
-                    {% for follower in followers %}
+                    <h5>나를 팔로우 하는 유저들 ({{ follower_list|length }}명)</h5>
+                    {% for follower in follower_list %}
                         <div class="d-flex justify-content-between mt-2 align-items-center">
-                            <div class="d-flex flex-row"><img src="{{ follower.image.url }}"
-                                                              class="rounded-circle"
-                                                              width="40" height="40">
+                            <div class="d-flex flex-row"><img
+                                    {% if follower.user.userprofile %}
+                                        src="{{ follower.userprofile.image.url }}"
+                                    {% else %}
+                                        src="{% get_media_prefix %}default/healthy21.png"
+                                    {% endif %}
+                                        class="rounded-circle"
+                                        width="40" height="40">
                                 <div class="d-flex flex-column ml-1 about"><span
                                         class="font-weight-bold">{{ follower }}</span>
                                     <small>585 challenges</small></div>
                             </div>
-                            <button onclick="location.href='{% url 'follow' follower.id %}'"
-                                    class="btn btn-primary btn-sm text-white follow">팔로우
+                            <button type="button" onclick="location.href='{% url 'follow' follower.id %}'"
+                                    {% if follower in following_list %}
+                                    class="btn btn-outline-primary btn-sm follow">
+                                        언팔로우
+                                    {% else %}
+                                        class="btn btn-primary btn-sm text-white follow">
+                                        팔로우
+                                    {% endif %}
                             </button>
                         </div>
                         <hr>
@@ -348,7 +370,7 @@
             {#                                        Close#}
             {#                                    </button>#}
             {#                                    <button type="button" onclick="location.href='{% url 'follow' user_by_points.id %}'"#}
-            {#                                            {% if user_by_points in followings %}#}
+            {#                                            {% if user_by_points in following_list %}#}
             {#                                            class="btn btn-outline-secondary">#}
             {#                                                언팔로우#}
             {#                                            {% else %}#}
@@ -369,14 +391,20 @@
                 {% for user_by_points in users_by_points %}
                     <div class="col" justify-content-center>
                         <div class="card h-100">
-                            <img src="{{ user_by_points.image.url }}" class="card-img-top"
-                                 alt="{{ user_by_points }} profile">
+                            <img
+                                    {% if user_by_points.userprofile %}
+                                        src="{{ user_by_points.userprofile.image.url }}"
+                                    {% else %}
+                                        src="{% get_media_prefix %}default/healthy21.png"
+                                    {% endif %}
+                                        class="card-img-top"
+                                        alt="{{ user_by_points }} profile">
                             <div class="card-body">
                                 <h5 class="card-title">{{ user_by_points }}</h5>
                                 <p class="card-text"> {{ user_by_points.group }}</p>
                                 <p class="card-text">  {{ user_by_points.point }} 포인트 </p>
                                 <button type="button" onclick="location.href='{% url 'follow' user_by_points.id %}'"
-                                        {% if user_by_points in followings %}
+                                        {% if user_by_points in following_list %}
                                         class="btn btn-outline-secondary">
                                             언팔로우
                                         {% else %}

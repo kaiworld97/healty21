@@ -26,10 +26,50 @@ class User(AbstractUser):
     competition_activate = models.BooleanField(default=False)
     point = models.IntegerField(default=0)
     view_eval = models.BooleanField(default=False)
-    image = models.ImageField(upload_to=user_directory_path, default='default/healthy21.png')
+    # image = models.ImageField(upload_to=user_directory_path, default='default/healthy21.png')
 
     def get_absolute_url(self):
         return f"/users/{self.pk}/"
+
+
+class UserProfile(models.Model):
+    class Meta:
+        db_table = "user_profile"
+
+    GENDER = [
+        (None, '성별을 선택해주세요.'),
+        ('M', '남성'),
+        ('F', '여성')
+    ]
+    PUBLICPRIVATE = [('public', '공개'), ('private', '비공개')]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    birth_day = models.DateField()
+    height = models.FloatField()
+    weight = models.FloatField()
+    gender = models.CharField(
+        max_length=1,
+        choices=GENDER,
+    )
+    bio = models.CharField(max_length=300, blank=True, help_text="간단한 소개 한마디.")
+    bmi = models.FloatField()
+    bmi_category = models.CharField(max_length=100, null=True)
+    bmr = models.FloatField(null=True)
+    age = models.IntegerField(null=True)
+    public = models.CharField(
+        max_length=20, blank=True, default='public',
+        choices=PUBLICPRIVATE,
+        help_text="챌린지 공개 여부를 선택해주세요."
+    )
+    image = models.ImageField(
+        upload_to=user_directory_path,
+        default='default/healthy21.png',
+        help_text="변경을 원하시면 업로드 해주세요. 자동으로 크롭됩니다.")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Profile"
 
     # Override the save method of the model
     def save(self):
@@ -52,44 +92,9 @@ class User(AbstractUser):
         right = (neww + result_size) / 2
         bottom = (newh + result_size) / 2
         img = img.crop((left, top, right, bottom))  # Crop image center
-        img.show()
+        # img.show()
         img.save(self.image.path, quality=95)  # Save it again and override the larger image
 
-
-class UserProfile(models.Model):
-    class Meta:
-        db_table = "user_profile"
-
-    GENDER = [
-        (None, '성별을 선택해주세요.'),
-        ('M', '남성'),
-        ('F', '여성')
-    ]
-    PUBLICPRIVATE = [('public', '공개'), ('private', '비공개')]
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    birth_day = models.DateField()
-    height = models.FloatField()
-    weight = models.FloatField()
-    gender = models.CharField(
-        max_length=1,
-        choices=GENDER,
-    )
-    bio = models.CharField(max_length=300, blank=True, help_text="간단한 소개 한마디")
-    bmi = models.FloatField()
-    bmi_category = models.CharField(max_length=100, null=True)
-    bmr = models.FloatField(null=True)
-    age = models.IntegerField(null=True)
-    public = models.CharField(
-        max_length=20, blank=True, default='public',
-        choices=PUBLICPRIVATE,
-        help_text="챌린지 공개 여부를 선택해주세요."
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True, null=True)
-
-    def __str__(self):
-        return f"{self.user.username}'s Profile"
 
 
 class UserFollowing(models.Model):
