@@ -12,3 +12,8 @@ migrations/
 !__init__.py
 
 config/social.json
+
+poetry.lock
+pyproject.toml
+test.sh
+test.sh
