@@ -70,6 +70,7 @@
         img.card-img-top {
             height: 30%;
         }
+/z
 
 
     </style>
@@ -88,7 +89,7 @@
             {% if user.userprofile %}
                 <h1 style=>마이 페이지</h1>
                 <section class="h-100 gradient-custom-2">
-                    <div class="container my-container  h-100">
+                    <div class=" my-container  h-100">
                         <div class="row d-flex justify-content-center align-items-center h-100">
                             <div class="col col-lg-9 col-xl-7">
                                 <div class="card">
@@ -241,7 +242,7 @@
             {#            {% for nofollowing in nofollowing_list %}#}
             {#                <p>{{ nofollowing }}<a href="{% url 'follow' nofollowing.pk %}">팔로우</a></p>#}
             {#            {% endfor %}#}
-
+<section>
             <div class="d-flex justify-content-center">
                 <div class="card my-card p-3 mb-5">
                     <h5>내가 팔로우 하는 유저들 ({{ following_list|length }}명)</h5>
@@ -327,7 +328,7 @@
                     {% endfor %}
                 </div>
             </div>
-
+</section>
 
             <form class="container-fluid" method="GET" action="{% url 'profile' %}">
                 <label for="exampleDataList" class="form-label">유저 검색</label>
@@ -390,7 +391,7 @@
             <div class="row row-cols-auto row-cols-sm-5 g-4">
                 {% for user_by_points in users_by_points %}
                     <div class="col" justify-content-center>
-                        <div class="card h-100">
+                        <div class="card h-100 my-card">
                             <img
                                     {% if user_by_points.userprofile %}
                                         src="{{ user_by_points.userprofile.image.url }}"
@@ -405,17 +406,18 @@
                                 <p class="card-text">  {{ user_by_points.point }} 포인트 </p>
                                 <button type="button" onclick="location.href='{% url 'follow' user_by_points.id %}'"
                                         {% if user_by_points in following_list %}
-                                        class="btn btn-outline-secondary">
+                                        class="btn btn-outline-primary btn-sm follow">
                                             언팔로우
                                         {% else %}
-                                            class="btn btn-info text-white">
+                                            class="btn btn-primary btn-sm text-white follow">
                                             팔로우
                                         {% endif %}
                                 </button>
-                                <div class=" px-2 rounded mt-4 date "><span class="join">Joined May,2021</span></div>
+                                <div class=" px-2 rounded mt-4 date "><span class="join">{{ user_by_points.date_joined |date:"y년 M d일" }}</span></div>
                             </div>
                             <div class="card-footer">
-                                <small class="text-muted">Last updated 3 mins ago</small>
+{#                                <small class="text-muted">Last updated {{ user_by_points.userprofile.updated_at }} ago</small>#}
+                                <small class="text-muted">Last updated 13 mins ago</small>
                             </div>
                         </div>
                     </div>
