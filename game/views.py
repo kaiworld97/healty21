@@ -128,6 +128,7 @@ def quest(request):
                 q['photo'] = quest.photo.url
                 q['content'] = quest.content
                 q['username'] = quest.user.username
+                q['id'] = quest.id
                 quest_list.append(q)
             return JsonResponse(quest_list, status=200, safe=False)
 

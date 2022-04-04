@@ -33,6 +33,7 @@
         }
 
         const quests = document.getElementById('quest_log_container')
+        const quests_del = document.getElementById('quest_delete_container')
 
         function date_change(date) {
             fetch(`{% url 'quest' %}?username={{ username }}&date=${date.value}`).then(res => res.json()).then(
@@ -49,11 +50,21 @@
                     </div>
                     `
                     ).join("\n")
+                    quests_del.innerHTML = ''
+                    quests_del.innerHTML += data.map(data_map => `
+                            <p>${data_map.id}</p>
+                            <p>${data_map.content}</p>
+                    `
+                    ).join("\n")
                 }
             ).catch(
                 err => {
                     quests.innerHTML = ''
                     quests.innerHTML += `
+                    <p>퀘스트가 없습니다.</p>
+                    `
+                    quests_del.innerHTML = ''
+                    quests_del.innerHTML = `
                     <p>퀘스트가 없습니다.</p>
                     `
                 }
@@ -98,6 +109,16 @@
                 <form action="{% url 'quest' %}delete" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <q>삭제된 퀘스트는 복구되지 않습니다.</q>
+                    <div id="quest_delete_container">
+                        {% if not quests|length == 0 %}
+                            {% for quest in quests %}
+                                <p>{{ quest.id }}</p>
+                                <p>{{ quest.content }}</p>
+                            {% endfor %}
+                        {% else %}
+                            <p>퀘스트가 없습니다.</p>
+                        {% endif %}
+                    </div>
                     <div id="quest_button_wrapper">
                         <button type="submit" class="">삭제하기</button>
                         <button type="button" class="" data-bs-dismiss="modal">닫기</button>
