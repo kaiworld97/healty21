@@ -7,7 +7,7 @@
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/community.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 {% endblock %}
 
 {% block js %}
@@ -18,7 +18,7 @@
     <div id="community_container">
         {% comment %} 포스팅 {% endcomment %}
         <div class="community_header">
-            <img src="{% static 'img/test.png' %}" alt="프로필"/>
+            <img src="{{ user.userprofile.image.url }}" alt="{{ user }} profile"/>
             <a href="/post" alt="포스팅 페이지 이동"><span>나눌 의견이 있다면 클릭!</span></a>
         </div>
 
@@ -27,7 +27,6 @@
             {% for post in posts %}
                 {% comment %} 프로필 {% endcomment %}
                 <div class="body_profile">
-                    <img src="{% static 'img/test.png' %}"/>
                     <div class="body_profile__name">
                         <span>{{ post.author.username }}</span>
                         <span>{{ post.created_at | timesince }} 전</span>
@@ -37,10 +36,6 @@
                 <div class="body_content">
                     <span style="display: block;">{{ post.content | linebreaksbr }}</span>
                 </div>
-                {% comment %} <div class="body_content">
-                {{ content | safe }}
-            </div> {% endcomment %}
-
 
                 {% comment %} 태그 {% endcomment %}
                 <div class="body_tags">
@@ -59,30 +54,22 @@
                         {% comment %} 좋아요 {% endcomment %}
                         <a href="{% url 'likes' post.id %}">
                             {% if user in post.like.all %}
-                                <i class="fa fa-heart"
-                                   style="font-size:36px; color: #EB0000; margin-top: 7px; margin-right: 5px;"
-                                   id="heart"></i>
+                            <span>추천 취소</span>
                             {% else %}
-                                <i class="fa fa-heart-o" style="font-size: 36px; margin-top: 5px; margin-right: 5px;"
-                                   id="heart"></i>
+                            <span>추천</span>
                             {% endif %}
                         </a>
 
                         {% comment %} 세부 페이지 이동 {% endcomment %}
-                        <a href="/community/{{ post.id }}"><i class="fa fa-comment-o"
-                                                              style="font-size:36px; margin-right: 5px;"></i></a>
+                        <a href="/community/{{ post.id }}"><span>댓글</span></a>
 
                         {% comment %} 포스트 삭제 아이콘 {% endcomment %}
                         {% if post.author == user %}
-                            <a href="/community/delete/{{ post.id }}"><i class="fa fa-trash" style="font-size:36px"></i></a>
+                            <a href="/community/delete/{{ post.id }}"><span>삭제</span></a>
                         {% endif %}
-                    </div>
-
-                    <div class="body_functions__right">
                         {% comment %} 좋아요 개수 {% endcomment %}
-                        <span>{{ post.like.count }}명이 좋아합니다.</span>
                     </div>
-
+                    <span>{{ post.like.count }}명이 추천합니다.</span>
                 </div>
 
             {% endfor %}

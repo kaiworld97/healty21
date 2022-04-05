@@ -6,6 +6,7 @@
     --page-color-white: white;
 }
 
+/* 페이지 기본 뼈대 */
 #community_detail_container {
     display: flex;
     flex-direction: column;
@@ -22,10 +23,6 @@
     color: var(--page-color-red);
 }
 
-#community_detail_container i {
-    font-size: 50px;
-}
-
 #community_detail_container img {
     width: 15vw;
     height: 15vw;
@@ -34,6 +31,7 @@
     border-radius: 50%;
 }
 
+/* 등록된 게시물 헤더*/
 #community_detail_container .detail_posted .detail_posted__header {
     width: 820px;
     display: flex;
@@ -44,6 +42,7 @@
     margin-bottom: 30px;
 }
 
+/* 등록된 내용 */
 #community_detail_container .detail_posted .detail_posted__body {
     height: auto;
     font-size: 18px;
@@ -53,6 +52,7 @@
     margin-bottom: 20px;
 }
 
+/* 등록된 태그 */
 #community_detail_container .detail_tags {
     width: 90vw;
     max-width: 820px;
@@ -64,14 +64,9 @@
     border-radius: 10px;
 }
 
+/* 게시물 댓글 */
 #community_detail_container .detail_comment {
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-#community_detail_container .detail_comment .detail_comment__result {
-    display: flex;
-    flex-direction: row;
     align-items: center;
 }
