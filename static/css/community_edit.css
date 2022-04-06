@@ -1,0 +1,33 @@
+:root {
+    --page-color: #FFE650;
+    --page-color-10: #FAFAD2;
+    --page-color-red: #EB0000;
+    --page-color-black: black;
+    --page-color-white: white;
+}
+
+#community_edit_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#community_edit_container a {
+    color: var(--page-color-black);
+    text-decoration-line: none;
+}
+
+#community_edit_container a:hover {
+    color: var(--page-color-red);
+}
+
+#community_edit_container .community_edit_header {
+    width: 820px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 7px solid var(--page-color);
+    padding: 10px;
+    margin-bottom: 30px;
+}

@@ -89,7 +89,6 @@ def write_comment(request, id):
         PC.author = request.user
         PC.post = current_post
         PC.save()
-
     return redirect('/community/' + str(id))
 
 ######### 댓글 수정 함수 #########
@@ -97,8 +96,8 @@ def write_comment(request, id):
 def comment_update(request, id):
     if request.method == "POST":
         comment = Comment.objects.get(id=id)
-        current_post = comment.post.id
         comment.comment = request.POST['comment_content']
+        current_post = comment.post.id
         comment.save()
     return redirect('/community/' + str(current_post))
     
