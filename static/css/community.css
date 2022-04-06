@@ -32,10 +32,6 @@
     color: var(--page-color-red);
 }
 
-#community_container i {
-    font-size: 30px;
-}
-
 /* 포스팅 */
 #community_container .community_header {
     display: flex;
