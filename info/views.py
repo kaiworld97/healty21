@@ -59,3 +59,9 @@ def content_detail(request, pk):
 def content_save(request, pk):
     if request.method == 'POST':
         return redirect(request.headers['Referer'])
+
+
+def calories_calculate(request):
+    if request.method == 'GET':
+        met = WorkoutCaloriesCalculate.objects.all()
+        return render(request, 'info/calories_calculate.html', {'met': met})
