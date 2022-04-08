@@ -52,8 +52,11 @@
                     ).join("\n")
                     quests_del.innerHTML = ''
                     quests_del.innerHTML += data.map(data_map => `
-                            <p>${data_map.id}</p>
-                            <p>${data_map.content}</p>
+                        <div id="quest_delete_wrapper">
+                            <label for="quest${data_map.id}">${data_map.content}</label>
+                            <input type="checkbox" name="quest_delete" id="quest${data_map.id}"
+                                   value="${data_map.id}">
+                        </div>
                     `
                     ).join("\n")
                 }
@@ -106,14 +109,18 @@
                     <h5 class="modal-title" id="quest_delete_modalLabel">퀘스트 삭제</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{% url 'quest' %}delete" method="post" enctype="multipart/form-data">
+                <form action="{% url 'quest_delete' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <q>삭제된 퀘스트는 복구되지 않습니다.</q>
+                    <q>삭제된 퀘스트는 복구되지 않습니다. <br>퀘스트를 삭제하면 포인트도 사라집니다.</q>
+                    <q>삭제할 퀘스트를 선택해 주세요.</q>
                     <div id="quest_delete_container">
                         {% if not quests|length == 0 %}
                             {% for quest in quests %}
-                                <p>{{ quest.id }}</p>
-                                <p>{{ quest.content }}</p>
+                                <div id="quest_delete_wrapper">
+                                    <label for="quest{{ quest.id }}">{{ quest.content }}</label>
+                                    <input type="checkbox" name="quest_delete" id="quest{{ quest.id }}"
+                                           value="{{ quest.id }}">
+                                </div>
                             {% endfor %}
                         {% else %}
                             <p>퀘스트가 없습니다.</p>
