@@ -17,3 +17,8 @@ poetry.lock
 pyproject.toml
 test.sh
 test.sh
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
