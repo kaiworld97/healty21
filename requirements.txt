@@ -25,4 +25,3 @@ Pillow==9.0.1
 django-cors-headers==3.11.0
 
 
-django-allauth==0.48.0
