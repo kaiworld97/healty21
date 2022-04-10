@@ -31,7 +31,7 @@
     border-radius: 50%;
 }
 
-/* 등록된 게시물 헤더*/
+/* 등록된 게시물 */
 #community_detail_container .detail_posted .detail_posted__header {
     width: 820px;
     display: flex;
@@ -52,7 +52,7 @@
     margin-bottom: 20px;
 }
 
-/* 등록된 태그 */
+/* 태그 */
 #community_detail_container .detail_tags {
     width: 90vw;
     max-width: 820px;
@@ -69,4 +69,60 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+#community_detail_container .detail_comment .detail_comment__result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#community_detail_container .detail_comment .detail_comment__result form {
+    width: 830px;
+    border: none;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #FAFAD2;
+}
+
+#community_detail_container .detail_comment .detail_comment__result form .form-floating textarea {
+    height: auto;
+    background: none;
+    margin-bottom: 12px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+#community_detail_container .detail_comment .detail_comment__result form .comment_function {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#community_detail_container .detail_comment .detail_comment__result form .comment_function .comment_function__left input {
+    display: inline-block;
+    background: none;
+    border: none;
+    font-weight: bold;
+}
+
+#community_detail_container .detail_comment .write_comment form {
+    width: 830px;
+    border: 2px solid #FAFAD2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#community_detail_container .detail_comment .write_comment form .form-floating textarea {
+    width: 750px;
+    height: auto;
+    background: none;
+    margin-bottom: 12px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+#community_detail_container .detail_comment .write_comment form button {
+    background: none;
+    border: none;
 }

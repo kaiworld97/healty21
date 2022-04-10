@@ -31,3 +31,23 @@
     padding: 10px;
     margin-bottom: 30px;
 }
+
+#community_edit_container form {
+    width: 820px;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#community_edit_container form .form-floating .form-control {
+    width: 750px;
+    height: 1200px;
+    margin-bottom: 12px;
+}
+
+#community_edit_container form button {
+    background-color: #FFE650;
+    border: none;
+    color: #fff;
+}

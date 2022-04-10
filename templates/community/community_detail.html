@@ -55,22 +55,22 @@
 
         {% comment %} 게시물 댓글 {% endcomment %}
         <div class="detail_comment">
-            <div class="detail_comment__result" style="display: flex; flex-direction: column; align-items: center;"></div>
+            <div class="detail_comment__result">
                 {% for cm in comments %}
                     {% comment %} 댓글 기능 {% endcomment %}
-                    <form action="/community/comment/update/{{ cm.id }}" method="POST" style="width: 830px; border: none; margin-bottom: 12px; border-bottom: 1px solid #FAFAD2;">
+                    <form action="/community/comment/update/{{ cm.id }}" method="POST">
                         {% csrf_token %}
                         <p><strong>{{ cm.author }}</strong>님의 댓글</p>
                         {% comment %} 댓글 내용 {% endcomment %}
                         <div class="form-floating">
-                            <textarea class="form-control" name="comment_content" id="comment_content" style="height: auto;background: none; margin-bottom: 12px; overflow: hidden; z-index: 1;" readOnly>{{ cm.comment }}</textarea>
+                            <textarea class="form-control" name="comment_content" id="comment_content" readOnly>{{ cm.comment }}</textarea>
                             <label for="comment_content">Content</label>
                         </div>
-                        <div class="comment_function" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="comment_function">
                             <div class="comment_function__left">
                                 {% comment %} 댓글 수정 {% endcomment %}
                                 {% if cm.author == user %}
-                                    <input style="display: inline-block; background: none; border: none; font-weight: bold;" class="comment_edit_{{ cm.id }}" type="button" onclick="editListener({{ cm.id }})" value="수정"></input>
+                                    <input class="comment_edit_{{ cm.id }}" type="button" onclick="editListener({{ cm.id }})" value="수정"></input>
                                 {% endif %}
                                 {% comment %} 댓글 삭제 {% endcomment %}
                                     {% if cm.author == user %}
@@ -91,15 +91,19 @@
                     </form>
                 {% endfor %}
             </div>
+                
 
             {% comment %} 댓글쓰기 버튼 {% endcomment %}
-            <form action="/community/comment/{{ post.id }}" method="POST" style="width: 830px; border: 2px solid #FAFAD2; display: flex; flex-direction: column; align-items: center;">
-                {% csrf_token %}
-                <div class="form-floating">
-                    <textarea type="text" class="form-control" name="comment" id="comment" placeholder="댓글" style="width: 750px; height: auto;background: none; margin-bottom: 12px; overflow: hidden; z-index: 1;">{{ cm.comment }}</textarea>
-                </div>
-                <button type="submit" style="background: none; border: none;">댓글쓰기</button>
-            </form>
+            <div class="write_comment">
+                <form action="/community/comment/{{ post.id }}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-floating">
+                        <textarea type="text" class="form-control" name="comment" id="comment" placeholder="댓글">{{ cm.comment }}</textarea>
+                    </div>
+                    <button type="submit">댓글쓰기</button>
+                </form>
+            </div>
+            
         </div>
     </div>
 
