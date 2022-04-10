@@ -17,7 +17,7 @@ django-taggit==2.1.0
 django-taggit-templatetags2==1.6.1
 
 mysql-connector-python==8.0.28
-mysqlclient==2.1.0
+mysqlclient
 
 requests~=2.27.1
 django-crispy-forms~=1.14.0
