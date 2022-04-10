@@ -10,7 +10,7 @@ import datetime
 # groups = [{'goal': 3, 'level': 1}, {'goal': 3, 'level': 2}, {'goal': 3, 'level': 3}, {'goal': 5, 'level': 1},
 #           {'goal': 5, 'level': 2}, {'goal': 5, 'level': 3}]
 
-group = [{'goal': 3, 'level': 1}, {'goal': 5, 'level': 1}]
+groups = [{'goal': 3, 'level': 1}, {'goal': 5, 'level': 1}]
 
 
 def make_group():
