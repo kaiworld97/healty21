@@ -28,13 +28,13 @@ Edit
             <span style="font-size: 30px;">게시글 수정하기</span>
             <a href="#"><span style="font-size:24px" class="fa">&#xf06a;</span></a>
         </div>
-        <form action="/community/post/update/{{ post.id }}" method="POST" style="width: 820px; border: none; display: flex; flex-direction: column; justify-content: center;">
+        <form action="/community/post/update/{{ post.id }}" method="POST">
             {% csrf_token %}
             <div class="form-floating">
-                <textarea class="form-control" name="content_edit" placeholder="Leave a comment here" id="floatingTextarea2" style="width: 750px; height: 1200px; margin-bottom: 12px;">{{ post.content }}</textarea>
+                <textarea class="form-control" name="content_edit" placeholder="Leave a comment here" id="floatingTextarea2">{{ post.content }}</textarea>
                 <label for="floatingTextarea2">클릭해서 수정하세요!</label>
             </div>
-            <button type="submit" style="background-color: #FFE650; border: none; color: #fff;">수정하기</button>
+            <button type="submit">수정하기</button>
         </form>
     </div>
     
