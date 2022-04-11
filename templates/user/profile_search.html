@@ -98,9 +98,9 @@
 {% get_media_prefix as MEDIA_PREFIX %}
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-    <h1 style=>검색 결과</h1>
+    <h1 style=>검색 결과 ({{ target_users|length }}명)</h1>
     <section class="h-100 gradient-custom-2">
-        {#        {% for target_user in target_user %}#}
+                {% for target_user in target_users %}
         <div class=" my-container  h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col col-lg-9 col-xl-7">
@@ -210,6 +210,6 @@
                 </div>
             </div>
         </div>
-        {#        {% endfor %}#}
+                {% endfor %}
     </section>
 {% endblock %}

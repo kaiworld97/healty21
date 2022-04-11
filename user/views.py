@@ -145,18 +145,20 @@ def profile_search(request):
         following_list = all_users.filter(follower__user=user)
 
         query = None
-        target_user = None
+        # target_user = None
 
         if 'search_word' in request.GET:
             query = request.GET.get('search_word')
-            target_user = get_object_or_404(User, username__icontains=query)
+            # target_user = get_object_or_404(User, username__icontains=query)
+            target_users = all_users.filter(Q(username__icontains=query) | Q(point__icontains=query) |
+                                           Q(email__icontains=query)).distinct()
 
         return render(
             request,
             "user/profile_search.html",
             {
                 'search_word': query,
-                'target_user': target_user,
+                'target_users': target_users,
                 'following_list': following_list,
             },
         )
