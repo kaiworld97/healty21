@@ -1,0 +1,10 @@
+.container form {
+    border: 1px solid #c4c4c4;
+    display: flex;
+    justify-content: center;
+}
+
+.container form button {
+    border: none;
+    background-color: var(--page-color-yellow);
+}

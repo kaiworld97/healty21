@@ -20,36 +20,34 @@
 {% endblock %}
 
 {% block content %}
-    <div id="join_container">
-        <h1>{% trans "Sign Up" %}</h1>
+    <h1>{% trans "Sign Up" %}</h1>
 
-        <p style="font-size: 25px;">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
-        </p>
+    <p style="font-size: 25px;">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
+    </p>
 
-        <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-            {% csrf_token %}
-            <div class="form-floating mb-3">
-                {{ form.email }}
-                <label for="floatingInput">이메일</label>
-                {{ form.email.errors }}
-            </div>
-            <div class="form-floating mb-3">
-                {{ form.username }}
-                <label for="floatingInput">유저명</label>
-                {{ form.username.errors }}
-            </div>
-            <div class="form-floating mb-3">
-                {{ form.password1 }}
-                <label for="floatingPassword">비밀번호</label>
-                {{ form.password1.errors }}
-            </div>
-            <div class="form-floating mb-3">
-                {{ form.password2 }}
-                <label for="floatingPassword">비밀번호 확인</label>
-                {{ form.password2.errors }}
-            </div>
+    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        <div class="form-floating mb-3">
+            {{ form.email }}
+            <label for="floatingInput">이메일</label>
+            {{ form.email.errors }}
+        </div>
+        <div class="form-floating mb-3">
+            {{ form.username }}
+            <label for="floatingInput">유저명</label>
+            {{ form.username.errors }}
+        </div>
+        <div class="form-floating mb-3">
+            {{ form.password1 }}
+            <label for="floatingPassword">비밀번호</label>
+            {{ form.password1.errors }}
+        </div>
+        <div class="form-floating mb-3">
+            {{ form.password2 }}
+            <label for="floatingPassword">비밀번호 확인</label>
+            {{ form.password2.errors }}
+        </div>
 
-            <button type="submit" class='btn btn-primary button white'>{% trans "Sign Up" %} &raquo;</button>
-        </form>
-    </div>
+        <button type="submit" class='btn btn-primary button white'>{% trans "Sign Up" %} &raquo;</button>
+    </form>
 {% endblock %}
