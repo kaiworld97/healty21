@@ -41,6 +41,7 @@ def home(request):
             # 유저와 포인트 차이로 sort하고 5명까지
             users_by_points = sorted(users_by_groups, key=lambda x: abs(x.point - user.point))[:5]
         num_temp = [2, 3, 1, 17, 0, 9, 4, 6, 11, 7, 14, 6, 5, 13, 15, 20, 18, 5, 16]
+
         return render(
             request,
             "user/home.html",
@@ -137,5 +138,24 @@ def people_list(request):
     return render(request, "user/home.html", {"all_users": all_users})  # 수정 예정
 
 
-def profile_view(request, user_pk):
-    return redirect("home")
+def profile_search(request):
+    query = None
+    target_user = None
+
+    if 'search_word' in request.GET:
+        query = request.GET.get('search_word')
+        target_user = get_object_or_404(User, username__icontains=query)
+        print(f'target_users:{target_user}')
+
+    return render(
+        request,
+        "user/profile_search.html",
+        {
+            'search_word': query,
+            'target_user': target_user,
+        },
+    )
+
+
+def profile_view(request):
+    return None

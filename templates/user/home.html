@@ -354,9 +354,9 @@
             </div>
         </section>
 
-        <form class="container-fluid" method="GET" action="{% url 'profile_view' 1 %}">
+        <form class="container-fluid" method="GET" action="{% url 'profile_search' %}">
             <label for="exampleDataList" class="form-label">유저 검색</label>
-            <input class="form-control" list="datalistOptions" id="exampleDataList"
+            <input type="search" class="form-control" list="datalistOptions" id="exampleDataList" name="search_word"
                    value="{{ search_word|default_if_none:'' }}" placeholder="유저를 찾아보세요">
             <datalist id="datalistOptions">
                 {% for users in all_users %}
@@ -364,6 +364,7 @@
                 {% endfor %}
             </datalist>
         </form>
+
 
 
         {#            <h3>유저와 유사한 유저들(Modal)</h3>#}
