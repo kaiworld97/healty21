@@ -49,17 +49,22 @@
         }
 
         .my-card .btn-primary {
-            background-color: #d09481;
-            border-color: #d09481;
+            background-color: var(--color);
+            border-color: var(--color);
+            color: #fff !important;
+        }
+
+        .my-card .btn-primary:hover {
+            color: #fff !important;
         }
 
         .my-card .btn-outline-primary {
-            color: #ad7b6c;
-            border-color: #ad7b6c;
+            color: var(--color);
+            border-color: var(--color);
         }
 
         .my-card .btn-outline-primary:hover {
-            background-color: #ad7b6c;
+            background-color: var(--color);
             color: #fff !important;
         }
 
@@ -70,9 +75,18 @@
         img.card-img-top {
             height: 30%;
         }
-/z
 
+        .flex-parent {
+            display: flex;
+        }
 
+        .jc-center {
+            justify-content: center;
+        }
+
+        button.margin-right {
+            margin-right: 10px;
+        }
     </style>
 {% endblock %}
 
@@ -84,166 +98,174 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-    <div class="container">
-        {% if user.is_authenticated %}
-            {% if user.userprofile %}
-                <h1 style=>마이 페이지</h1>
-                <section class="h-100 gradient-custom-2">
-                    <div class=" my-container  h-100">
-                        <div class="row d-flex justify-content-center align-items-center h-100">
-                            <div class="col col-lg-9 col-xl-7">
-                                <div class="card">
-                                    <div class="rounded-top text-white d-flex flex-row"
-                                         style="background-color: #e3c0b4; height:200px;">
-                                        <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
-                                            <img src="{{ user.userprofile.image.url }}" alt="{{ user }} profile"
-                                                 class="img-fluid img-thumbnail mt-4 mb-2"
-                                                 style="width: 150px; z-index: 1">
+    {% if user.is_authenticated %}
+        {% if user.userprofile %}
+            <h1 style=>마이 페이지</h1>
+            <section class="h-100 gradient-custom-2">
+                <div class=" my-container  h-100">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col col-lg-9 col-xl-7">
+                            <div class="card">
+                                <div class="rounded-top text-white d-flex flex-row"
+                                     style="background-color: var(--color-accent); height:200px;">
+                                    <div class="ms-4 mt-5 d-flex flex-column" style="width: 200px;">
+                                        <img src="{{ user.userprofile.image.url }}" alt="{{ user }} profile"
+                                             class="img-fluid img-thumbnail mt-4 mb-2"
+                                             style="width: 150px; z-index: 1">
+{#                                        <div class="flex-parent jc-center">#}
+                                        <div class="flex-parent">
                                             <button type="button"
                                                     onclick="location.href='{% url 'profile' %}'"
+                                                    class="btn btn-outline-dark margin-right" data-mdb-ripple-color="dark"
+                                                    style="z-index: 1;">
+                                                프로필 수정
+                                            </button>
+                                            <button type="button"
+                                                    onclick="location.href='{% url 'account_logout' %}'"
                                                     class="btn btn-outline-dark" data-mdb-ripple-color="dark"
                                                     style="z-index: 1;">
-                                                프로필 수정하기
+                                                로그아웃
                                             </button>
                                         </div>
-                                        <div class="ms-3" style="margin-top: 130px;">
-                                            <h5>{{ user }} 님</h5>
-                                            <p>{{ user.group }}</p>
+                                    </div>
+                                    <div class="ms-0" style="margin-top: 130px;">
+                                        <h5>{{ user }} 님</h5>
+                                        <p>{{ user.group }}</p>
+                                    </div>
+                                </div>
+                                <div class="p-4 text-black" style="background-color: #f8f9fa;">
+                                    <div class="d-flex justify-content-end text-center py-1">
+                                        <div class="px-3">
+                                            <p class="mb-1 h5">4</p>
+                                            <p class="small text-muted mb-0">참가한 챌린지</p>
+                                        </div>
+                                        <div class="px-3">
+                                            <p class="mb-1 h5">{{ user.point }}</p>
+                                            <p class="small text-muted mb-0">내 점수</p>
+                                        </div>
+                                        <div class="px-3">
+                                            <p class="mb-1 h5">{{ follower_list|length }}</p>
+                                            <p class="small text-muted mb-0">팔로워</p>
+                                        </div>
+                                        <div class="px-3">
+                                            <p class="mb-1 h5">{{ following_list|length }}</p>
+                                            <p class="small text-muted mb-0">팔로잉</p>
                                         </div>
                                     </div>
-                                    <div class="p-4 text-black" style="background-color: #f8f9fa;">
-                                        <div class="d-flex justify-content-end text-center py-1">
-                                            <div class="px-3">
-                                                <p class="mb-1 h5">4</p>
-                                                <p class="small text-muted mb-0">참가한 챌린지</p>
-                                            </div>
-                                            <div class="px-3">
-                                                <p class="mb-1 h5">{{ user.point }}</p>
-                                                <p class="small text-muted mb-0">내 점수</p>
-                                            </div>
-                                            <div class="px-3">
-                                                <p class="mb-1 h5">{{ followers|length }}</p>
-                                                <p class="small text-muted mb-0">팔로워</p>
-                                            </div>
-                                            <div class="px-3">
-                                                <p class="mb-1 h5">{{ followings|length }}</p>
-                                                <p class="small text-muted mb-0">팔로잉</p>
-                                            </div>
+                                </div>
+
+                                <div class="card-body p-4 text-black">
+
+                                    <p class="lead fw-normal mb-1">기본 정보</p>
+                                    <div class="d-flex rounded-2 p-4 mb-4" style="background-color: #f8f9fa;">
+                                        <div class="col-4 text-center">
+                                            <p class="small text-muted mb-1">생일</p>
+                                            <span class="d-block text-sm">{{ user.userprofile.birth_day|date:"M d일" }}</span>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <p class="small text-muted mb-1">BMI 지수</p>
+                                            <span class="d-block text-sm">{{ user.userprofile.bmi }}</span></div>
+                                        <div class="col-4 text-center">
+                                            <p class="small text-muted mb-1">기초대사량</p>
+                                            <span class="d-block text-sm">{{ user.userprofile.bmr }} <p
+                                                    style="display:inline;" class="small text-muted">kcal</p></span>
                                         </div>
                                     </div>
 
-                                    <div class="card-body p-4 text-black">
+                                    <div class="mb-5">
+                                        <p class="lead fw-normal mb-1">About</p>
+                                        <div class="p-4 rounded-2" style="background-color: #f8f9fa;">
+                                            <p class="font-italic mb-1">{{ user.userprofile.bio }}</p>
+                                        </div>
+                                    </div>
 
-                                        <p class="lead fw-normal mb-1">기본 정보</p>
-                                        <div class="d-flex rounded-2 p-4 mb-4" style="background-color: #f8f9fa;">
-                                            <div class="col-4 text-center">
-                                                <p class="small text-muted mb-1">생일</p>
-                                                <span class="d-block text-sm">{{ user.userprofile.birth_day|date:"M d일" }}</span>
-                                            </div>
-                                            <div class="col-4 text-center">
-                                                <p class="small text-muted mb-1">BMI 지수</p>
-                                                <span class="d-block text-sm">{{ user.userprofile.bmi }}</span></div>
-                                            <div class="col-4 text-center">
-                                                <p class="small text-muted mb-1">기초대사량</p>
-                                                <span class="d-block text-sm">{{ user.userprofile.bmr }} <p
-                                                        style="display:inline;" class="small text-muted">kcal</p></span>
-                                            </div>
+                                    {#                                        <p class="lead fw-normal mb-1">기본 정보</p>#}
+                                    {#                                        <div class="d-flex justify-content-start rounded-2 p-4 mb-5"#}
+                                    {#                                             style="background-color: #f8f9fa;">#}
+                                    {#                                            <div>#}
+                                    {#                                                <p class="small text-muted mb-1">생일</p>#}
+                                    {#                                                <p class="mb-0">{{ user.userprofile.birth_day|date:"M d일" }}#}
+                                    {#                                                    (만 {{ user.userprofile.age }}세)</p>#}
+                                    {#                                            </div>#}
+                                    {#                                            <div class="px-5">#}
+                                    {#                                                <p class="small text-muted mb-1">BMI 지수</p>#}
+                                    {#                                                <p class="mb-0">{{ user.userprofile.bmi }}</p>#}
+                                    {#                                            </div>#}
+                                    {#                                            <div class="px-4">#}
+                                    {#                                                <p class="small text-muted mb-1">기초대사량</p>#}
+                                    {#                                                <p class="mb-0">{{ user.userprofile.bmr }} kcal</p>#}
+                                    {#                                            </div>#}
+                                    {#                                        </div>#}
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <p class="lead fw-normal mb-0">최근 퀘스트</p>
+                                        <p class="mb-0" align="right"><a href="#!" class="text-muted">전체 보기</a></p>
+                                    </div>
+                                    <div class="row g-2">
+                                        <div class="col mb-2">
+                                            <img src="https://assets.sweat.com/html_body_blocks/images/010/024/178/original/MakeGymWorkoutsPartOfYourRoutineSWEAT_enf89e42d9f6346ab1accf553c8459f6a1.jpg?1625802808"
+                                                 alt="image 1" class="w-100 rounded-3">
                                         </div>
-
-                                        <div class="mb-5">
-                                            <p class="lead fw-normal mb-1">About</p>
-                                            <div class="p-4 rounded-2" style="background-color: #f8f9fa;">
-                                                <p class="font-italic mb-1">{{ user.userprofile.bio }}</p>
-                                            </div>
+                                        <div class="col mb-2">
+                                            <img src="https://assets.sweat.com/shopify_articles/images/010/005/285/original/BackToGymSWEATf1f07a7f6f79e7b8807d2436a6ae8e8b.jpg?1625801362"
+                                                 alt="image 1" class="w-100 rounded-3">
                                         </div>
-
-                                        {#                                        <p class="lead fw-normal mb-1">기본 정보</p>#}
-                                        {#                                        <div class="d-flex justify-content-start rounded-2 p-4 mb-5"#}
-                                        {#                                             style="background-color: #f8f9fa;">#}
-                                        {#                                            <div>#}
-                                        {#                                                <p class="small text-muted mb-1">생일</p>#}
-                                        {#                                                <p class="mb-0">{{ user.userprofile.birth_day|date:"M d일" }}#}
-                                        {#                                                    (만 {{ user.userprofile.age }}세)</p>#}
-                                        {#                                            </div>#}
-                                        {#                                            <div class="px-5">#}
-                                        {#                                                <p class="small text-muted mb-1">BMI 지수</p>#}
-                                        {#                                                <p class="mb-0">{{ user.userprofile.bmi }}</p>#}
-                                        {#                                            </div>#}
-                                        {#                                            <div class="px-4">#}
-                                        {#                                                <p class="small text-muted mb-1">기초대사량</p>#}
-                                        {#                                                <p class="mb-0">{{ user.userprofile.bmr }} kcal</p>#}
-                                        {#                                            </div>#}
-                                        {#                                        </div>#}
-                                        <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <p class="lead fw-normal mb-0">최근 퀘스트</p>
-                                            <p class="mb-0" align="right"><a href="#!" class="text-muted">전체 보기</a></p>
+                                    </div>
+                                    <div class="row g-2">
+                                        <div class="col">
+                                            <img src="https://assets.sweat.com/html_body_blocks/images/010/027/387/original/meditation_beginners_en6ef60c7d816bfccdc0794de1413f51dc.jpg?1646006927"
+                                                 alt="image 1" class="w-100 rounded-3">
                                         </div>
-                                        <div class="row g-2">
-                                            <div class="col mb-2">
-                                                <img src="https://assets.sweat.com/html_body_blocks/images/010/024/178/original/MakeGymWorkoutsPartOfYourRoutineSWEAT_enf89e42d9f6346ab1accf553c8459f6a1.jpg?1625802808"
-                                                     alt="image 1" class="w-100 rounded-3">
-                                            </div>
-                                            <div class="col mb-2">
-                                                <img src="https://assets.sweat.com/shopify_articles/images/010/005/285/original/BackToGymSWEATf1f07a7f6f79e7b8807d2436a6ae8e8b.jpg?1625801362"
-                                                     alt="image 1" class="w-100 rounded-3">
-                                            </div>
-                                        </div>
-                                        <div class="row g-2">
-                                            <div class="col">
-                                                <img src="https://assets.sweat.com/html_body_blocks/images/010/027/387/original/meditation_beginners_en6ef60c7d816bfccdc0794de1413f51dc.jpg?1646006927"
-                                                     alt="image 1" class="w-100 rounded-3">
-                                            </div>
-                                            <div class="col">
-                                                <img src="https://assets.sweat.com/html_body_blocks/images/010/024/177/original/BackToGymTipsSWEAT_enfb74bc14c1ed58ba1c6ad7ff239089fd.jpg?1625802392"
-                                                     alt="image 1" class="w-100 rounded-3">
-                                            </div>
+                                        <div class="col">
+                                            <img src="https://assets.sweat.com/html_body_blocks/images/010/024/177/original/BackToGymTipsSWEAT_enfb74bc14c1ed58ba1c6ad7ff239089fd.jpg?1625802392"
+                                                 alt="image 1" class="w-100 rounded-3">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
-            {% else %}
-                <a href="{% url 'profile' %}">프로필 만들기</a>
-            {% endif %}
+                </div>
+            </section>
+        {% else %}
+            <a href="{% url 'profile' %}">프로필 만들기</a>
+        {% endif %}
 
-            {#    #}
-            {#    기존 프로필 코드 #}
-            {#    <div class="container">#}
-            {#        {% if user.is_authenticated %}#}
-            {#            <p>안녕하세요, {{ user }}님</p>#}
-            {#            <img src="{{ user.image.url }}" alt="{{ user }} profile">#}
-            {#            <p>유저 이메일: {{ user.email }}</p>#}
-            {#            <p>유저 가입일: {{ user.date_joined }}</p>#}
-            {#            <p>유저 그룹: {{ user.group }}</p>#}
-            {#            <p>유저 포인트: {{ user.point }}</p>#}
-            {##}
-            {#            {% if user.userprofile %}#}
-            {#                <a href="{% url 'profile_update' user.id %}">프로필 수정하기</a>#}
-            {#                <h3>나의 프로필</h3>#}
-            {#                <p>생일 : {{ user.userprofile.birth_day|date:"Y년 m월 d일" }}</p>#}
-            {#                <p>나이 : {{ user.userprofile.age }}세</p>#}
-            {#                <p>bmi 지수 : {{ user.userprofile.bmi }}</p>#}
-            {#                <p>카테고리 : {{ user.userprofile.bmi_category }}</p>#}
-            {#                <p>기초대사량 : {{ user.userprofile.bmr }} kcal</p>#}
-            {#                <p>나의 한줄 소개 : {{ user.userprofile.bio }}</p>#}
-            {##}
-            {#            {% else %}#}
-            {#                <a href="{% url 'profile' %}">프로필 만들기</a>#}
-            {#            {% endif %}#}
-            {##}
-            {##}
-            {#            <h3>유저가 팔로우 하는 사람들 ({{ followings|length }} 명)</h3>#}
-            {#            {% for following in followings %}#}
-            {#                <p>{{ following }}<a href="{% url 'follow' following.pk %}">언팔로우</a></p>#}
-            {#            {% endfor %}#}
-            {#            <h3>유저가 팔로우 하지 않는 사람들 ({{ nofollowing_list|length }} 명)</h3>#}
-            {#            {% for nofollowing in nofollowing_list %}#}
-            {#                <p>{{ nofollowing }}<a href="{% url 'follow' nofollowing.pk %}">팔로우</a></p>#}
-            {#            {% endfor %}#}
-<section>
-            <div class="d-flex justify-content-center">
+        {#    #}
+        {#    기존 프로필 코드 #}
+        {#    <div class="container">#}
+        {#        {% if user.is_authenticated %}#}
+        {#            <p>안녕하세요, {{ user }}님</p>#}
+        {#            <img src="{{ user.image.url }}" alt="{{ user }} profile">#}
+        {#            <p>유저 이메일: {{ user.email }}</p>#}
+        {#            <p>유저 가입일: {{ user.date_joined }}</p>#}
+        {#            <p>유저 그룹: {{ user.group }}</p>#}
+        {#            <p>유저 포인트: {{ user.point }}</p>#}
+        {##}
+        {#            {% if user.userprofile %}#}
+        {#                <a href="{% url 'profile_update' user.id %}">프로필 수정하기</a>#}
+        {#                <h3>나의 프로필</h3>#}
+        {#                <p>생일 : {{ user.userprofile.birth_day|date:"Y년 m월 d일" }}</p>#}
+        {#                <p>나이 : {{ user.userprofile.age }}세</p>#}
+        {#                <p>bmi 지수 : {{ user.userprofile.bmi }}</p>#}
+        {#                <p>카테고리 : {{ user.userprofile.bmi_category }}</p>#}
+        {#                <p>기초대사량 : {{ user.userprofile.bmr }} kcal</p>#}
+        {#                <p>나의 한줄 소개 : {{ user.userprofile.bio }}</p>#}
+        {##}
+        {#            {% else %}#}
+        {#                <a href="{% url 'profile' %}">프로필 만들기</a>#}
+        {#            {% endif %}#}
+        {##}
+        {##}
+        {#            <h3>유저가 팔로우 하는 사람들 ({{ followings|length }} 명)</h3>#}
+        {#            {% for following in followings %}#}
+        {#                <p>{{ following }}<a href="{% url 'follow' following.pk %}">언팔로우</a></p>#}
+        {#            {% endfor %}#}
+        {#            <h3>유저가 팔로우 하지 않는 사람들 ({{ nofollowing_list|length }} 명)</h3>#}
+        {#            {% for nofollowing in nofollowing_list %}#}
+        {#                <p>{{ nofollowing }}<a href="{% url 'follow' nofollowing.pk %}">팔로우</a></p>#}
+        {#            {% endfor %}#}
+        <section>
+            <div class="mt-5 d-flex justify-content-center">
                 <div class="card my-card p-3 mb-5">
                     <h5>내가 팔로우 하는 유저들 ({{ following_list|length }}명)</h5>
                     {% for following in following_list %}
@@ -328,105 +350,105 @@
                     {% endfor %}
                 </div>
             </div>
-</section>
+        </section>
 
-            <form class="container-fluid" method="GET" action="{% url 'profile' %}">
-                <label for="exampleDataList" class="form-label">유저 검색</label>
-                <input class="form-control" list="datalistOptions" id="exampleDataList"
-                       value="{{ search_word|default_if_none:'' }}" placeholder="유저를 찾아보세요">
-                <datalist id="datalistOptions">
-                    {% for users in all_users %}
-                        <option value="{{ users }}">
-                    {% endfor %}
-                </datalist>
-            </form>
-
-
-            {#            <h3>유저와 유사한 유저들(Modal)</h3>#}
-            {#            {% for user_by_points in users_by_points %}#}
-            {#                <div class="bd-example">#}
-            {#                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"#}
-            {#                            data-bs-target="#{{ user_by_points }}_exampleModal">#}
-            {#                        {{ user_by_points }}#}
-            {#                    </button>#}
-            {#                    <div class="modal fade" id="{{ user_by_points }}_exampleModal" tabindex="-1"#}
-            {#                         aria-labelledby="{{ user_by_points }}_ModalLabel"#}
-            {#                         aria-hidden="true">#}
-            {#                        <div class="modal-dialog modal-dialog-centered">#}
-            {#                            <div class="modal-content">#}
-            {#                                <div class="modal-header">#}
-            {#                                    <h5 class="modal-title"#}
-            {#                                        id="{{ user_by_points }}_ModalLabel">{{ user_by_points }}</h5>#}
-            {#                                    <button type="button" class="btn-close" data-bs-dismiss="modal"#}
-            {#                                            aria-label="Close"></button>#}
-            {#                                </div>#}
-            {#                                <div class="modal-body">#}
-            {#                                    <img src="{{ user_by_points.image.url }}" alt="{{ user_by_points }} profile"#}
-            {#                                         style="width:128px;height:128px;">#}
-            {#                                    <p> {{ user_by_points.group }}</p>#}
-            {#                                    <p> {{ user_by_points.point }} 포인트 </p>#}
-            {#                                </div>#}
-            {#                                <div class="modal-footer">#}
-            {#                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">#}
-            {#                                        Close#}
-            {#                                    </button>#}
-            {#                                    <button type="button" onclick="location.href='{% url 'follow' user_by_points.id %}'"#}
-            {#                                            {% if user_by_points in following_list %}#}
-            {#                                            class="btn btn-outline-secondary">#}
-            {#                                                언팔로우#}
-            {#                                            {% else %}#}
-            {#                                                class="btn btn-info text-white">#}
-            {#                                                팔로우#}
-            {#                                            {% endif %}#}
-            {#                                    </button>#}
-            {#                                </div>#}
-            {#                            </div>#}
-            {#                        </div>#}
-            {#                    </div>#}
-            {#                </div>#}
-            {#            {% endfor %}#}
+        <form class="container-fluid" method="GET" action="{% url 'profile' %}">
+            <label for="exampleDataList" class="form-label">유저 검색</label>
+            <input class="form-control" list="datalistOptions" id="exampleDataList"
+                   value="{{ search_word|default_if_none:'' }}" placeholder="유저를 찾아보세요">
+            <datalist id="datalistOptions">
+                {% for users in all_users %}
+                    <option value="{{ users }}">
+                {% endfor %}
+            </datalist>
+        </form>
 
 
-            <h3>유사한 유저들</h3>
-            <div class="row row-cols-auto row-cols-sm-5 g-4">
-                {% for user_by_points in users_by_points %}
-                    <div class="col" justify-content-center>
-                        <div class="card h-100 my-card">
-                            <img
-                                    {% if user_by_points.userprofile %}
-                                        src="{{ user_by_points.userprofile.image.url }}"
+        {#            <h3>유저와 유사한 유저들(Modal)</h3>#}
+        {#            {% for user_by_points in users_by_points %}#}
+        {#                <div class="bd-example">#}
+        {#                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"#}
+        {#                            data-bs-target="#{{ user_by_points }}_exampleModal">#}
+        {#                        {{ user_by_points }}#}
+        {#                    </button>#}
+        {#                    <div class="modal fade" id="{{ user_by_points }}_exampleModal" tabindex="-1"#}
+        {#                         aria-labelledby="{{ user_by_points }}_ModalLabel"#}
+        {#                         aria-hidden="true">#}
+        {#                        <div class="modal-dialog modal-dialog-centered">#}
+        {#                            <div class="modal-content">#}
+        {#                                <div class="modal-header">#}
+        {#                                    <h5 class="modal-title"#}
+        {#                                        id="{{ user_by_points }}_ModalLabel">{{ user_by_points }}</h5>#}
+        {#                                    <button type="button" class="btn-close" data-bs-dismiss="modal"#}
+        {#                                            aria-label="Close"></button>#}
+        {#                                </div>#}
+        {#                                <div class="modal-body">#}
+        {#                                    <img src="{{ user_by_points.image.url }}" alt="{{ user_by_points }} profile"#}
+        {#                                         style="width:128px;height:128px;">#}
+        {#                                    <p> {{ user_by_points.group }}</p>#}
+        {#                                    <p> {{ user_by_points.point }} 포인트 </p>#}
+        {#                                </div>#}
+        {#                                <div class="modal-footer">#}
+        {#                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">#}
+        {#                                        Close#}
+        {#                                    </button>#}
+        {#                                    <button type="button" onclick="location.href='{% url 'follow' user_by_points.id %}'"#}
+        {#                                            {% if user_by_points in following_list %}#}
+        {#                                            class="btn btn-outline-secondary">#}
+        {#                                                언팔로우#}
+        {#                                            {% else %}#}
+        {#                                                class="btn btn-info text-white">#}
+        {#                                                팔로우#}
+        {#                                            {% endif %}#}
+        {#                                    </button>#}
+        {#                                </div>#}
+        {#                            </div>#}
+        {#                        </div>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            {% endfor %}#}
+
+
+        <h3>유사한 유저들</h3>
+        <div class="row row-cols-auto row-cols-sm-5 g-4">
+            {% for user_by_points in users_by_points %}
+                <div class="col" justify-content-center>
+                    <div class="card h-100 my-card">
+                        <img
+                                {% if user_by_points.userprofile %}
+                                    src="{{ user_by_points.userprofile.image.url }}"
+                                {% else %}
+                                    src="{% get_media_prefix %}default/healthy21.png"
+                                {% endif %}
+                                    class="card-img-top"
+                                    alt="{{ user_by_points }} profile">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ user_by_points }}</h5>
+                            <p class="card-text"> {{ user_by_points.group }}</p>
+                            <p class="card-text">  {{ user_by_points.point }} 포인트 </p>
+                            <button type="button" onclick="location.href='{% url 'follow' user_by_points.id %}'"
+                                    {% if user_by_points in following_list %}
+                                    class="btn btn-outline-primary btn-sm follow">
+                                        언팔로우
                                     {% else %}
-                                        src="{% get_media_prefix %}default/healthy21.png"
+                                        class="btn btn-primary btn-sm text-white follow">
+                                        팔로우
                                     {% endif %}
-                                        class="card-img-top"
-                                        alt="{{ user_by_points }} profile">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ user_by_points }}</h5>
-                                <p class="card-text"> {{ user_by_points.group }}</p>
-                                <p class="card-text">  {{ user_by_points.point }} 포인트 </p>
-                                <button type="button" onclick="location.href='{% url 'follow' user_by_points.id %}'"
-                                        {% if user_by_points in following_list %}
-                                        class="btn btn-outline-primary btn-sm follow">
-                                            언팔로우
-                                        {% else %}
-                                            class="btn btn-primary btn-sm text-white follow">
-                                            팔로우
-                                        {% endif %}
-                                </button>
-                                <div class=" px-2 rounded mt-4 date "><span class="join">{{ user_by_points.date_joined |date:"y년 M d일" }}</span></div>
-                            </div>
-                            <div class="card-footer">
-{#                                <small class="text-muted">Last updated {{ user_by_points.userprofile.updated_at }} ago</small>#}
-                                <small class="text-muted">Last updated 13 mins ago</small>
-                            </div>
+                            </button>
+                            <div class=" px-2 rounded mt-4 date "><span
+                                    class="join">{{ user_by_points.date_joined |date:"y년 M d일" }}</span></div>
+                        </div>
+                        <div class="card-footer">
+                            {#                                <small class="text-muted">Last updated {{ user_by_points.userprofile.updated_at }} ago</small>#}
+                            <small class="text-muted">Last updated 13 mins ago</small>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
+        </div>
 
 
-        {% else %}
-            <p>로그인 해주세요.</p>
-        {% endif %}
-    </div>
+    {% else %}
+        <p>로그인 해주세요.</p>
+    {% endif %}
 {% endblock %}

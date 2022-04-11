@@ -1,0 +1,40 @@
+h1 {
+    margin-bottom: 30px;
+}
+
+form {
+    width: 80vw;
+    max-width: 700px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 10px;
+    align-items: stretch;
+    padding: 40px 60px;
+}
+
+input {
+    width: 75vw;
+}
+
+.signup button {
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.messages {
+    font-size: 16px;
+    list-style: none;
+    opacity: .65;
+}
+
+.btn-primary {
+    background-color: var(--color);
+    max-width: 650px;
+    height: 50px;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent);
+}

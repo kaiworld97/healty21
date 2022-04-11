@@ -1,6 +1,6 @@
 import datetime
 
-from allauth.account.forms import PasswordField, SignupForm
+from allauth.account.forms import PasswordField, SignupForm, LoginForm
 from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import ButtonHolder, Fieldset, Layout, Submit
@@ -83,3 +83,18 @@ class MyCustomSignupForm(SignupForm):
 #     labels = {
 #         "image": "이미지",
 #     }
+
+
+class MyCustomLoginForm(LoginForm):
+    def __init__(self, *args, **kwargs):
+        super(MyCustomLoginForm, self).__init__(*args, **kwargs)
+        # iterate over fields
+        for fieldname, field in self.fields.items():
+            field.widget.attrs.update({"class": "form-control"})
+
+    def login(self, *args, **kwargs):
+
+        # Add your own processing here.
+
+        # You must return the original result.
+        return super(MyCustomLoginForm, self).login(*args, **kwargs)

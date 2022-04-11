@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-)w#0mg=6_phw$@s*-dw=dumtu&tk4$nit$0clpvt6snq18)-s$"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "corsheaders",
     "user",
     "info",
     "product",
@@ -87,7 +88,7 @@ ACCOUNT_USERNAME_VALIDATORS = "user.validators.custom_username_validators"
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
-ACCOUNT_FORMS = {"signup": "user.forms.MyCustomSignupForm"}
+ACCOUNT_FORMS = {"signup": "user.forms.MyCustomSignupForm", 'login': 'user.forms.MyCustomLoginForm'}
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
@@ -120,6 +121,8 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -128,6 +131,19 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True # <- 모든 호스트 허용
+CORS_ALLOW_CREDENTIALS = True
+
+
+# # or
+#
+# CORS_ORIGIN_WHITELIST = (
+#     "https://example.com",
+#     "https://sub.example.com",
+#     "http://localhost:8080",
+#     "http://127.0.0.1:9000"
+# )
 
 ROOT_URLCONF = "config.urls"
 
@@ -159,6 +175,17 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'sys',
+#         'USER': social["RDS"]["USER"],
+#         'PASSWORD': social["RDS"]["PASSWORD"],
+#         'HOST': social["RDS"]["HOST"],
+#         'PORT': '3306',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
