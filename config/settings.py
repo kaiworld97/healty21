@@ -250,13 +250,13 @@ if USE_S3:
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
     # STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'  # Static File
+    STATICFILES_STORAGE = 'config.storage_backends.StaticStorage'  # Static File
 
     # MEDIA 설정 - 유저 업로드 static files 기본 경로
     MEDIA_LOCATION = 'media'
     # MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'  # Media File
+    DEFAULT_FILE_STORAGE = 'config.storage_backends.PublicMediaStorage'  # Media File
 
 else:
     STATIC_URL = '/static/'
