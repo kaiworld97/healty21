@@ -74,7 +74,7 @@ class UserProfile(models.Model):
     # Override the save method of the model
     def save(self):
         super().save()
-        img = Image.open(self.image.path)  # Open image
+        img = Image.open(self.image.url)  # Open image
         result_size = 300  # height, width
 
         # resize and crop image
