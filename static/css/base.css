@@ -1,10 +1,17 @@
 :root {
-    --page-color: #5D579D;
+    --color: #6667AB;
+    --color-accent: #2f2f68;
+    --color-secondary: #a7aed9;
+    --color-secondary-accent: #4b5589;
+    --color-bg: #f1f2f8;
+    --color-bg-secondary: #f8f9fa;
+    --page-color: #6667AB;
     --page-color-10: #A4B4C3;
     --page-color-red: #EB0000;
     --page-color-black: black;
     --page-color-white: white;
     --page-color-yellow: #FFE150;
+    --hover-brightness: 0.95;
 }
 
 a {
@@ -18,6 +25,8 @@ a {
 
 a:hover {
     text-decoration: none;
+    --hover-brightness: 0.80;
+    color : var(--color-secondary-accent);
 }
 
 nav {
@@ -25,7 +34,7 @@ nav {
     width: 100%;
     bottom: 0;
     margin: 0;
-    background-color: #F1F2F9;
+    background-color: var(--color-bg-secondary);
 }
 
 .nav_container {

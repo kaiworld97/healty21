@@ -49,17 +49,22 @@
         }
 
         .my-card .btn-primary {
-            background-color: #d09481;
-            border-color: #d09481;
+            background-color: var(--color);
+            border-color: var(--color);
+            color: #fff !important;
+        }
+
+        .my-card .btn-primary:hover {
+            color: #fff !important;
         }
 
         .my-card .btn-outline-primary {
-            color: #ad7b6c;
-            border-color: #ad7b6c;
+            color: var(--color);
+            border-color: var(--color);
         }
 
         .my-card .btn-outline-primary:hover {
-            background-color: #ad7b6c;
+            background-color: var(--color);
             color: #fff !important;
         }
 
@@ -102,7 +107,7 @@
                         <div class="col col-lg-9 col-xl-7">
                             <div class="card">
                                 <div class="rounded-top text-white d-flex flex-row"
-                                     style="background-color: #e3c0b4; height:200px;">
+                                     style="background-color: var(--color-secondary-accent); height:200px;">
                                     <div class="ms-4 mt-5 d-flex flex-column" style="width: 200px;">
                                         <img src="{{ user.userprofile.image.url }}" alt="{{ user }} profile"
                                              class="img-fluid img-thumbnail mt-4 mb-2"
