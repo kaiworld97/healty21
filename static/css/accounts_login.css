@@ -1,49 +1,83 @@
-.container h1 {
+h1 {
     margin-bottom: 30px;
 }
 
-.container form {
+form {
     width: 80vw;
-    max-width: 800px;
+    max-width: 700px;
     height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 1px solid #c4c4c4;
     margin-bottom: 10px;
+    align-items: stretch;
+    padding: 40px 60px;
 }
 
-.container input {
+input {
     width: 75vw;
-    max-width: 750px;
 }
 
-.container form button {
+form button {
     border-radius: 8px;
     padding: 8px;
     margin-bottom: 5px;
 }
 
-.container .messages {
-    font-size: 20px;
+.messages {
+    font-size: 16px;
     list-style: none;
+    opacity: .65;
 }
 
-.container .social_login_button a {
+.btn-primary {
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.social_login_button {
     display: flex;
     flex-direction: column;
-    width: 75vw;
-    max-width: 750px;
-    padding: 10px;
+    align-items: center;
+}
+
+.social_login_button a {
+    width: 100%;
+    height: 50px;
+    padding: 12px;
     border-radius: 8px;
     text-align: center;
 }
 
-.container .social_login_button a:first-child {
+.social_login_button a:first-child {
     margin-bottom: 5px;
-    background-color: var(--page-color-yellow);
+    /*background-color: var(--page-color-yellow);*/
+    background-color: #EED249FF;
+    color: var(--page-color-white);
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
-.container .social_login_button a:last-child {
+
+.social_login_button a:last-child {
     border: 1px solid #c4c4c4;
+
+}
+
+.secondaryAction {
+    margin-right: 5px;
+    font-size: 16px;
+    padding-bottom: 30px;
+    align-self: flex-end;
+    opacity: .65;
+}
+
+.btn-primary {
+    background-color: var(--color);
+    max-width: 650px;
+    height: 50px;
+}
+
+.btn-primary:hover {
+    background-color: var(--color);
 }

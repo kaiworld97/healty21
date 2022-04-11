@@ -1,22 +1,23 @@
 :root {
     --color: #6667AB;
-    --color-accent: #2f2f68;
-    --color-secondary: #a7aed9;
-    --color-secondary-accent: #4b5589;
-    --color-bg: #f1f2f8;
+    --color-light: #a7a7d8;
+    --color-accent: #4b5589;
+    --color-secondary: #e6d1ef;
+    --color-secondary-accent: #f4a0e0;
+    --color-bg: #f1f2f9;
     --color-bg-secondary: #f8f9fa;
-    --page-color: #6667AB;
-    --page-color-10: #A4B4C3;
+    /*--page-color: #6667AB;*/
+    /*--page-color-10: #A4B4C3;*/
     --page-color-red: #EB0000;
     --page-color-black: black;
     --page-color-white: white;
-    --page-color-yellow: #FFE150;
+    --page-color-yellow: #eed249;
     --hover-brightness: 0.95;
 }
 
 a {
     text-decoration: none;
-    color: var(--page-color);
+    color: var(--color-accent);
 }
 
 * {
@@ -25,8 +26,8 @@ a {
 
 a:hover {
     text-decoration: none;
-    --hover-brightness: 0.80;
-    color : var(--color-secondary-accent);
+    /*--hover-brightness: 1.10;*/
+    color : var(--color-light);
 }
 
 nav {

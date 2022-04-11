@@ -1,11 +1,11 @@
-/* 임시로 설정해둔 값입니다. 후에 삭제할 예정 */
-:root {
-    --page-color: #5D579D;
-    --page-color-10: #A4B4C3;
-    --page-color-red: #EB0000;
-    --page-color-black: black;
-    --page-color-white: white;
-}
+/*!* 임시로 설정해둔 값입니다. 후에 삭제할 예정 *!*/
+/*:root {*/
+/*    --page-color: #5D579D;*/
+/*    --page-color-10: #A4B4C3;*/
+/*    --page-color-red: #EB0000;*/
+/*    --page-color-black: black;*/
+/*    --page-color-white: white;*/
+/*}*/
 
 /* 페이지 기본 뼈대 */
 #community_container {
@@ -24,12 +24,17 @@
 }
 
 #community_container a {
-    color: var(--page-color-black);
+    color: var(--color-accent);
     text-decoration-line: none;
 }
 
 #community_container a:hover {
-    color: var(--page-color-red);
+    color: var(--page-color-white);
+}
+
+.body_functions a:hover {
+    text-decoration: none;
+    color : var(--color-light);
 }
 
 /* 포스팅 */
@@ -38,7 +43,7 @@
     justify-content: center;
     align-items: center;
     padding: 15px;
-    border-bottom: 7px solid var(--page-color);
+    border-bottom: 7px solid var(--color);
     margin-bottom: 15px;
 }
 
@@ -55,7 +60,7 @@
     padding: 15px;
     margin-left: 15px;
     border-radius: 10px;
-    background-color: var(--page-color-10);
+    background-color: var(--color-light);
 }
 
 /* 프로필 */
@@ -99,13 +104,13 @@
     word-break: break-all;
     margin-bottom: 15px;
     border-radius: 10px;
-    background-color: var(--page-color-10);
+    background-color: var(--color-light);
 }
 
 /* 태그 */
 #community_container .community_body .body_tags {
     font-size: 20px;
-    background-color: var(--page-color-10);
+    background-color: var(--color-light);
     margin-bottom: 10px;
 }
 
@@ -115,6 +120,6 @@
     align-items: center;
     padding: 5px;
     margin-bottom: 50px;
-    border-bottom: 2px solid var(--page-color);
+    border-bottom: 2px solid var(--color);
     justify-content: space-between;
 }

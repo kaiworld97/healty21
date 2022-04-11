@@ -1,23 +1,40 @@
-.container form {
+h1 {
+    margin-bottom: 30px;
+}
+
+form {
     width: 80vw;
-    max-width: 800px;
+    max-width: 700px;
     height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 1px solid #c4c4c4;
     margin-bottom: 10px;
+    align-items: stretch;
+    padding: 40px 60px;
 }
 
-.container form .form-floating {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+input {
     width: 75vw;
-    max-width: 750px;
 }
 
-.container .signup button {
+.signup button {
     border-radius: 8px;
     padding: 8px;
+}
+
+.messages {
+    font-size: 16px;
+    list-style: none;
+    opacity: .65;
+}
+
+.btn-primary {
+    background-color: var(--color);
+    max-width: 650px;
+    height: 50px;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent);
 }

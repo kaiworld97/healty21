@@ -88,12 +88,9 @@ class MyCustomSignupForm(SignupForm):
 class MyCustomLoginForm(LoginForm):
     def __init__(self, *args, **kwargs):
         super(MyCustomLoginForm, self).__init__(*args, **kwargs)
-        # # iterate over fields
+        # iterate over fields
         for fieldname, field in self.fields.items():
             field.widget.attrs.update({"class": "form-control"})
-            # if field in ['login', 'password']:
-            #     field.widget.attrs.update({"class": "form-control"})
-            print(field)
 
     def login(self, *args, **kwargs):
 
