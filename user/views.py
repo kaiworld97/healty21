@@ -145,7 +145,7 @@ def profile_search(request):
     if 'search_word' in request.GET:
         query = request.GET.get('search_word')
         target_user = get_object_or_404(User, username__icontains=query)
-        print(f'target_users:{target_user}')
+
 
     return render(
         request,

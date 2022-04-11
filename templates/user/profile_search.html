@@ -95,105 +95,111 @@
     {#<script type="text/javascript" src="{% static '/js/user.js' %}"></script>#}
 
 {% endblock %}
-
+{% get_media_prefix as MEDIA_PREFIX %}
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
     <h1 style=>검색 결과</h1>
     <section class="h-100 gradient-custom-2">
-{#        {% for target_user in target_user %}#}
-            <div class=" my-container  h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col col-lg-9 col-xl-7">
-                        <div class="card">
-                            <div class="rounded-top text-white d-flex flex-row"
-                                 style="background-color: var(--color-accent); height:200px;">
-                                <div class="ms-4 mt-5 d-flex flex-column" style="width: 200px;">
-                                    <img src="{{ target_user.userprofile.image.url }}" alt="{{ target_user }} profile"
-                                         class="img-fluid img-thumbnail mt-4 mb-2"
-                                         style="width: 150px; z-index: 1">
-                                    <div class="flex-parent">
-                                        <button type="button" onclick="location.href='{% url 'follow' target_user.id %}'"
-                                                {% if follower in following_list %}
+        {#        {% for target_user in target_user %}#}
+        <div class=" my-container  h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-lg-9 col-xl-7">
+                    <div class="card">
+                        <div class="rounded-top text-white d-flex flex-row"
+                             style="background-color: var(--color-accent); height:200px;">
+                            <div class="ms-4 mt-5 d-flex flex-column" style="width: 200px;">
+                                {% if user.userprofile %}
+                                    <img src="{{ target_user.userprofile.image.url }}"
+                                {% else %}
+                                    <img src='{%  get_media_prefix %}default/healthy21.png'
+                                {% endif %}
+
+                                alt="{{ target_user }} profile"
+                                class="img-fluid img-thumbnail mt-4 mb-2"
+                                style="width: 150px; z-index: 1">
+                                <div class="flex-parent">
+                                    <button type="button" onclick="location.href='{% url 'follow' target_user.id %}'"
+                                            {% if follower in following_list %}
+                                            class="btn btn-outline-dark margin-right">
+                                                언팔로우
+                                            {% else %}
                                                 class="btn btn-outline-dark margin-right">
-                                                    언팔로우
-                                                {% else %}
-                                                    class="btn btn-outline-dark margin-right">
-                                                    팔로우
-                                                {% endif %}
-                                        </button>
-                                        <button type="button"
-                                                onclick="location.href='{% url 'account_logout' %}'"
-                                                class="btn btn-outline-dark" data-mdb-ripple-color="dark"
-                                                style="z-index: 1;">
-                                            차단하기
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="ms-0" style="margin-top: 130px;">
-                                    <h5>{{ target_user }} 님</h5>
-                                    <p>{{ target_user.group }}</p>
+                                                팔로우
+                                            {% endif %}
+                                    </button>
+                                    <button type="button"
+                                            onclick="location.href='{% url 'block' target_user.id %}'"
+                                            class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                                            style="z-index: 1;">
+                                        차단하기
+                                    </button>
                                 </div>
                             </div>
-                            <div class="p-4 text-black" style="background-color: #f8f9fa;">
-                                <div class="d-flex justify-content-end text-center py-1">
-                                    <div class="px-3">
-                                        <p class="mb-1 h5">4</p>
-                                        <p class="small text-muted mb-0">참가한 챌린지</p>
-                                    </div>
-                                    <div class="px-3">
-                                        <p class="mb-1 h5">{{ target_user.point }}</p>
-                                        <p class="small text-muted mb-0">유저 점수</p>
-                                    </div>
-                                    <div class="px-3">
-{#                                        <p class="mb-1 h5">{{ follower_list|length }}</p>#}
-                                        <p class="mb-1 h5">11</p>
-                                        <p class="small text-muted mb-0">팔로워</p>
-                                    </div>
-                                    <div class="px-3">
-{#                                        <p class="mb-1 h5">{{ following_list|length }}</p>#}
-                                        <p class="mb-1 h5">22</p>
-                                        <p class="small text-muted mb-0">팔로잉</p>
-                                    </div>
+                            <div class="ms-0" style="margin-top: 130px;">
+                                <h5>{{ target_user }} 님</h5>
+                                <p>{{ target_user.group }}</p>
+                            </div>
+                        </div>
+                        <div class="p-4 text-black" style="background-color: #f8f9fa;">
+                            <div class="d-flex justify-content-end text-center py-1">
+                                <div class="px-3">
+                                    <p class="mb-1 h5">4</p>
+                                    <p class="small text-muted mb-0">참가한 챌린지</p>
+                                </div>
+                                <div class="px-3">
+                                    <p class="mb-1 h5">{{ target_user.point }}</p>
+                                    <p class="small text-muted mb-0">유저 점수</p>
+                                </div>
+                                <div class="px-3">
+                                    {#                                        <p class="mb-1 h5">{{ follower_list|length }}</p>#}
+                                    <p class="mb-1 h5">11</p>
+                                    <p class="small text-muted mb-0">팔로워</p>
+                                </div>
+                                <div class="px-3">
+                                    {#                                        <p class="mb-1 h5">{{ following_list|length }}</p>#}
+                                    <p class="mb-1 h5">22</p>
+                                    <p class="small text-muted mb-0">팔로잉</p>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="card-body p-4 text-black">
+                        <div class="card-body p-4 text-black">
 
-                                <div class="mb-5">
-                                    <p class="lead fw-normal mb-1">About</p>
-                                    <div class="p-4 rounded-2" style="background-color: #f8f9fa;">
-                                        <p class="font-italic mb-1">{{ target_user.userprofile.bio }}</p>
-                                    </div>
+                            <div class="mb-5">
+                                <p class="lead fw-normal mb-1">About</p>
+                                <div class="p-4 rounded-2" style="background-color: #f8f9fa;">
+                                    <p class="font-italic mb-1">{{ target_user.userprofile.bio }}</p>
                                 </div>
-                                <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <p class="lead fw-normal mb-0">최근 퀘스트</p>
-                                    <p class="mb-0" align="right"><a href="#!" class="text-muted">전체 보기</a></p>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <p class="lead fw-normal mb-0">최근 퀘스트</p>
+                                <p class="mb-0" align="right"><a href="#!" class="text-muted">전체 보기</a></p>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col mb-2">
+                                    <img src="https://assets.sweat.com/html_body_blocks/images/010/024/178/original/MakeGymWorkoutsPartOfYourRoutineSWEAT_enf89e42d9f6346ab1accf553c8459f6a1.jpg?1625802808"
+                                         alt="image 1" class="w-100 rounded-3">
                                 </div>
-                                <div class="row g-2">
-                                    <div class="col mb-2">
-                                        <img src="https://assets.sweat.com/html_body_blocks/images/010/024/178/original/MakeGymWorkoutsPartOfYourRoutineSWEAT_enf89e42d9f6346ab1accf553c8459f6a1.jpg?1625802808"
-                                             alt="image 1" class="w-100 rounded-3">
-                                    </div>
-                                    <div class="col mb-2">
-                                        <img src="https://assets.sweat.com/shopify_articles/images/010/005/285/original/BackToGymSWEATf1f07a7f6f79e7b8807d2436a6ae8e8b.jpg?1625801362"
-                                             alt="image 1" class="w-100 rounded-3">
-                                    </div>
+                                <div class="col mb-2">
+                                    <img src="https://assets.sweat.com/shopify_articles/images/010/005/285/original/BackToGymSWEATf1f07a7f6f79e7b8807d2436a6ae8e8b.jpg?1625801362"
+                                         alt="image 1" class="w-100 rounded-3">
                                 </div>
-                                <div class="row g-2">
-                                    <div class="col">
-                                        <img src="https://assets.sweat.com/html_body_blocks/images/010/027/387/original/meditation_beginners_en6ef60c7d816bfccdc0794de1413f51dc.jpg?1646006927"
-                                             alt="image 1" class="w-100 rounded-3">
-                                    </div>
-                                    <div class="col">
-                                        <img src="https://assets.sweat.com/html_body_blocks/images/010/024/177/original/BackToGymTipsSWEAT_enfb74bc14c1ed58ba1c6ad7ff239089fd.jpg?1625802392"
-                                             alt="image 1" class="w-100 rounded-3">
-                                    </div>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col">
+                                    <img src="https://assets.sweat.com/html_body_blocks/images/010/027/387/original/meditation_beginners_en6ef60c7d816bfccdc0794de1413f51dc.jpg?1646006927"
+                                         alt="image 1" class="w-100 rounded-3">
+                                </div>
+                                <div class="col">
+                                    <img src="https://assets.sweat.com/html_body_blocks/images/010/024/177/original/BackToGymTipsSWEAT_enfb74bc14c1ed58ba1c6ad7ff239089fd.jpg?1625802392"
+                                         alt="image 1" class="w-100 rounded-3">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-{#        {% endfor %}#}
+        </div>
+        {#        {% endfor %}#}
     </section>
 {% endblock %}
