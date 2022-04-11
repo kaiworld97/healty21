@@ -70,6 +70,18 @@
         img.card-img-top {
             height: 30%;
         }
+
+        .flex-parent {
+            display: flex;
+        }
+
+        .jc-center {
+            justify-content: center;
+        }
+
+        button.margin-right {
+            margin-right: 20px;
+        }
     </style>
 {% endblock %}
 
@@ -90,17 +102,25 @@
                         <div class="col col-lg-9 col-xl-7">
                             <div class="card">
                                 <div class="rounded-top text-white d-flex flex-row"
-                                        style="background-color: #e3c0b4; height:200px;">
-                                    <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+                                     style="background-color: #e3c0b4; height:200px;">
+                                    <div class="ms-4 mt-5 d-flex flex-column" style="width: 200px;">
                                         <img src="{{ user.userprofile.image.url }}" alt="{{ user }} profile"
-                                                class="img-fluid img-thumbnail mt-4 mb-2"
-                                                style="width: 150px; z-index: 1">
-                                        <button type="button"
-                                                onclick="location.href='{% url 'profile' %}'"
-                                                class="btn btn-outline-dark" data-mdb-ripple-color="dark"
-                                                style="z-index: 1;">
-                                            프로필 수정하기
-                                        </button>
+                                             class="img-fluid img-thumbnail mt-4 mb-2"
+                                             style="width: 150px; z-index: 1">
+                                        <div class="flex-parent jc-center">
+                                            <button type="button"
+                                                    onclick="location.href='{% url 'profile' %}'"
+                                                    class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                                                    style="z-index: 1;">
+                                                프로필 수정
+                                            </button>
+                                            <button type="button"
+                                                    onclick="location.href='{% url 'account_logout' %}'"
+                                                    class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                                                    style="z-index: 1;">
+                                                로그아웃
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="ms-3" style="margin-top: 130px;">
                                         <h5>{{ user }} 님</h5>
@@ -177,21 +197,21 @@
                                     <div class="row g-2">
                                         <div class="col mb-2">
                                             <img src="https://assets.sweat.com/html_body_blocks/images/010/024/178/original/MakeGymWorkoutsPartOfYourRoutineSWEAT_enf89e42d9f6346ab1accf553c8459f6a1.jpg?1625802808"
-                                                    alt="image 1" class="w-100 rounded-3">
+                                                 alt="image 1" class="w-100 rounded-3">
                                         </div>
                                         <div class="col mb-2">
                                             <img src="https://assets.sweat.com/shopify_articles/images/010/005/285/original/BackToGymSWEATf1f07a7f6f79e7b8807d2436a6ae8e8b.jpg?1625801362"
-                                                    alt="image 1" class="w-100 rounded-3">
+                                                 alt="image 1" class="w-100 rounded-3">
                                         </div>
                                     </div>
                                     <div class="row g-2">
                                         <div class="col">
                                             <img src="https://assets.sweat.com/html_body_blocks/images/010/027/387/original/meditation_beginners_en6ef60c7d816bfccdc0794de1413f51dc.jpg?1646006927"
-                                                    alt="image 1" class="w-100 rounded-3">
+                                                 alt="image 1" class="w-100 rounded-3">
                                         </div>
                                         <div class="col">
                                             <img src="https://assets.sweat.com/html_body_blocks/images/010/024/177/original/BackToGymTipsSWEAT_enfb74bc14c1ed58ba1c6ad7ff239089fd.jpg?1625802392"
-                                                    alt="image 1" class="w-100 rounded-3">
+                                                 alt="image 1" class="w-100 rounded-3">
                                         </div>
                                     </div>
                                 </div>
@@ -239,7 +259,7 @@
         {#                <p>{{ nofollowing }}<a href="{% url 'follow' nofollowing.pk %}">팔로우</a></p>#}
         {#            {% endfor %}#}
         <section>
-            <div class="d-flex justify-content-center">
+            <div class="mt-5 d-flex justify-content-center">
                 <div class="card my-card p-3 mb-5">
                     <h5>내가 팔로우 하는 유저들 ({{ following_list|length }}명)</h5>
                     {% for following in following_list %}
@@ -329,7 +349,7 @@
         <form class="container-fluid" method="GET" action="{% url 'profile' %}">
             <label for="exampleDataList" class="form-label">유저 검색</label>
             <input class="form-control" list="datalistOptions" id="exampleDataList"
-                    value="{{ search_word|default_if_none:'' }}" placeholder="유저를 찾아보세요">
+                   value="{{ search_word|default_if_none:'' }}" placeholder="유저를 찾아보세요">
             <datalist id="datalistOptions">
                 {% for users in all_users %}
                     <option value="{{ users }}">
@@ -409,10 +429,11 @@
                                         팔로우
                                     {% endif %}
                             </button>
-                            <div class=" px-2 rounded mt-4 date "><span class="join">{{ user_by_points.date_joined |date:"y년 M d일" }}</span></div>
+                            <div class=" px-2 rounded mt-4 date "><span
+                                    class="join">{{ user_by_points.date_joined |date:"y년 M d일" }}</span></div>
                         </div>
                         <div class="card-footer">
-{#                                <small class="text-muted">Last updated {{ user_by_points.userprofile.updated_at }} ago</small>#}
+                            {#                                <small class="text-muted">Last updated {{ user_by_points.userprofile.updated_at }} ago</small>#}
                             <small class="text-muted">Last updated 13 mins ago</small>
                         </div>
                     </div>
