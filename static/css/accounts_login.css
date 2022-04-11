@@ -1,0 +1,49 @@
+.container h1 {
+    margin-bottom: 30px;
+}
+
+.container form {
+    width: 80vw;
+    max-width: 800px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid #c4c4c4;
+    margin-bottom: 10px;
+}
+
+.container input {
+    width: 75vw;
+    max-width: 750px;
+}
+
+.container form button {
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 5px;
+}
+
+.container .messages {
+    font-size: 20px;
+    list-style: none;
+}
+
+.container .social_login_button a {
+    display: flex;
+    flex-direction: column;
+    width: 75vw;
+    max-width: 750px;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.container .social_login_button a:first-child {
+    margin-bottom: 5px;
+    background-color: var(--page-color-yellow);
+}
+
+.container .social_login_button a:last-child {
+    border: 1px solid #c4c4c4;
+}

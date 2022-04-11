@@ -1,22 +1,31 @@
+:root {
+    --page-color: #5D579D;
+    --page-color-10: #A4B4C3;
+    --page-color-red: #EB0000;
+    --page-color-black: black;
+    --page-color-white: white;
+    --page-color-yellow: #FFE150;
+}
+
 a {
-    text-decoration: auto;
+    text-decoration: none;
+    color: var(--page-color);
 }
 
 * {
-    border-color: #5D579D;
+    font-family: 'Gowun Dodum', sans-serif;
 }
 
 a:hover {
-    text-decoration: auto;
+    text-decoration: none;
 }
 
 nav {
     position: fixed;
+    width: 100%;
     bottom: 0;
     margin: 0;
     background-color: #F1F2F9;
-    height: 10%;
-    width: 100%;
 }
 
 .nav_container {
@@ -24,7 +33,9 @@ nav {
     margin: auto;
     width: 100%;
     justify-content: space-evenly;
-    font-size: xx-large;
+    align-items: center;
+    padding: 20px;
+    font-size: 20px;
 }
 
 .container {
