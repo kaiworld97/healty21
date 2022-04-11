@@ -139,23 +139,29 @@ def people_list(request):
 
 
 def profile_search(request):
-    query = None
-    target_user = None
+    user = request.user
+    if user.is_authenticated:
+        all_users = User.objects.filter(~Q(id=user.id), ~Q(blocked_by__user=user)).select_related("userprofile")
+        following_list = all_users.filter(follower__user=user)
 
-    if 'search_word' in request.GET:
-        query = request.GET.get('search_word')
-        target_user = get_object_or_404(User, username__icontains=query)
+        query = None
+        target_user = None
 
+        if 'search_word' in request.GET:
+            query = request.GET.get('search_word')
+            target_user = get_object_or_404(User, username__icontains=query)
 
-    return render(
-        request,
-        "user/profile_search.html",
-        {
-            'search_word': query,
-            'target_user': target_user,
-        },
-    )
-
+        return render(
+            request,
+            "user/profile_search.html",
+            {
+                'search_word': query,
+                'target_user': target_user,
+                'following_list': following_list,
+            },
+        )
+    else:
+        return redirect("home")
 
 def profile_view(request):
     return None

@@ -111,21 +111,31 @@
                                 {% if user.userprofile %}
                                     <img src="{{ target_user.userprofile.image.url }}"
                                 {% else %}
-                                    <img src='{%  get_media_prefix %}default/healthy21.png'
+                                    <img src='{% get_media_prefix %}default/healthy21.png'
                                 {% endif %}
 
-                                alt="{{ target_user }} profile"
-                                class="img-fluid img-thumbnail mt-4 mb-2"
-                                style="width: 150px; z-index: 1">
+                                         alt="{{ target_user }} profile"
+                                         class="img-fluid img-thumbnail mt-4 mb-2"
+                                         style="width: 150px; z-index: 1">
                                 <div class="flex-parent">
-                                    <button type="button" onclick="location.href='{% url 'follow' target_user.id %}'"
-                                            {% if follower in following_list %}
-                                            class="btn btn-outline-dark margin-right">
-                                                언팔로우
-                                            {% else %}
-                                                class="btn btn-outline-dark margin-right">
-                                                팔로우
-                                            {% endif %}
+                                    {% if target_user in following_list %}
+                                        <button type="button"
+                                                onclick="location.href='{% url 'follow' target_user.id %}'"
+                                                class="btn btn-outline-dark margin-right"
+                                                data-mdb-ripple-color="dark"
+                                                style="z-index: 1;">
+                                            언팔하기
+                                        </button>
+                                    {% else %}
+                                        <button type="button"
+                                                onclick="location.href='{% url 'follow' target_user.id %}'"
+                                                class="btn btn-outline-dark margin-right"
+                                                data-mdb-ripple-color="dark"
+                                                style="z-index: 1;">
+                                            팔로우
+                                        </button>
+
+                                    {% endif %}
                                     </button>
                                     <button type="button"
                                             onclick="location.href='{% url 'block' target_user.id %}'"
