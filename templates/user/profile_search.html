@@ -162,12 +162,12 @@
                                 </div>
                                 <div class="px-3">
                                     {#                                        <p class="mb-1 h5">{{ follower_list|length }}</p>#}
-                                    <p class="mb-1 h5">11</p>
+                                    <p class="mb-1 h5">{{ target_user.follower.count }}</p>
                                     <p class="small text-muted mb-0">팔로워</p>
                                 </div>
                                 <div class="px-3">
                                     {#                                        <p class="mb-1 h5">{{ following_list|length }}</p>#}
-                                    <p class="mb-1 h5">22</p>
+                                    <p class="mb-1 h5">{{ target_user.following.count }}</p>
                                     <p class="small text-muted mb-0">팔로잉</p>
                                 </div>
                             </div>
