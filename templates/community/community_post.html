@@ -20,7 +20,7 @@
 {% block content %}
     <div id="community_post_container">
         {% comment %} 게시물 등록 {% endcomment %}
-        <form action="/post/" method="POST">
+        <form action="/post/" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="container_header">
                 <a href="{% url 'community' %}"><span>뒤로</span></a>
