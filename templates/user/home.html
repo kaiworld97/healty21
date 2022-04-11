@@ -80,7 +80,7 @@
         }
 
         button.margin-right {
-            margin-right: 20px;
+            margin-right: 10px;
         }
     </style>
 {% endblock %}
@@ -107,10 +107,11 @@
                                         <img src="{{ user.userprofile.image.url }}" alt="{{ user }} profile"
                                              class="img-fluid img-thumbnail mt-4 mb-2"
                                              style="width: 150px; z-index: 1">
-                                        <div class="flex-parent jc-center">
+{#                                        <div class="flex-parent jc-center">#}
+                                        <div class="flex-parent">
                                             <button type="button"
                                                     onclick="location.href='{% url 'profile' %}'"
-                                                    class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                                                    class="btn btn-outline-dark margin-right" data-mdb-ripple-color="dark"
                                                     style="z-index: 1;">
                                                 프로필 수정
                                             </button>
@@ -122,7 +123,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div class="ms-3" style="margin-top: 130px;">
+                                    <div class="ms-0" style="margin-top: 130px;">
                                         <h5>{{ user }} 님</h5>
                                         <p>{{ user.group }}</p>
                                     </div>
