@@ -282,7 +282,7 @@
                                         width="40" height="40">
                                 <div class="d-flex flex-column ml-1 about"><span
                                         class="font-weight-bold">{{ nofollowing }}</span>
-                                    <small>{{ num_temp | random }} challenges</small></div>
+                                    <small>585 challenges</small></div>
                             </div>
                             <button onclick="location.href='{% url 'follow' nofollowing.id %}'"
                                     class="btn btn-primary btn-sm text-white follow">팔로우
@@ -308,7 +308,7 @@
                                         width="40" height="40">
                                 <div class="d-flex flex-column ml-1 about"><span
                                         class="font-weight-bold">{{ following }}</span>
-                                    <small>{{ num_temp | random }} challenges</small></div>
+                                    <small>585 challenges</small></div>
                             </div>
 
                             <button onclick="location.href='{% url 'follow' following.id %}'"
@@ -336,7 +336,7 @@
                                         width="40" height="40">
                                 <div class="d-flex flex-column ml-1 about"><span
                                         class="font-weight-bold">{{ follower }}</span>
-                                    <small>{{ num_temp | random }} challenges</small></div>
+                                    <small>585 challenges</small></div>
                             </div>
                             <button type="button" onclick="location.href='{% url 'follow' follower.id %}'"
                                     {% if follower in following_list %}
@@ -354,7 +354,7 @@
             </div>
         </section>
 
-        <form class="container-fluid" method="GET" action="{% url 'profile_view' 1 %}">
+        <form class="container-fluid" method="GET" action="{% url 'profile_view' users.pk %}">
             <label for="exampleDataList" class="form-label">유저 검색</label>
             <input class="form-control" list="datalistOptions" id="exampleDataList"
                    value="{{ search_word|default_if_none:'' }}" placeholder="유저를 찾아보세요">
