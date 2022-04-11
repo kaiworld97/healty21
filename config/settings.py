@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     # # crispy forms
     "crispy_forms",
     "crispy_bootstrap5",
+    "storages"
 ]
 TAGGIT_CASE_INSENSITIVE = True
 TAGGIT_LIMIT = 50
@@ -94,20 +95,20 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 with open(os.path.join(BASE_DIR, "config/social.json")) as f:
-    social = json.loads(f.read())
+    secrets = json.loads(f.read())
 
 SOCIALACCOUNT_PROVIDERS = {
     "kakao": {
         "APP": {
-            "client_id": social["KAKAO"]["CLIENT_ID"],
+            "client_id": secrets["KAKAO"]["CLIENT_ID"],
             "redirect_uri": "/redirect/",
             "response_type": "",
         }
     },
     "google": {
         "APP": {
-            "client_id": social["GOOGLE"]["CLIENT_ID"],
-            "secret": social["GOOGLE"]["SECRET"],
+            "client_id": secrets["GOOGLE"]["CLIENT_ID"],
+            "secret": secrets["GOOGLE"]["SECRET"],
             "key": "",
         },
         "SCOPE": [
@@ -168,24 +169,24 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-
+#
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'sys',
-#         'USER': social["RDS"]["USER"],
-#         'PASSWORD': social["RDS"]["PASSWORD"],
-#         'HOST': social["RDS"]["HOST"],
-#         'PORT': '3306',
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sys',
+        'USER': secrets["RDS"]["USER"],
+        'PASSWORD': secrets["RDS"]["PASSWORD"],
+        'HOST': secrets["RDS"]["HOST"],
+        'PORT': '3306',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -222,7 +223,7 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = "static/"
+
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Default primary key field type
@@ -233,40 +234,37 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "user.User"
 
 # Static files, Media files 재설정
-USE_S3 = False
+USE_S3 = True
 
 if USE_S3:
-    # # AWS 설정
-    # AWS_ACCESS_KEY_ID = secrets['AWS']['ACCESS_KEY_ID']
-    # AWS_SECRET_ACCESS_KEY = secrets['AWS']['SECRET_ACCESS_KEY']
-    # AWS_STORAGE_BUCKET_NAME = secrets['AWS']['STORAGE_BUCKET_NAME']
-    # AWS_DEFAULT_ACL = 'public-read'
-    # AWS_S3_REGION_NAME = 'ap-northeast-2'
-    # AWS_S3_SIGNATURE_VERSION = 's3v4'
-    #
-    # # STATIC 설정
-    # STATIC_LOCATION = 'static'
-    # AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
-    # # STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-    # STATICFILES_STORAGE = 'config.storages.StaticStorage'  # Static File
-    #
-    # # MEDIA 설정 - 유저 업로드 static files 기본 경로
-    # MEDIA_LOCATION = 'media'
-    # # MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
-    # MEDIA_URL = '/media/'
-    # DEFAULT_FILE_STORAGE = 'config.storages.MediaStorage'  # Media File
-    #
-    # STATICFILES_DIRS = os.path.join(BASE_DIR, 'static')   # !!
-    pass
-else:
-    if DEBUG:
-        STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-        STATIC_ROOT = ""
-    else:
-        STATIC_ROOT = "static/"
+    # AWS 설정
+    AWS_ACCESS_KEY_ID = secrets['AWS']['ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = secrets['AWS']['SECRET_ACCESS_KEY']
+    AWS_STORAGE_BUCKET_NAME = secrets['AWS']['STORAGE_BUCKET_NAME']
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_REGION_NAME = 'ap-northeast-2'
+    AWS_S3_SIGNATURE_VERSION = 's3v4'
 
-    MEDIA_URL = "media/"
-    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+    # STATIC 설정
+    STATIC_LOCATION = 'static'
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
+    # STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+    STATICFILES_STORAGE = 'config.storage_backends.StaticStorage'  # Static File
+
+    # MEDIA 설정 - 유저 업로드 static files 기본 경로
+    MEDIA_LOCATION = 'media'
+    # MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
+    DEFAULT_FILE_STORAGE = 'config.storage_backends.PublicMediaStorage'  # Media File
+
+else:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 
 # # console setup
@@ -290,3 +288,7 @@ else:
 #         }
 #     }
 # }
+
+
+import mimetypes
+mimetypes.add_type("text/css", ".css", True)

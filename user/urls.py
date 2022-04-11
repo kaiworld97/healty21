@@ -12,8 +12,8 @@ urlpatterns = [
         include(
             [
                 path("", views.profile, name="profile"),
-                # path('<int:pk>/edit/', views.profile_update, name='profile_update'),
-                path("<int:pk>/", views.profile_view, name="profile_view"),
+                path("view/", views.profile_view, name="profile_view"),
+                path("search/", views.profile_search, name="profile_search"),
             ]
         ),
     ),

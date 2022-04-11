@@ -112,11 +112,12 @@
                                         <img src="{{ user.userprofile.image.url }}" alt="{{ user }} profile"
                                              class="img-fluid img-thumbnail mt-4 mb-2"
                                              style="width: 150px; z-index: 1">
-{#                                        <div class="flex-parent jc-center">#}
+                                        {#                                        <div class="flex-parent jc-center">#}
                                         <div class="flex-parent">
                                             <button type="button"
                                                     onclick="location.href='{% url 'profile' %}'"
-                                                    class="btn btn-outline-dark margin-right" data-mdb-ripple-color="dark"
+                                                    class="btn btn-outline-dark margin-right"
+                                                    data-mdb-ripple-color="dark"
                                                     style="z-index: 1;">
                                                 프로필 수정
                                             </button>
@@ -265,32 +266,6 @@
         {#                <p>{{ nofollowing }}<a href="{% url 'follow' nofollowing.pk %}">팔로우</a></p>#}
         {#            {% endfor %}#}
         <section>
-            <div class="mt-5 d-flex justify-content-center">
-                <div class="card my-card p-3 mb-5">
-                    <h5>내가 팔로우 하는 유저들 ({{ following_list|length }}명)</h5>
-                    {% for following in following_list %}
-                        <div class="d-flex justify-content-between mt-2 align-items-center">
-                            <div class="d-flex flex-row"><img
-                                    {% if following.userprofile %}
-                                        src="{{ following.userprofile.image.url }}"
-                                    {% else %}
-                                        src="{% get_media_prefix %}default/healthy21.png"
-                                    {% endif %}
-                                        class="rounded-circle"
-                                        width="40" height="40">
-                                <div class="d-flex flex-column ml-1 about"><span
-                                        class="font-weight-bold">{{ following }}</span>
-                                    <small>585 challenges</small></div>
-                            </div>
-
-                            <button onclick="location.href='{% url 'follow' following.id %}'"
-                                    class="btn btn-outline-primary btn-sm follow">언팔로우
-                            </button>
-                        </div>
-                        <hr>
-                    {% endfor %}
-                </div>
-            </div>
 
             <div class="mt-5 d-flex justify-content-center">
                 <div class="card my-card p-3 mb-5">
@@ -307,10 +282,37 @@
                                         width="40" height="40">
                                 <div class="d-flex flex-column ml-1 about"><span
                                         class="font-weight-bold">{{ nofollowing }}</span>
-                                    <small>585 challenges</small></div>
+                                    <small>{{ num_temp | random }} challenges</small></div>
                             </div>
                             <button onclick="location.href='{% url 'follow' nofollowing.id %}'"
                                     class="btn btn-primary btn-sm text-white follow">팔로우
+                            </button>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mt-5 d-flex justify-content-center">
+                <div class="card my-card p-3 mb-5">
+                    <h5>내가 팔로우 하는 유저들 ({{ following_list|length }}명)</h5>
+                    {% for following in following_list %}
+                        <div class="d-flex justify-content-between mt-2 align-items-center">
+                            <div class="d-flex flex-row"><img
+                                    {% if following.userprofile %}
+                                        src="{{ following.userprofile.image.url }}"
+                                    {% else %}
+                                        src="{% get_media_prefix %}default/healthy21.png"
+                                    {% endif %}
+                                        class="rounded-circle"
+                                        width="40" height="40">
+                                <div class="d-flex flex-column ml-1 about"><span
+                                        class="font-weight-bold">{{ following }}</span>
+                                    <small>{{ num_temp | random }} challenges</small></div>
+                            </div>
+
+                            <button onclick="location.href='{% url 'follow' following.id %}'"
+                                    class="btn btn-outline-primary btn-sm follow">언팔로우
                             </button>
                         </div>
                         <hr>
@@ -334,7 +336,7 @@
                                         width="40" height="40">
                                 <div class="d-flex flex-column ml-1 about"><span
                                         class="font-weight-bold">{{ follower }}</span>
-                                    <small>585 challenges</small></div>
+                                    <small>{{ num_temp | random }} challenges</small></div>
                             </div>
                             <button type="button" onclick="location.href='{% url 'follow' follower.id %}'"
                                     {% if follower in following_list %}
@@ -352,9 +354,9 @@
             </div>
         </section>
 
-        <form class="container-fluid" method="GET" action="{% url 'profile' %}">
+        <form class="container-fluid" method="GET" action="{% url 'profile_search' %}">
             <label for="exampleDataList" class="form-label">유저 검색</label>
-            <input class="form-control" list="datalistOptions" id="exampleDataList"
+            <input type="search" class="form-control" list="datalistOptions" id="exampleDataList" name="search_word"
                    value="{{ search_word|default_if_none:'' }}" placeholder="유저를 찾아보세요">
             <datalist id="datalistOptions">
                 {% for users in all_users %}
@@ -362,6 +364,7 @@
                 {% endfor %}
             </datalist>
         </form>
+
 
 
         {#            <h3>유저와 유사한 유저들(Modal)</h3>#}
@@ -440,7 +443,7 @@
                         </div>
                         <div class="card-footer">
                             {#                                <small class="text-muted">Last updated {{ user_by_points.userprofile.updated_at }} ago</small>#}
-                            <small class="text-muted">Last updated 13 mins ago</small>
+                            <small class="text-muted">Last updated {{ num_temp | random }} mins ago</small>
                         </div>
                     </div>
                 </div>

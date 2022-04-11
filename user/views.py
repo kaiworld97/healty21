@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .forms import ProfileForm
 from .models import User, UserFollowing, UserProfile, UserBlocking
 
-
+# ['Liam','Noah','Olivia','Emma','Ava','Charlotte','Oliver','Elijah','Benjamin','Lucas','Henry','Alexander','Sophia','Amelia','Isabella','Mia','William','James','Evelyn','Harper']
 def home(request):
     user = request.user
     if user.is_authenticated:
@@ -40,6 +40,8 @@ def home(request):
             users_by_groups = all_users.filter(group=user.group)  # 유저 그룹으로 1차 필터링
             # 유저와 포인트 차이로 sort하고 5명까지
             users_by_points = sorted(users_by_groups, key=lambda x: abs(x.point - user.point))[:5]
+        num_temp = [2, 3, 1, 17, 0, 9, 4, 6, 11, 7, 14, 6, 5, 13, 15, 20, 18, 5, 16]
+
         return render(
             request,
             "user/home.html",
@@ -49,6 +51,7 @@ def home(request):
                 "follower_list": follower_list,
                 "following_list": following_list,
                 "users_by_points": users_by_points,
+                "num_temp": num_temp,
             },
         )
     else:
@@ -135,5 +138,32 @@ def people_list(request):
     return render(request, "user/home.html", {"all_users": all_users})  # 수정 예정
 
 
+def profile_search(request):
+    user = request.user
+    if user.is_authenticated:
+        all_users = User.objects.filter(~Q(id=user.id), ~Q(blocked_by__user=user)).select_related("userprofile")
+        following_list = all_users.filter(follower__user=user)
+
+        query = None
+        # target_user = None
+
+        if 'search_word' in request.GET:
+            query = request.GET.get('search_word')
+            # target_user = get_object_or_404(User, username__icontains=query)
+            target_users = all_users.filter(Q(username__icontains=query) | Q(point__icontains=query) |
+                                           Q(email__icontains=query)).distinct()
+
+        return render(
+            request,
+            "user/profile_search.html",
+            {
+                'search_word': query,
+                'target_users': target_users,
+                'following_list': following_list,
+            },
+        )
+    else:
+        return redirect("home")
+
 def profile_view(request):
-    return redirect("home")
+    return None

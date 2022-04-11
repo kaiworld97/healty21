@@ -62,6 +62,7 @@ class UserProfile(models.Model):
     )
     image = models.ImageField(
         upload_to=user_directory_path,
+        # default="default/healthy21.png",
         default="default/healthy21.png",
         help_text="변경을 원하시면 업로드 해주세요. 자동으로 크롭됩니다.",
     )
