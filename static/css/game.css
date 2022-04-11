@@ -1,4 +1,4 @@
-.container p{
+.container p {
     font-size: 2rem;
 }
 
@@ -95,7 +95,7 @@ button {
     width: 70%;
 }
 
-#quest_log_input_wrapper button{
+#quest_log_input_wrapper button {
     font-size: 2rem;
 }
 
@@ -134,34 +134,38 @@ button {
 #input_img {
     max-width: 500px;
 }
-.quest_type{
+
+.quest_type {
     margin: 0 0 1% 0;
     font-size: 2rem;
     font-weight: bold;
 }
 
-input[type="checkbox"]+label, input[type="radio"]+label {
+input[type="checkbox"]+label,
+input[type="radio"]+label {
     display: inline-block;
     font-weight: bold;
     position: relative;
     top: 1px;
 }
 
-#date_input{
+#date_input {
     font-size: 2rem;
     width: 30vw;
     text-align: center;
 }
 
-.modal-body{
+.modal-body {
     display: flex;
     flex-direction: column;
 }
-.group_wrapper{
+
+.group_wrapper {
     font-size: 2rem;
     margin: 3%;
 }
-.competitor_wrapper{
+
+.competitor_wrapper {
     font-size: 2rem;
     margin: 3%;
 }

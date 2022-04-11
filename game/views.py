@@ -128,6 +128,7 @@ def quest(request):
                 q['photo'] = quest.photo.url
                 q['content'] = quest.content
                 q['username'] = quest.user.username
+                q['id'] = quest.id
                 quest_list.append(q)
             return JsonResponse(quest_list, status=200, safe=False)
 
@@ -163,3 +164,23 @@ def quest(request):
         competition.point += 5
         competition.save()
         return redirect('/competition')
+
+
+@login_required()
+def quest_delete(request):
+    user = request.user
+    competition = user.competition.last()
+    if request.method == 'POST':
+        q = Q()
+        for quest in request.POST.getlist('quest_delete'):
+            q.add(Q(id=quest), q.OR)
+        quests = Quest.objects.filter(Q(user=user) & q)
+        points = 0
+        for quest in quests:
+            points += quest.point
+        user.point -= points
+        competition.point -= points
+        competition.save()
+        user.save()
+        quests.delete()
+        return redirect(request.headers['Referer'])

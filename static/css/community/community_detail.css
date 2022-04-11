@@ -1,11 +1,13 @@
 :root {
-    --page-color: #FFE650;
-    --page-color-10: #FAFAD2;
+    --page-color: #5D579D;
+    --page-color-10: #A4B4C3;
     --page-color-red: #EB0000;
     --page-color-black: black;
     --page-color-white: white;
+    --page-color-new: #6362B0;
 }
 
+/* 페이지 기본 뼈대 */
 #community_detail_container {
     display: flex;
     flex-direction: column;
@@ -22,10 +24,6 @@
     color: var(--page-color-red);
 }
 
-#community_detail_container i {
-    font-size: 50px;
-}
-
 #community_detail_container img {
     width: 15vw;
     height: 15vw;
@@ -34,6 +32,7 @@
     border-radius: 50%;
 }
 
+/* 등록된 게시물 */
 #community_detail_container .detail_posted .detail_posted__header {
     width: 820px;
     display: flex;
@@ -44,6 +43,7 @@
     margin-bottom: 30px;
 }
 
+/* 등록된 내용 */
 #community_detail_container .detail_posted .detail_posted__body {
     height: auto;
     font-size: 18px;
@@ -53,6 +53,7 @@
     margin-bottom: 20px;
 }
 
+/* 태그 */
 #community_detail_container .detail_tags {
     width: 90vw;
     max-width: 820px;
@@ -64,6 +65,7 @@
     border-radius: 10px;
 }
 
+/* 게시물 댓글 */
 #community_detail_container .detail_comment {
     display: flex;
     flex-direction: column;
@@ -72,6 +74,56 @@
 
 #community_detail_container .detail_comment .detail_comment__result {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
+}
+
+#community_detail_container .detail_comment .detail_comment__result form {
+    width: 830px;
+    border: none;
+    margin-bottom: 12px;
+    border: 1px solid #dcdcdc;
+}
+
+#community_detail_container .detail_comment .detail_comment__result form .form-floating textarea {
+    height: auto;
+    background: none;
+    margin-bottom: 12px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+#community_detail_container .detail_comment .detail_comment__result form .comment_function {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#community_detail_container .detail_comment .detail_comment__result form .comment_function .comment_function__left input {
+    display: inline-block;
+    background: none;
+    border: none;
+    font-weight: bold;
+}
+
+#community_detail_container .detail_comment .write_comment form {
+    width: 830px;
+    border: 2px solid var(--page-color-new);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#community_detail_container .detail_comment .write_comment form .form-floating textarea {
+    width: 750px;
+    height: auto;
+    background: none;
+    margin-bottom: 12px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+#community_detail_container .detail_comment .write_comment form button {
+    background: none;
+    border: none;
 }

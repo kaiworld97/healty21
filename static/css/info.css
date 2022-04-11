@@ -67,3 +67,10 @@
     margin: auto;
     border-bottom: 1px solid;
 }
+#input_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}

@@ -11,6 +11,7 @@
 
 {# css 파일 넣는 곳#}
 {% block css %}
+    <link rel="stylesheet" href="{% static 'css/accounts_login.css' %}">
 {% endblock %}
 
 {#자바스크립트 파일 넣는 곳#}
@@ -18,22 +19,7 @@
 {% endblock %}
 
 {% block content %}
-    <ul class="messages">
-        <li class="info"> 사용중인 소셜 계정이나 이메일을 이용해 로그인을 해주세요. 계정이 없으시다면
-            <a href="{{ signup_url }}">회원가입</a> 진행 후 아래 링크에서 로그인을 해주세요.
-        </li>
-    </ul>
     <h1>{% trans "Sign In" %}</h1>
-
-    {% get_providers as socialaccount_providers %}
-
-    {% if socialaccount_providers %}
-        <a href="{% provider_login_url 'kakao' method='oauth2' %}">카카오 로그인</a>
-        <a href="{% provider_login_url 'google' method='oauth2' %}">구글 로그인</a>
-        {% include "socialaccount/snippets/login_extra.html" %}
-
-    {% else %}
-    {% endif %}
 
     <form class="login" method="POST" action="{% url 'account_login' %}">
         {% csrf_token %}
@@ -53,6 +39,22 @@
         </div>
         <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
         <button class='btn btn-primary button white' type="submit">{% trans "Sign In" %}</button>
+        <div class="social_login_button">
+            {% get_providers as socialaccount_providers %}
+            {% if socialaccount_providers %}
+            <a href="{% provider_login_url 'kakao' method='oauth2' %}"><span>카카오 로그인</span></a>
+            <a href="{% provider_login_url 'google' method='oauth2' %}"><span>구글 로그인</span></a>
+            {% include "socialaccount/snippets/login_extra.html" %}
+    
+            {% else %}
+            {% endif %} 
+        </div>
     </form>
+    <ul class="messages">
+        <li class="info"> 사용중인 소셜 계정이나 이메일을 이용해 로그인을 해주세요.<br>
+            계정이 없으시다면 <a href="{{ signup_url }}">회원가입</a> 진행 후 로그인을 해주세요. </li>
+    </ul>
+    
+    
 
 {% endblock %}

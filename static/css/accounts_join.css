@@ -1,0 +1,23 @@
+.container form {
+    width: 80vw;
+    max-width: 800px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid #c4c4c4;
+    margin-bottom: 10px;
+}
+
+.container form .form-floating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 75vw;
+    max-width: 750px;
+}
+
+.container .signup button {
+    border-radius: 8px;
+    padding: 8px;
+}

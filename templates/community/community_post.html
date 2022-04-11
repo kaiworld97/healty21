@@ -8,7 +8,7 @@
 
 {# css 파일 넣는 곳#}
 {% block css %}
-    <link rel="stylesheet" href="{% static 'css/community_post.css' %}">
+    <link rel="stylesheet" href="{% static 'css/community/community_post.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock %}
 
@@ -23,19 +23,23 @@
         <form action="/post/" method="POST">
             {% csrf_token %}
             <div class="container_header">
-                <a href="{% url 'community' %}"><i class="fa fa-caret-square-o-left"></i></a>
+                <a href="{% url 'community' %}"><span>뒤로</span></a>
                 <span>게시물 작성</span>
-                <button type="submit">제출</button>
+                <button type="submit" class="btn btn-light">제출</button>
             </div>
             {% comment %} 에러 {% endcomment %}
             {% if error %}
                 <div class="error" role="alert">{{ error }}</div>
             {% endif %}
-            <textarea name="my-content" id="my-content" placeholder="나누고 싶은 생각을 적어주세요."></textarea>
-            <input type="text" name="tag" id="tag" placeholder="태그를 입력하세요.">
+            <div class="form-floating">
+                <textarea class="form-control" placeholder="나눌 이야기를 적어주세요." name="my-content" id="my-content" style="width: 700px; height: 1200px"></textarea>
+                <label for="my-content">나눌 이야기를 적어주세요.</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" name="tag" id="tag" placeholder="태그를 입력하세요." class="form-control">
+                <label for="tag">태그를 입력하세요.</label>
+            </div>
+            
         </form>
-
-    </div>
-
     </div>
 {% endblock %}

@@ -1,7 +1,7 @@
 /* 임시로 설정해둔 값입니다. 후에 삭제할 예정 */
 :root {
-    --page-color: #FFE650;
-    --page-color-10: #FAFAD2;
+    --page-color: #5D579D;
+    --page-color-10: #A4B4C3;
     --page-color-red: #EB0000;
     --page-color-black: black;
     --page-color-white: white;
@@ -30,10 +30,6 @@
 
 #community_container a:hover {
     color: var(--page-color-red);
-}
-
-#community_container i {
-    font-size: 30px;
 }
 
 /* 포스팅 */
