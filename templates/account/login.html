@@ -18,10 +18,11 @@
 {% endblock %}
 
 {% block content %}
-<ul class="messages">
-    <li class="info"> 사용중인 소셜 계정이나 이메일을 이용해 로그인을 해주세요. 계정이 없으시다면
-        <a href="{{ signup_url }}">회원가입</a> 진행 후 아래 링크에서 로그인을 해주세요. </li>
-</ul>
+    <ul class="messages">
+        <li class="info"> 사용중인 소셜 계정이나 이메일을 이용해 로그인을 해주세요. 계정이 없으시다면
+            <a href="{{ signup_url }}">회원가입</a> 진행 후 아래 링크에서 로그인을 해주세요.
+        </li>
+    </ul>
     <h1>{% trans "Sign In" %}</h1>
 
     {% get_providers as socialaccount_providers %}
@@ -36,10 +37,20 @@
 
     <form class="login" method="POST" action="{% url 'account_login' %}">
         {% csrf_token %}
-        {{ form.as_p }}
+{#        {{ form.as_p }}#}
         {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
         {% endif %}
+        <div class="form-floating mb-3">
+            {{ form.login }}
+            <label for="floatingInput">이메일</label>
+            {{ form.login.errors }}
+        </div>
+        <div class="form-floating mb-3">
+            {{ form.password }}
+            <label for="floatingPassword">비밀번호</label>
+            {{ form.password.errors }}
+        </div>
         <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
         <button class='btn btn-primary button white' type="submit">{% trans "Sign In" %}</button>
     </form>

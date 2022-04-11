@@ -88,7 +88,7 @@ ACCOUNT_USERNAME_VALIDATORS = "user.validators.custom_username_validators"
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
-ACCOUNT_FORMS = {"signup": "user.forms.MyCustomSignupForm"}
+ACCOUNT_FORMS = {"signup": "user.forms.MyCustomSignupForm", 'login': 'user.forms.MyCustomLoginForm'}
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
