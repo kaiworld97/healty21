@@ -273,7 +273,7 @@
                     {% for nofollowing in nofollowing_list %}
                         <div class="d-flex justify-content-between mt-2 align-items-center">
                             <div class="d-flex flex-row"><img
-                                    {% if following.following_user.userprofile %}
+                                    {% if nofollowing.userprofile %}
                                         src="{{ nofollowing.userprofile.image.url }}"
                                     {% else %}
                                         src="{% get_media_prefix %}default/healthy21.png"

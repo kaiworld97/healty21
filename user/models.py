@@ -1,7 +1,10 @@
+from io import BytesIO
+
 from django.contrib.auth.models import AbstractUser
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 from PIL import Image
-
+import sys
 
 class UserGroup(models.Model):
     class Meta:
@@ -74,28 +77,50 @@ class UserProfile(models.Model):
 
     # Override the save method of the model
     def save(self):
+        # super().save()
+        # img = Image.open(self.image.path)  # Open image
+        # result_size = 300  # height, width
+        #
+        # # resize and crop image
+        # w, h = img.size
+        # if w > result_size or h > result_size:
+        #     ratio = max(result_size / w, result_size / h)  # Resize based on on largest size (w, h)
+        #     neww, newh = map(int, (w * ratio, h * ratio))
+        #     output_size = (neww, newh)
+        #     img.thumbnail(output_size)  # Resize image thumbnail((max w, max h))
+        # else:  # if image is smaller than expected size, then just crop
+        #     result_size = min(w, h)
+        #     neww, newh = w, h
+        # left = (neww - result_size) / 2
+        # top = (newh - result_size) / 2
+        # right = (neww + result_size) / 2
+        # bottom = (newh + result_size) / 2
+        # img = img.crop((left, top, right, bottom))  # Crop image center
+        # # img.show()
+        # img.save(self.image.path, quality=95)  # Save it again and override the larger image
+
+
+        new_image = Image.open(self.image)
+        output_resize_bytes = BytesIO()
+        new_image.save(output_resize_bytes, format=new_image.format)
+        output_resize_bytes.seek(0)
+
+        if new_image.format == "JPEG":
+            content_type = "image/jpeg"
+        else:
+            content_type = "image/png"
+
+        format_ = new_image.format
+        if format_:
+            format_ = format_.lower()
+
+        new_image_file = InMemoryUploadedFile(
+            output_resize_bytes, None, f"resize_image.{format_}", content_type,
+            sys.getsizeof(output_resize_bytes), None
+        )
+
+        self.image.save(f"thumbnail_image_{self.pk}.jpg", new_image_file, save=False)
         super().save()
-        img = Image.open(self.image.path)  # Open image
-        result_size = 300  # height, width
-
-        # resize and crop image
-        w, h = img.size
-        if w > result_size or h > result_size:
-            ratio = max(result_size / w, result_size / h)  # Resize based on on largest size (w, h)
-            neww, newh = map(int, (w * ratio, h * ratio))
-            output_size = (neww, newh)
-            img.thumbnail(output_size)  # Resize image thumbnail((max w, max h))
-        else:  # if image is smaller than expected size, then just crop
-            result_size = min(w, h)
-            neww, newh = w, h
-        left = (neww - result_size) / 2
-        top = (newh - result_size) / 2
-        right = (neww + result_size) / 2
-        bottom = (newh + result_size) / 2
-        img = img.crop((left, top, right, bottom))  # Crop image center
-        # img.show()
-        img.save(self.image.path, quality=95)  # Save it again and override the larger image
-
 
 class UserFollowing(models.Model):
     class Meta:
