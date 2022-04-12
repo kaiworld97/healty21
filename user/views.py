@@ -167,3 +167,7 @@ def profile_search(request):
 
 def profile_view(request):
     return None
+
+
+def index(request):
+    return render(request, "user/index.html")
