@@ -32,7 +32,7 @@ button {
     display: flex;
     justify-content: center;
     margin: 5% auto;
-    width: 100%;
+    width: 50%;
 }
 
 #quest_container button {
@@ -44,7 +44,7 @@ button {
     display: flex;
     justify-content: center;
     margin: 5% 0;
-    width: 100%;
+    width: 50%;
 }
 
 #user_container button {
@@ -57,7 +57,7 @@ button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    width: 50%;
 }
 
 #game_title h1 {
@@ -84,7 +84,7 @@ button {
 
 #content {
     resize: none;
-    width: 100%;
+    width: 50%;
 }
 
 #quest_log_input_wrapper {
@@ -92,7 +92,7 @@ button {
     align-items: center;
     justify-content: space-between;
     margin: 5% 0;
-    width: 70%;
+    width: 50%;
 }
 
 #quest_log_input_wrapper button {

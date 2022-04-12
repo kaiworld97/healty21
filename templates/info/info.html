@@ -19,7 +19,7 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
-    <a href={% url 'calories_calculate' %}>칼로리 계산하기</a>
+    <a id="cal_a" href={% url 'calories_calculate' %}><p>칼로리 계산하기</p></a>
     {% for key, val in data.items %}
         <div class="type_wrapper">
             {% if key == 'recommend' %}
