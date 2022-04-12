@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load account socialaccount %}
+
 {% load crispy_forms_tags %}
 
 {% load i18n %}
@@ -49,6 +51,16 @@
 
         <button type="submit" class='btn btn-primary white'>{% trans "Sign Up" %}</button>
     </form>
+    <div class="social_login_button">
+            {% get_providers as socialaccount_providers %}
+            {% if socialaccount_providers %}
+            <a href="{% provider_login_url 'kakao' method='oauth2' %}"><span>카카오 회원가입</span></a>
+            <a href="{% provider_login_url 'google' method='oauth2' %}"><span>구글 회원가입</span></a>
+            {% include "socialaccount/snippets/login_extra.html" %}
+
+            {% else %}
+            {% endif %}
+        </div>
     <ul class="messages">
         <li class="info"> {% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</li>
     </ul>

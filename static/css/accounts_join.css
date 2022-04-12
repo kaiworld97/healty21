@@ -38,3 +38,51 @@ input {
 .btn-primary:hover {
     background-color: var(--color-accent);
 }
+
+
+.social_login_button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.social_login_button a {
+    width: 100%;
+    height: 50px;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.social_login_button a:first-child {
+    margin-bottom: 5px;
+    /*background-color: var(--page-color-yellow);*/
+    background-color: #EED249FF;
+    color: var(--page-color-white);
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+
+.social_login_button a:last-child {
+    border: 1px solid #c4c4c4;
+
+}
+
+
+.secondaryAction {
+    margin-right: 5px;
+    font-size: 16px;
+    padding-bottom: 30px;
+    align-self: flex-end;
+    opacity: .65;
+}
+
+.btn-primary {
+    background-color: var(--color);
+    max-width: 650px;
+    height: 50px;
+}
+
+.btn-primary:hover {
+    background-color: var(--color);
+}

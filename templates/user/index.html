@@ -28,29 +28,34 @@
 </head>
 <body id="page-top">
 <!-- Navigation-->
-{#<nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" id="mainNav">#}
-{#    <div class="container px-5">#}
-{#        <a class="navbar-brand fw-bold" href="#page-top">Start Bootstrap</a>#}
-{#        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"#}
-{#                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">#}
-{#            Menu#}
-{#            <i class="bi-list"></i>#}
-{#        </button>#}
-{#        <div class="collapse navbar-collapse" id="navbarResponsive">#}
-{#            <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">#}
-{#                <li class="nav-item"><a class="nav-link me-lg-3" href="#features">Features</a></li>#}
-{#                <li class="nav-item"><a class="nav-link me-lg-3" href="#download">Download</a></li>#}
-{#            </ul>#}
-{#            <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal"#}
-{#                    data-bs-target="#feedbackModal">#}
-{#                        <span class="d-flex align-items-center">#}
-{#                            <i class="bi-chat-text-fill me-2"></i>#}
-{#                            <span class="small">Send Feedback</span>#}
-{#                        </span>#}
-{#            </button>#}
-{#        </div>#}
-{#    </div>#}
-{#</nav>#}
+<nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" id="mainNav">
+    <div class="container px-5">
+        <a class="navbar-brand fw-bold" href="#page-top">Healty21</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="bi-list"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+                {% if user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link me-lg-3" href="{% url 'home' %}">내 프로필</a></li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link me-lg-3" href="{% url 'account_signup' %}">회원가입</a></li>
+                <li class="nav-item"><a class="nav-link me-lg-3" href="{% url 'account_login' %}">로그인하기</a></li>
+{#                <li class="nav-item"><a class="nav-link me-lg-3" href="#download">다운로드</a></li>#}
+                {% endif %}
+            </ul>
+            <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal"
+                    data-bs-target="#feedbackModal">
+                        <span class="d-flex align-items-center">
+                            <i class="bi-chat-text-fill me-2"></i>
+                            <span class="small">Send Feedback</span>
+                        </span>
+            </button>
+        </div>
+    </div>
+</nav>
 
 <!-- Mashead header-->
 <header class="masthead">
@@ -70,9 +75,11 @@
                                 {#                                          src="assets/img/app-store-badge.svg"#}
                                           src="{% static 'img/app-store-badge.svg' %}"
                                           alt="..."/></a>
+                    <a class="btn btn-outline-light py-3 px-4 rounded-pill" href="{% url 'account_signup' %}">회원가입하기</a>
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-6">
                 <!-- Masthead device mockup feature-->
                 <div class="masthead-device-mockup">
@@ -140,18 +147,16 @@
                             <!-- Feature item-->
                             <div class="text-center">
                                 <i class="bi-phone icon-feature text-gradient d-block mb-3"></i>
-                                <h3 class="font-alt">Device Mockups</h3>
-                                <p class="text-muted mb-0">Ready to use HTML/CSS device mockups, no Photoshop
-                                    required!</p>
+                                <h3 class="font-alt">쉬운 사용</h3>
+                                <p class="text-muted mb-0">더 빠르고 가시적인 성장효과를 누려보세요!</p>
                             </div>
                         </div>
                         <div class="col-md-6 mb-5">
                             <!-- Feature item-->
                             <div class="text-center">
                                 <i class="bi-camera icon-feature text-gradient d-block mb-3"></i>
-                                <h3 class="font-alt">Flexible Use</h3>
-                                <p class="text-muted mb-0">Put an image, video, animation, or anything else in the
-                                    screen!</p>
+                                <h3 class="font-alt">지속 경쟁</h3>
+                                <p class="text-muted mb-0">퀘스트를 올리고 상대와의 점수를 비교해보세요!</p>
                             </div>
                         </div>
                     </div>
@@ -160,18 +165,16 @@
                             <!-- Feature item-->
                             <div class="text-center">
                                 <i class="bi-gift icon-feature text-gradient d-block mb-3"></i>
-                                <h3 class="font-alt">Free to Use</h3>
-                                <p class="text-muted mb-0">As always, this theme is free to download and use for any
-                                    purpose!</p>
+                                <h3 class="font-alt">경쟁 보상</h3>
+                                <p class="text-muted mb-0">퀘스트에서 이기면 건강한 몸과 보상이 기다립니다!</p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <!-- Feature item-->
                             <div class="text-center">
                                 <i class="bi-patch-check icon-feature text-gradient d-block mb-3"></i>
-                                <h3 class="font-alt">Open Source</h3>
-                                <p class="text-muted mb-0">Since this theme is MIT licensed, you can use it
-                                    commercially!</p>
+                                <h3 class="font-alt">검증된 효과</h3>
+                                <p class="text-muted mb-0">Upenn 논문(Patel et al., 2019, 2021)을 통해 검증된 gamification과 social incentive</p>
                             </div>
                         </div>
                     </div>
@@ -248,7 +251,7 @@
                 Start excercising.
             </h2>
             <a class="btn btn-outline-light py-3 px-4 rounded-pill" href="{% url 'account_signup' %}"
-               target="_blank">회원가입하기</a>
+               >회원가입하기</a>
         </div>
     </div>
 </section>

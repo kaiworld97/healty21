@@ -108,7 +108,7 @@
                         <div class="rounded-top text-white d-flex flex-row"
                              style="background-color: var(--color-accent); height:200px;">
                             <div class="ms-4 mt-5 d-flex flex-column" style="width: 200px;">
-                                {% if user.userprofile %}
+                                {% if target_user.userprofile %}
                                     <img src="{{ target_user.userprofile.image.url }}"
                                 {% else %}
                                     <img src='{% get_media_prefix %}default/healthy21.png'
