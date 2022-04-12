@@ -79,6 +79,7 @@ input {
 
 .btn-primary {
     background-color: var(--color);
+    border-color: var(--color);
     max-width: 650px;
     height: 50px;
 }

@@ -67,11 +67,11 @@
                     <h1 class="display-1 lh-1 mb-3">Healthy 21</h1>
                     <p class="lead fw-normal text-muted mb-5" id="index-description">경쟁 시스템과 몰입을 통한 다양한 소셜 인센티브, 꾸준한 자기관리와 건강한 다이어트를 통해 몰라보게 달라진 나를 만나보세요! </p>
                     <div class="d-flex flex-column flex-lg-row align-items-center">
-                        <a class="me-lg-3 mb-4 mb-lg-0" href="#!"><img class="app-badge"
+                        <a class="me-lg-3 mb-4 mb-lg-0" href="{% url 'account_signup' %}"><img class="app-badge"
                                 {#                                                                       src="assets/img/google-play-badge.svg"#}
                                                                        src="{% static 'img/google-play-badge.svg' %}"
                                                                        alt="..."/></a>
-                        <a href="#!"><img class="app-badge"
+                        <a href="{% url 'account_signup' %}"><img class="app-badge"
                                 {#                                          src="assets/img/app-store-badge.svg"#}
                                           src="{% static 'img/app-store-badge.svg' %}"
                                           alt="..."/></a>
@@ -127,11 +127,12 @@
     <div class="container px-5">
         <div class="row gx-5 justify-content-center">
             <div class="col-xl-8">
+                <img src="{% static 'img/healthy21logo.png' %}" alt="..." style="height: 12rem; margin-bottom: 20px"/>
                 <div class="h2 fs-1 text-white mb-4">"An intuitive solution to a common problem that we all face,
                     wrapped up in a single app!"
                 </div>
                 {#                <img src="assets/img/tnw-logo.svg" alt="..." style="height: 3rem"/>#}
-                <img src="{% static 'img/tnw-logo.svg' %}" alt="..." style="height: 3rem"/>
+
             </div>
         </div>
     </div>
@@ -183,6 +184,7 @@
             <div class="col-lg-4 order-lg-0">
                 <!-- Features section device mockup-->
                 <div class="features-device-mockup">
+                    <img src="https://ouch-cdn2.icons8.com/KXL8WuUzcwXSv6lmOSc9HVHZbAK9KUTR7aPFHUOS2yg/rs:fit:657:912/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvOTQ1/LzE4Yzk5YjNhLTA2/MzItNDdlNS1iYzA2/LWUyMmJmZTZjMmM1/OS5wbmc.png" width="400" style="z-index: 1">
                     <svg class="circle" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                             <linearGradient id="circleGradient" gradientTransform="rotate(45)">
@@ -204,20 +206,20 @@
                     <svg class="shape-2 d-none d-sm-block" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="50" cy="50" r="50"></circle>
                     </svg>
-                    <div class="device-wrapper">
-                        <div class="device" data-device="iPhoneX" data-orientation="portrait" data-color="black">
-                            <div class="screen bg-black">
-                                <!-- PUT CONTENTS HERE:-->
-                                <!-- * * This can be a video, image, or just about anything else.-->
-                                <!-- * * Set the max width of your media to 100% and the height to-->
-                                <!-- * * 100% like the demo example below.-->
-                                <video muted="muted" autoplay="" loop="" style="max-width: 100%; height: 100%">
+{#                    <div class="device-wrapper">#}
+{#                        <div class="device" data-device="iPhoneX" data-orientation="portrait" data-color="black">#}
+{#                            <div class="screen bg-black">#}
+{#                                <!-- PUT CONTENTS HERE:-->#}
+{#                                <!-- * * This can be a video, image, or just about anything else.-->#}
+{#                                <!-- * * Set the max width of your media to 100% and the height to-->#}
+{#                                <!-- * * 100% like the demo example below.-->#}
+{#                                <video muted="muted" autoplay="" loop="" style="max-width: 100%; height: 100%">#}
                                     {#                                    <source src="assets/img/demo-screen.mp4" type="video/mp4"/>#}
-                                    <source src="{% static 'img/demo-screen.mp4' %}" type="video/mp4"/>
-                                </video>
-                            </div>
-                        </div>
-                    </div>
+{#                                    <source src="{% static 'img/demo-screen.mp4' %}" type="video/mp4"/>#}
+{#                                </video>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
                 </div>
             </div>
         </div>
