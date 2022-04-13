@@ -133,18 +133,15 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True # <- 모든 호스트 허용
+CORS_ORIGIN_ALLOW_ALL = False # <- 모든 호스트 허용
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'https://healty21.com',
+)
 CORS_ALLOW_CREDENTIALS = True
-
-
-# # or
-#
-# CORS_ORIGIN_WHITELIST = (
-#     "https://example.com",
-#     "https://sub.example.com",
-#     "http://localhost:8080",
-#     "http://127.0.0.1:9000"
-# )
 
 ROOT_URLCONF = "config.urls"
 
