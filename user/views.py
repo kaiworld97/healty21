@@ -55,7 +55,7 @@ def home(request):
             },
         )
     else:
-        return render(request, "user/home.html")
+        return render(request, "user/index.html")
 
 
 @login_required()

@@ -30,8 +30,6 @@
 </head>
 <body>
 <div class="container">
-    {% block content %}
-    {% endblock %}
     {% if messages %}
         <div>
             <strong>메세지:</strong>
@@ -42,6 +40,8 @@
             </ul>
         </div>
     {% endif %}
+    {% block content %}
+    {% endblock %}
 </div>
 <nav>
     <div class="nav_container">

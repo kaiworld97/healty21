@@ -3,6 +3,7 @@ from .models import *
 from django.core.paginator import Paginator
 from django.http import JsonResponse, HttpResponse
 import random
+from django.contrib.messages import error
 from django.contrib.auth.decorators import login_required
 
 
@@ -42,18 +43,21 @@ def content_type(request, type):
 
 def content_detail(request, pk):
     if request.method == 'GET':
-        content = Content.objects.get(id=pk)
-        type = content.type
-        if type == 'food':
-            data = Food.objects.get(content=content)
-        elif type == 'diet_plan':
-            data = DietPlan.objects.get(content=content)
-        elif type == 'workout':
-            data = Workout.objects.get(content=content)
-        elif type == 'workout_routine':
-            data = WorkoutRoutine.objects.get(content=content)
-        return render(request, 'info/content_detail.html', {'type': type, 'data': data})
-
+        try:
+            content = Content.objects.get(id=pk)
+            type = content.type
+            if type == 'food':
+                data = Food.objects.get(content=content)
+            elif type == 'diet_plan':
+                data = DietPlan.objects.get(content=content)
+            elif type == 'workout':
+                data = Workout.objects.get(content=content)
+            elif type == 'workout_routine':
+                data = WorkoutRoutine.objects.get(content=content)
+            return render(request, 'info/content_detail.html', {'type': type, 'data': data})
+        except:
+            error(request, '존재하지 않는 컨텐츠 입니다.')
+            return redirect('/info')
 
 @login_required()
 def content_save(request, pk):
