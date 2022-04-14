@@ -73,6 +73,11 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+    width: 50%;
+}
+#input_container input{
+    width: 40%;
+    text-align: center;
 }
 #cal_a{
     width: 50%;

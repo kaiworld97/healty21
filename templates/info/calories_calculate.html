@@ -4,41 +4,54 @@
 
 {#타이틀 넣는 곳#}
 {% block title %}
-
+    Calories Calculate
 {% endblock %}
 
 {# css 파일 넣는 곳#}
 {% block css %}
-            <link rel="stylesheet" href="{% static 'css/info.css' %}">
+    <link rel="stylesheet" href="{% static 'css/info.css' %}">
 {% endblock %}
 
 {#자바스크립트 파일 넣는 곳#}
 {% block js %}
     {#<script type="text/javascript" src="{% static '/js/해당앱.js' %}"></script>#}
     <script>
-        function calculate(){
+        const options = document.getElementById('workout_list').options
+        let met = 0
+        document.getElementById('workout').addEventListener('change', e => {
+            for (let i = 0; i < options.length; i++) {
+                const option = options[i];
+                if (option.value == e.target.value){
+                    met = option.label
+                }
+            }
+        })
+
+        function calculate() {
             const min = document.getElementById('min').value
             const weight = document.getElementById('weight').value
-            const workout = document.getElementById('workout').value
-            let consume = 0.0175 * min * weight * Number(workout)
+            let consume = 0.0175 * min * weight * Number(met)
             document.getElementById('result').innerText = String(consume) + ' kcal 소모하셨습니다.'
         }
+
     </script>
 {% endblock %}
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
     <div id="input_container">
-        <label for="workout">활동을 선택해 주세요</label>
-        <select name="workout" id="workout">
-        {% for workout in met %}
-            <option value="{{ workout.met }}">{{ workout.workout }}</option>
-        {% endfor %}
-        </select>
-        <label for="weight">몸무게를 입력해 주세요</label>
-        <input id="weight" type="number">
-        <label for="min">운동한 시간을 분단위로 입력해 주세요</label>
-        <input id="min" type="number">
+        <label for="workout" class="form-label">활동 선택</label>
+        <input type="search" class="form-control" list="workout_list" id="workout" name="workout"
+               value="" placeholder="활동을 선택해 주세요">
+        <datalist id="workout_list">
+            {% for workout in met %}
+                <option value="{{ workout.workout }}" label="{{ workout.met }}"></option>
+            {% endfor %}
+        </datalist>
+        <label for="weight">몸무게</label>
+        <input id="weight" type="number" placeholder="몸무게를 입력해 주세요">
+        <label for="min">운동 시간</label>
+        <input id="min" type="number" placeholder="운동한 시간을 분단위로 입력해 주세요">
         <button id="cal_btn" type="button" onclick="calculate()">계산하기</button>
     </div>
     <div id="result_wrapper">
