@@ -1,3 +1,23 @@
+* button{
+    all: unset;
+    font-size: 1rem;
+    padding: 2%;
+    color: #4b5589;
+    border: 1px solid #4b5589;
+    border-radius: 50px;
+    margin: 3%;
+    box-shadow: 0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%);
+    font-family: var(--bs-font-sans-serif);
+    font-weight: 400;
+    line-height: 1.5;
+    transition: 0.3s;
+}
+
+* button:hover{
+    background-color: #4b5589;
+    color: white;
+}
+
 .container p {
     font-size: 2rem;
 }
@@ -21,13 +41,6 @@ form {
     width: 100%;
 }
 
-button {
-    margin: 1%;
-    border-radius: 30px;
-    padding: 3%;
-    font-size: 2rem;
-}
-
 #quest_container {
     display: flex;
     justify-content: center;
@@ -37,7 +50,7 @@ button {
 
 #quest_container button {
     font-size: 2rem;
-    width: 30vw;
+    width: 15vw;
 }
 
 #user_container {
@@ -67,7 +80,12 @@ button {
 }
 
 #quest_button_wrapper button {
-    width: 15vw;
+    width: 10vw;
+}
+
+#competitor_modal button, #nominated_modal button{
+    padding: 1%;
+    width: 3vw;
 }
 
 #quest_button_wrapper {
