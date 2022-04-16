@@ -5,6 +5,7 @@ from django.http import JsonResponse, HttpResponse
 import random
 from django.contrib.messages import error
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 
 def info(request):
@@ -21,6 +22,27 @@ def info(request):
         data['workout'] = workout
         # data['workout_routine'] = workout_routine
         return render(request, 'info/info.html', {'data': data})
+
+
+def search(request):
+    if request.method == 'GET':
+        type = request.GET['type']
+        query = request.GET['query']
+        if type == '전체':
+            results = Content.objects.filter(Q(item__icontains=query) | Q(description__icontains=query))
+            if len(results) == 0:
+                return render(request, 'info/search.html', {'no_result': '결과가 없습니다.'})
+            data = {}
+            for result in results:
+                try:
+                    data[result.type] += [result]
+                except:
+                    data[result.type] = [result]
+        else:
+            data = Content.objects.filter(Q(type=type) & (Q(item__icontains=query) | Q(description__icontains=query)))
+            if len(data) == 0:
+                return render(request, 'info/search.html', {'no_result': '결과가 없습니다.'})
+        return render(request, 'info/search.html', {'data': data, 'type': type})
 
 
 def content_type(request, type):

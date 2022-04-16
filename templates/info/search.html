@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{#타이틀 넣는 곳#}
+{% block title %}
+    Search
+{% endblock %}
+
+{# css 파일 넣는 곳#}
+{% block css %}
+    <link rel="stylesheet" href="{% static '/css/info.css' %}">
+{% endblock %}
+
+{#자바스크립트 파일 넣는 곳#}
+{% block js %}
+    {#<script type="text/javascript" src="{% static '/js/해당앱.js' %}"></script>#}
+{% endblock %}
+
+{#메인 컨텐츠 들어가는 곳#}
+{% block content %}
+    <form action='{% url 'search' %}' method="get">
+        {% csrf_token %}
+        <select name="type" id="type">
+            <option value="전체">전체</option>
+            <option value="food">음식</option>
+            <option value="workout">운동</option>
+            <option value="diet_plan">식단</option>
+            <option value="workout_routine">루틴</option>
+        </select>
+        <input type="text" id="query" name="query" placeholder="검색어를 입력해 주세요">
+        <button>검색</button>
+    </form>
+    {% if no_result %}
+        <div id="no_result"><h1>{{ no_result }}</h1></div>
+    {% else %}
+        {% if type == '전체' %}
+            {% for key, val in data.items %}
+                <div class="type_wrapper">
+                    {% if key == 'food' %}
+                        <a href="{{ key }}">음식</a>
+                    {% elif key == 'diet_plan' %}
+                        <a href="{{ key }}">식단</a>
+                    {% elif key == 'workout' %}
+                        <a href="{{ key }}">운동</a>
+                    {% elif key == 'workout_routine' %}
+                        <a href="{{ key }}">운동 루틴</a>
+                    {% endif %}
+                </div>
+                <div class="item_wrapper">
+                    {% for v in val %}
+                        <a href="{{ v.id }}">{{ v.item }}</a>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="type_wrapper">
+                {% if type == 'food' %}
+                    <a href="{{ type }}">음식</a>
+                {% elif type == 'diet_plan' %}
+                    <a href="{{ type }}">식단</a>
+                {% elif type == 'workout' %}
+                    <a href="{{ type }}">운동</a>
+                {% elif type == 'workout_routine' %}
+                    <a href="{{ type }}">운동 루틴</a>
+                {% endif %}
+            </div>
+            <div class="item_wrapper">
+                {% for da in data %}
+                    <a href="{{ da.id }}">{{ da.item }}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}

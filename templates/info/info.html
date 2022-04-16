@@ -19,6 +19,18 @@
 
 {#메인 컨텐츠 들어가는 곳#}
 {% block content %}
+    <form action='{% url 'search' %}' method="get">
+        {% csrf_token %}
+        <select name="type" id="type">
+            <option value="전체">전체</option>
+            <option value="food">음식</option>
+            <option value="workout">운동</option>
+            <option value="diet_plan">식단</option>
+            <option value="workout_routine">루틴</option>
+        </select>
+        <input type="text" id="query" name="query" placeholder="검색어를 입력해 주세요">
+        <button>검색</button>
+    </form>
     <a id="cal_a" href={% url 'calories_calculate' %}><p>칼로리 계산하기</p></a>
     {% for key, val in data.items %}
         <div class="type_wrapper">
