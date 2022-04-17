@@ -59,5 +59,18 @@
             <p>운동 타겟 <br> {{ data.kor_target }} / {{ data.target }}</p>
         {% endif %}
     </div>
+    {% if user.is_authenticated %}
+        <div>
+            <form action="{% url 'content_save' data.content.id %}" method="post">
+                {% csrf_token %}
+                {% if save %}
+                    <button>저장 취소 하기</button>
+                {% else %}
+                    <button>저장 하기</button>
+                {% endif %}
+            </form>
+        </div>
+    {% endif %}
+
 {% endblock %}
 

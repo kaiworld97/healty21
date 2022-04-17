@@ -76,7 +76,10 @@ def content_detail(request, pk):
                 data = Workout.objects.get(content=content)
             elif type == 'workout_routine':
                 data = WorkoutRoutine.objects.get(content=content)
-            return render(request, 'info/content_detail.html', {'type': type, 'data': data})
+            if SaveContent.objects.filter(content=content, user=request.user).exists():
+                return render(request, 'info/content_detail.html', {'type': type, 'data': data, 'save': 'no'})
+            else:
+                return render(request, 'info/content_detail.html', {'type': type, 'data': data})
         except:
             error(request, '존재하지 않는 컨텐츠 입니다.')
             return redirect('/info')
@@ -84,6 +87,15 @@ def content_detail(request, pk):
 @login_required()
 def content_save(request, pk):
     if request.method == 'POST':
+        user = request.user
+        content = Content.objects.get(id=pk)
+        save_content = SaveContent.objects.filter(user=user, content=content)
+        if save_content.exists():
+            save_content.delete()
+            error(request, '컨텐츠를 저장을 취소했습니다.')
+        else:
+            SaveContent.objects.create(user=user, content=content)
+            error(request, '컨텐츠를 저장했습니다.')
         return redirect(request.headers['Referer'])
 
 
