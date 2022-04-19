@@ -39,7 +39,7 @@
         {% if type == 'competitor' %}
             {% for competitor in competitors %}
                 <div class="competitor_wrapper">
-                    <label for="{{ competitor.email }}">{{ competitor }}님의 총 포인트 <br>{{ competitor.point }}포인트</label>
+                    <label for="{{ competitor.email }}"><img src="{{ competitor.userprofile.image.url }}">{{ competitor }}님의 총 포인트 <br>{{ competitor.point }}포인트</label>
                     <input type="checkbox" id="{{ competitor.email }}" name="competitor" value="{{ competitor.email }}">
                 </div>
             {% endfor %}
